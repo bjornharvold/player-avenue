@@ -1,0 +1,66 @@
+<!--
+  ~ Copyright (c) 2010. This beautifully written piece of code has been created by Bjorn Harvold. 
+  ~ Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:spring-form="http://www.springframework.org/tags/form"
+          xmlns:security="http://www.springframework.org/security/tags"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" 
+          xmlns:x="http://java.sun.com/jsp/jstl/xml"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" 
+          xmlns:tiles="http://tiles.apache.org/tags-tiles"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+    <jsp:directive.page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"/>
+
+    <c:choose>
+        <c:when test="${hand.status == 'POCKET_CARDS' or hand.status == 'FLOP' or hand.status == 'TURN' or hand.status == 'RIVER'}">
+            
+            <security:authorize ifAllGranted="RIGHT_UPDATE_HAND_AS_ADMIN">
+                <spring:url value="/app/administration/casino/${casinoId}/game/${pokergameId}/hand/${handId}/user/${gambler.player.applicationUser.id}/gambler/${gambler.id}/fold" var="fold_form_url"/>
+                <spring:url value="/images/fold.png" var="fold_image_url"/>
+                <spring-form:form action="${fold_form_url}" method="GET">
+                    <spring:message var="altfold" code="button.fold" text="fold"/>
+                    <input class="image" type="image" src="${fold_image_url}" alt="${altfold}" title="${altfold}" value="${altfold}"/>
+                </spring-form:form>
+            </security:authorize>
+            
+            <c:if test="${checkable == true}">
+                <security:authorize ifAllGranted="RIGHT_UPDATE_HAND_AS_ADMIN">
+                    <spring:url value="/app/administration/casino/${casinoId}/game/${pokergameId}/hand/${handId}/user/${gambler.player.applicationUser.id}/gambler/${gambler.id}/check" var="check_form_url"/>
+                    <spring:url value="/images/check.png" var="check_image_url"/>
+                    <spring-form:form action="${check_form_url}" method="GET">
+                        <spring:message var="altCheck" code="button.check" text="Check"/>
+                        <input class="image" type="image" src="${check_image_url}" alt="${altCheck}" title="${altCheck}" value="${altCheck}"/>
+                    </spring-form:form>
+                </security:authorize>
+            </c:if>
+            
+            <c:if test="${callable == true}">
+                <security:authorize ifAllGranted="RIGHT_UPDATE_HAND_AS_ADMIN">
+                    <spring:url value="/app/administration/casino/${casinoId}/game/${pokergameId}/hand/${handId}/user/${gambler.player.applicationUser.id}/gambler/${gambler.id}/call" var="call_form_url"/>
+                    <spring:url value="/images/call.png" var="call_image_url"/>
+                    <spring-form:form action="${call_form_url}" method="GET">
+                        <spring:message var="altCall" code="button.call" text="Call"/>
+                        <input class="image" type="image" src="${call_image_url}" alt="${altCall}" title="${altCall}" value="${altCall}"/>
+                    </spring-form:form>
+                </security:authorize>
+            </c:if>
+            
+            <c:if test="${raisable == true}">
+                <security:authorize ifAllGranted="RIGHT_UPDATE_HAND_AS_ADMIN">
+                    <spring:url value="/app/administration/casino/${casinoId}/game/${pokergameId}/hand/${handId}/user/${gambler.player.applicationUser.id}/gambler/${gambler.id}/raise" var="raise_form_url"/>
+                    <spring:url value="/images/raise.png" var="raise_image_url"/>
+                    <spring-form:form action="${raise_form_url}" method="POST">
+                        <spring:message var="altraise" code="button.raise" text="raise"/>
+                        <input type="text" name="bet" value="20" size="3"/>
+                        <input class="image" type="image" src="${raise_image_url}" alt="${altraise}" title="${altraise}" value="${altraise}"/>
+                    </spring-form:form>
+                </security:authorize>
+            </c:if>
+            
+        </c:when>
+    </c:choose>
+</jsp:root>

@@ -1,0 +1,175 @@
+/* main elements */
+*{ 	margin:0px;
+	padding:0px
+}
+
+
+
+body {
+	background:#FFF;
+	text-align: center;
+	background: url(../images/pattern-bg.jpg) repeat;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+}
+
+/*HEADER*/
+
+#header {
+	text-align: center;
+	background: url(../images/header-bg.png) no-repeat;
+	background-position:top center;
+	height:160px;
+	margin: 20px 0px 20px 0px;
+}
+
+#headercontent {
+	background: url(../images/header-bg.png) no-repeat;
+	background-position:top center;
+	width:1000px;
+	margin:0px auto;
+	text-align:left;
+
+}
+
+#controlpanel{
+	color:#FFF;
+	background-color:#33a691;
+	width:330px;
+	float:right;
+	height:160px;
+	}
+	
+#mainnav{
+	color:#33a691;
+	font-size:14px;
+	text-transform:uppercase;
+	width:200;
+	float:right;
+	margin-right:8px;
+	text-align:right;
+	}
+	
+#mainnav ul{
+	list-style:none;
+	}
+	
+#mainnav li{
+	height:29px;
+	border-bottom:1px solid #90c9bf;
+	}
+	
+#mainnav li a{
+	color:#33a691;
+	text-decoration:none;
+	display:block;
+	padding-top:7px;
+	width:121px;
+	}
+	
+#mainnav li a:hover{
+	color:#4a4849;
+	}
+
+#social{
+	background-color:#4a4849;
+	color:#ededed;
+	width:244px;
+	float:left;
+	padding:30px 20px 0px 50px;
+	height:130px;
+}
+
+#teammessage{
+	font-size:16px;
+	font-weight:bold;
+	letter-spacing:-0.02em}
+	
+#funds_panel {
+	background-color:#289780;
+	width:140px;
+	height:74px;
+	float:left;
+	margin:25px 8px 0px 10px;
+	clear:both;
+	font-size:16px;
+	font-weight:bold;
+	padding:10px 12px 0px 12px;}
+	
+#controlpanel a{
+ 		color:#FFF;
+}
+#controlpanel a:hover{
+ 		color:#a9ebdf;
+}
+
+
+#controlpanel h5{
+	font-size:14px;
+	font-weight:bold;
+	margin-top:10px;
+	display:block;
+}
+
+.currency{
+	color:#85d4c5; 
+	font-weight:normal;
+	display:block;
+	width:70px;
+	float:left;
+}
+
+.money{
+ 		color:#FFF;
+		text-align:right;
+			display:block;
+	width:65px;
+	float:left;
+}
+
+/*MAIN*/
+
+#main {
+	text-align: center;
+	background: url(../images/white-bg.png) repeat;
+	height:160px;
+	width:100%;
+}
+
+#maincontent {
+	width:1000px;
+	margin:0px auto;
+	text-align:left;
+}
+
+/*FOOTER*/
+
+#footer {
+	text-align: center;
+	background: #4a4849;
+	height:60px;
+	width:100%;
+	margin: 20px 0px 20px 0px;
+	font-size:11px;
+}
+
+#footercontent {
+	text-align:left;
+	width:1000px;
+	margin:0px auto;
+	color:#FFF;
+	padding-top:15px;
+}
+#links{
+	float:right;
+	margin-top:8px;}
+	
+#footer a{
+	color:#FFF;
+	text-decoration:none;
+	}
+	
+#footer a:hover{
+	color:#FFF;
+	text-decoration:underline;
+	}

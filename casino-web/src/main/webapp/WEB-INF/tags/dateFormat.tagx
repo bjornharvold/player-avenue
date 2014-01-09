@@ -1,0 +1,35 @@
+<!--
+  ~ Copyright (c) 2011. This beautifully written piece of code has been created by Bjorn Harvold.
+  ~ Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:x="http://java.sun.com/jsp/jstl/xml"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:casino="urn:jsptagdir:/WEB-INF/tags"
+          version="2.0">
+
+    <jsp:directive.tag body-content="empty"/>
+    <jsp:directive.attribute name="date" type="java.util.Date" required="true"/>
+
+    <c:choose>
+       <c:when test="${rc.locale == 'en_US'}">
+           <fmt:setLocale value="${rc.locale}"/>
+           <fmt:formatDate var="dateStr" pattern="MMMM d, yyyy" value="${date}"/>
+       </c:when>
+       <c:when test="${rc.locale == 'es_ES'}">
+           <fmt:setLocale value="${rc.locale}"/>
+           <fmt:formatDate var="dateStr" pattern="d MMMM, yyyy" value="${date}"/>
+       </c:when>
+       <c:otherwise>
+           <fmt:setLocale value="en_US"/>
+           <fmt:formatDate var="dateStr" pattern="MMMM d, yyyy" value="${date}"/>
+       </c:otherwise>
+   </c:choose>
+
+   ${dateStr}
+</jsp:root>

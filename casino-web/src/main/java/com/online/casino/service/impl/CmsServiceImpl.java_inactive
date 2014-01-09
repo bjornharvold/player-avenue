@@ -1,0 +1,439 @@
+package com.online.casino.service.impl;
+
+import com.online.casino.exception.CmsException;
+import com.online.casino.service.CmsService;
+import com.online.casino.utils.HttpAnyMethod;
+import com.online.casino.utils.InputStreamUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.AuthCache;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.protocol.ClientContext;
+import org.apache.http.entity.InputStreamEntity;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.auth.BasicScheme;
+import org.apache.http.impl.client.BasicAuthCache;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.protocol.BasicHttpContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * User: Bjorn Harvold
+ * Date: Nov 23, 2006
+ * Time: 4:32:15 PM
+ */
+@Service("cmsService")
+public class CmsServiceImpl implements CmsService {
+    private final static Logger log = LoggerFactory.getLogger(CmsServiceImpl.class);
+    private static final int HTTP_201 = 201; // this means that we're added a new file successfully
+    private static final int HTTP_204 = 204; // this means that we are overwriting a new file successfully
+
+    private final HttpHost httpHost;
+    private final DefaultHttpClient httpClient;
+    private final AuthCache authCache;
+    private final BasicScheme basicAuth;
+    private final BasicHttpContext httpContext;
+    
+    @Value("${sling.username}")
+    private String username;
+
+    @Value("${sling.password}")
+    private String password;
+
+    @Autowired
+    public CmsServiceImpl(HttpHost httpHost) {
+        this.httpHost = httpHost;
+        this.httpClient = new DefaultHttpClient();
+
+        // Create AuthCache instance
+        authCache = new BasicAuthCache();
+        // Generate BASIC scheme object and add it to the local
+        // auth cache
+        basicAuth = new BasicScheme();
+        authCache.put(httpHost, basicAuth);
+
+        // Add AuthCache to the execution context
+        httpContext = new BasicHttpContext();
+        httpContext.setAttribute(ClientContext.AUTH_CACHE, authCache);
+    }
+
+    @PostConstruct
+    public void init() {
+        // pre-emptive authentication
+        httpClient.getCredentialsProvider().setCredentials(
+                new AuthScope(httpHost.getHostName(), httpHost.getPort()),
+                new UsernamePasswordCredentials(username, password)
+        );
+    }
+
+    @PreDestroy
+    public void destroy() {
+        // When HttpClient instance is no longer needed,
+        // shut down the connection manager to ensure
+        // immediate deallocation of all system resources
+        if (httpClient != null && httpClient.getConnectionManager() != null) {
+            httpClient.getConnectionManager().shutdown();
+        }
+    }
+
+    /**
+     * Helper method to check that external Sling service is available
+     *
+     * @return
+     */
+    public Boolean isAvailable() {
+        Boolean result = Boolean.FALSE;
+
+        try {
+
+            final HttpGet get = new HttpGet("/");
+            final HttpResponse response = httpClient.execute(httpHost, get, httpContext);
+
+            int status = response.getStatusLine().getStatusCode();
+
+            if (status == 302) {
+                result = Boolean.TRUE;
+            }
+
+        } catch (IOException e) {
+            // we just want to swallow this because it WILL throw an exception if it is not available
+            if (log.isDebugEnabled()) {
+                log.debug(e.getMessage(), e);
+            }
+        }
+
+        if (log.isTraceEnabled()) {
+            log.trace("Is CMS service available: " + result);
+        }
+
+        return result;
+    }
+
+    /**
+     * Same as below but with no headers
+     *
+     * @param url
+     * @param nodeProperties
+     * @return
+     * @throws CmsException
+     */
+    public String createNode(String url, Map<String, String> nodeProperties) throws CmsException {
+        return createNode(url, nodeProperties, null, false);
+    }
+
+    /**
+     * Method for creating a node in Sling. This was nabbed straight out of Sling unit tests
+     *
+     * @param path
+     * @param nodeProperties
+     * @param requestHeaders
+     * @param multiPart
+     * @return
+     * @throws CmsException
+     */
+    public String createNode(String path, Map<String, String> nodeProperties, Map<String, String> requestHeaders, boolean multiPart) throws CmsException {
+        String location = null;
+
+        try {
+            final HttpPost post = new HttpPost(path);
+
+            // create a private copy of the properties to not tamper with
+            // the properties of the client
+            Map<String, String> props = new HashMap<String, String>();
+
+            // add sling specific properties
+            props.put(":redirect", httpHost.toURI() + path);
+            props.put(":displayExtension", "");
+            props.put(":status", "browser");
+
+            // take over any client provided properties
+            if (nodeProperties != null) {
+                props.putAll(nodeProperties);
+            } else {
+                // add fake property - otherwise the node is not created
+                props.put("jcr:created", "");
+            }
+            // force form encoding to UTF-8, which is what we use to convert the
+            // string parts into stream data
+            props.put("_charset_", "UTF-8");
+
+            MultipartEntity reqEntity = new MultipartEntity();
+            if (props.size() > 0) {
+                if (multiPart) {
+                    for (Map.Entry<String, String> e : props.entrySet()) {
+                        if (e.getValue() != null) {
+                            // TODO if the value is something more than a string we prob need to use a ByteArrayBody
+                            reqEntity.addPart(e.getKey(), new StringBody(e.getValue(), Charset.forName("UTF-8")));
+                        }
+                    }
+                } else {
+                    for (Map.Entry<String, String> e : props.entrySet()) {
+                        if (e.getValue() != null) {
+                            reqEntity.addPart(e.getKey(), new StringBody(e.getValue()));
+                        }
+                    }
+                }
+
+                post.setEntity(reqEntity);
+            }
+
+
+            if (requestHeaders != null) {
+                for (Map.Entry<String, String> e : requestHeaders.entrySet()) {
+                    post.addHeader(e.getKey(), e.getValue());
+                }
+            }
+
+            if (log.isTraceEnabled()) {
+                log.trace("Creating node: " + post.getURI());
+            }
+
+            HttpResponse response = httpClient.execute(httpHost, post, httpContext);
+            int status = response.getStatusLine().getStatusCode();
+
+            if (status != 302) {
+                throw new CmsException("service.cms.response.status.code.invalid", "302", Integer.toString(status), "POST", httpHost.toURI() + path);
+            }
+
+            location = post.getFirstHeader("Location").getValue();
+
+            // simple check if host is missing
+            if (!location.startsWith("http://")) {
+                String host = null;
+                int idx = httpHost.toURI().indexOf('/', 8);
+                if (idx > 0) {
+                    host = httpHost.toURI().substring(0, idx);
+                }
+                location = httpHost.toURI() + location;
+            }
+        } catch (ClientProtocolException e) {
+            throw new CmsException(e.getMessage(), e);
+        } catch (UnsupportedEncodingException e) {
+            throw new CmsException(e.getMessage(), e);
+        } catch (IOException e) {
+            throw new CmsException(e.getMessage(), e);
+        }
+
+        return path;
+    }
+
+    /**
+     * Make a directory in Sling
+     *
+     * @param path
+     * @throws CmsException
+     */
+
+    public int mkdirs(String path) throws CmsException {
+        int status = -1;
+
+        try {
+            final String[] paths = path.split("/");
+
+            String currentPath = "";
+            for (String pathElement : paths) {
+                if (pathElement.length() == 0) {
+                    continue;
+                }
+                currentPath += "/" + pathElement;
+                mkdir(currentPath);
+            }
+
+            final HttpGet get = new HttpGet(path);
+            final HttpResponse response = httpClient.execute(httpHost, get, httpContext);
+
+            if (response.getStatusLine().getStatusCode() != 200) {
+                throw new CmsException("service.cms.response.status.code.invalid", "200", Integer.toString(status), "GET", httpHost.toURI() + path);
+            }
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new CmsException(e.getMessage(), e);
+        }
+
+        return status;
+    }
+
+    /**
+     * Delete a file from the Sling repository
+     *
+     * @return the HTTP status code
+     */
+    public int delete(String path) throws CmsException {
+        int result = -1;
+        final HttpDelete delete = new HttpDelete(path);
+
+        try {
+
+            if (log.isTraceEnabled()) {
+                log.trace("Deleting node: " + httpHost.toURI() + delete.getURI());
+            }
+
+            final HttpResponse response = httpClient.execute(httpHost, delete, httpContext);
+
+            if (response.getStatusLine().getStatusCode() != 204) {
+                throw new CmsException("service.cms.response.status.code.invalid", "204", Integer.toString(result), "DELETE", httpHost.toURI() + path);
+            }
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new CmsException(e.getMessage(), e);
+        }
+
+        return result;
+    }
+
+    /**
+     * Create a directory if needed. Directory might already exist in which case nothing is done
+     *
+     * @param path
+     * @return
+     * @throws CmsException
+     */
+    public int mkdir(String path) throws CmsException {
+        int status = 0;
+
+        try {
+            final HttpGet get = new HttpGet(path);
+
+            HttpResponse response = httpClient.execute(httpHost, get, httpContext);
+            status = response.getStatusLine().getStatusCode();
+
+            if (status != 200) {
+                if (log.isTraceEnabled()) {
+                    log.trace("Creating directory: " + get.getURI());
+                }
+
+                HttpAnyMethod mkCol = new HttpAnyMethod("MKCOL", path);
+                HttpResponse response2 = httpClient.execute(httpHost, mkCol, httpContext);
+
+                status = response2.getStatusLine().getStatusCode();
+                if (status != 201) {
+                    throw new CmsException("service.cms.response.status.code.invalid", new String[]{"201", Integer.toString(status), "MKCOL", path});
+                }
+            }
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new CmsException(e.getMessage(), e);
+        }
+
+        return status;
+    }
+
+    /**
+     * Upload a file to the Sling repository
+     *
+     * @return the HTTP status code
+     */
+    public String upload(String path, String fileName, InputStream is) throws CmsException {
+        String result = null;
+
+        try {
+            // first we have to create the directories if needed
+            // TODO new version of sling doesn not allow doing a get on the directory to see if it exists
+            // mkdirs(path);
+            // make sure there aren't any unwanted characters in the file name
+
+            // strip out the extension
+            String fileNameWithoutExtension = fileName.substring(0, fileName.lastIndexOf("."));
+            String extension = fileName.substring(fileName.lastIndexOf("."));
+
+            // replace all non-alphabetics
+            fileNameWithoutExtension = fileNameWithoutExtension.replaceAll("\\W", "_");
+
+            // add extension again
+            fileName = fileNameWithoutExtension + extension;
+
+            result = path + "/" + fileName;
+
+            HttpPut put = new HttpPut(path);
+            InputStreamEntity reqEntity = new InputStreamEntity(is, InputStreamUtils.getBytes(is).length);
+            put.setEntity(reqEntity);
+
+            if (log.isTraceEnabled()) {
+                log.trace("Uploading stream to: " + put.getURI());
+            }
+
+            HttpResponse response = httpClient.execute(httpHost, put, httpContext);
+
+            int status = response.getStatusLine().getStatusCode();
+
+            if (status != HTTP_201 && status != HTTP_204) {
+                throw new CmsException("cms.invalid.status.code", Integer.toString(HTTP_201), Integer.toString(status));
+            }
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new CmsException(e.getMessage(), e);
+        }
+
+        return result;
+    }
+
+    /**
+     * Uploads a File as a MultiPartRequestEntity
+     *
+     * @param path
+     * @param localFile
+     * @param fieldName
+     * @param typeHint
+     * @return
+     * @throws CmsException
+     */
+    public int uploadFileNode(String path, File localFile, String fieldName, String typeHint) throws CmsException {
+        int status = -1;
+
+        try {
+            final HttpPost post = new HttpPost(path);
+            MultipartEntity reqEntity = new MultipartEntity();
+            reqEntity.addPart(fieldName, new FileBody(localFile));
+
+            if (StringUtils.isNotBlank(typeHint)) {
+                StringBody comment = new StringBody(typeHint);
+                reqEntity.addPart(fieldName + "@TypeHint", comment);
+            }
+
+            post.setEntity(reqEntity);
+
+            HttpResponse response = httpClient.execute(httpHost, post, httpContext);
+
+            status = response.getStatusLine().getStatusCode();
+
+            if (status != 200) {
+                throw new CmsException("service.cms.response.status.code.invalid", "200", Integer.toString(status), "POST", httpHost.toURI() + path);
+            }
+        } catch (FileNotFoundException e) {
+            log.error(e.getMessage(), e);
+            throw new CmsException(e.getMessage(), e);
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new CmsException(e.getMessage(), e);
+        }
+
+        return status;
+    }
+
+}

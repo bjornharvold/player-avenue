@@ -1,0 +1,31 @@
+<!--
+  ~ Copyright (c) 2010. This beautifully written piece of code has been created by Bjorn Harvold.
+  ~ Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:spring-form="http://www.springframework.org/tags/form"
+     xmlns:security="http://www.springframework.org/security/tags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:x="http://java.sun.com/jsp/jstl/xml"
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     xmlns:tiles="http://tiles.apache.org/tags-tiles"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <b><spring:message code="friend.select.persona" text="Select a persona"/></b>
+
+    <div id="user_personas">
+        <select id="players" name="players" onchange="replaceHtmlContent({url: this.value, id: 'persona_friends'})">
+            <option value=""><spring:message code="form.select" text="-- Please Select --"/></option>
+            <c:forEach items="${players}" var="player" varStatus="status">
+                <spring:url value="/app/player/${player.id}/friend/list" var="friendUrl"/>
+                <option value="${friendUrl}">${player.nickname}</option>
+            </c:forEach>
+        </select>
+    </div>
+
+    <div id="persona_friends"/>
+</div>

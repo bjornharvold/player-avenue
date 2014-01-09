@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!--
+  ~ Copyright (c) 2011. This beautifully written piece of code has been created by Bjorn Harvold.
+  ~ Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<pokergames>
+	<pokergame>
+        <id>1</id>
+        <name>CometD Integration Test Game</name>
+		<game_template id="41"/>
+	</pokergame>
+	<pokergame>
+        <id>2</id>
+        <name>Test Game 2</name>
+		<game_template id="41"/>
+	</pokergame>
+	<pokergame>
+        <id>3</id>
+        <name>Test Game 3</name>
+		<game_template id="41"/>
+	</pokergame>
+	<pokergame>
+        <id>4</id>
+        <name>Test Game 4</name>
+		<game_template id="41"/>
+	</pokergame>
+	<pokergame>
+        <id>5</id>
+        <name>Test Game 5</name>
+		<game_template id="41"/>
+	</pokergame>
+	<pokergame>
+        <id>6</id>
+        <name>Test Game 6</name>
+		<game_template id="41"/>
+	</pokergame>
+	<pokergame>
+        <id>7</id>
+        <name>Test Game 7</name>
+		<game_template id="41"/>
+	</pokergame>
+	<pokergame>
+        <id>8</id>
+        <name>Test Game 8</name>
+		<game_template id="41"/>
+	</pokergame>
+	<pokergame>
+        <id>9</id>
+        <name>Test Game 9</name>
+		<game_template id="41"/>
+	</pokergame>
+	<pokergame>
+        <id>10</id>
+        <name>Test Game 10</name>
+		<game_template id="41"/>
+	</pokergame>
+</pokergames>

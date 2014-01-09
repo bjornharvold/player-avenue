@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<roles>
+    <role>
+        <name>Super Administrator</name>
+        <description>Super Administrator role</description>
+        <rights>
+            <right statusCode="RIGHT_LOGIN_ADMIN"/>
+            <right statusCode="RIGHT_READ_SECURITY"/>
+            <right statusCode="RIGHT_READ_CASINO_AS_ADMIN"/>
+            <right statusCode="RIGHT_WRITE_CASINO_AS_ADMIN"/>
+            <right statusCode="RIGHT_UPDATE_CASINO_AS_ADMIN"/>
+            <right statusCode="RIGHT_DELETE_CASINO_AS_ADMIN"/>
+            <right statusCode="RIGHT_READ_ACCOUNT_AS_ADMIN"/>
+            <right statusCode="RIGHT_WRITE_ACCOUNT_AS_ADMIN"/>
+            <right statusCode="RIGHT_UPDATE_ACCOUNT_AS_ADMIN"/>
+            <right statusCode="RIGHT_DELETE_ACCOUNT_AS_ADMIN"/>
+            <right statusCode="RIGHT_READ_ACCOUNT_ENTRY"/>
+            <right statusCode="RIGHT_WRITE_ACCOUNT_ENTRY"/>
+            <right statusCode="RIGHT_UPDATE_ACCOUNT_ENTRY"/>
+            <right statusCode="RIGHT_DELETE_ACCOUNT_ENTRY"/>
+            <right statusCode="RIGHT_READ_ACCOUNT_TRANSFER_AS_ADMIN"/>
+            <right statusCode="RIGHT_WRITE_ACCOUNT_TRANSFER_AS_ADMIN"/>
+            <right statusCode="RIGHT_UPDATE_ACCOUNT_TRANSFER_AS_ADMIN"/>
+            <right statusCode="RIGHT_DELETE_ACCOUNT_TRANSFER_AS_ADMIN"/>
+            <right statusCode="RIGHT_READ_BET"/>
+            <right statusCode="RIGHT_WRITE_BET"/>
+            <right statusCode="RIGHT_UPDATE_BET"/>
+            <right statusCode="RIGHT_DELETE_BET"/>
+            <right statusCode="RIGHT_READ_GAMBLER"/>
+            <right statusCode="RIGHT_WRITE_GAMBLER"/>
+            <right statusCode="RIGHT_UPDATE_GAMBLER"/>
+            <right statusCode="RIGHT_DELETE_GAMBLER"/>
+            <right statusCode="RIGHT_READ_GAMBLER_ACCOUNT_ENTRY"/>
+            <right statusCode="RIGHT_WRITE_GAMBLER_ACCOUNT_ENTRY"/>
+            <right statusCode="RIGHT_UPDATE_GAMBLER_ACCOUNT_ENTRY"/>
+            <right statusCode="RIGHT_DELETE_GAMBLER_ACCOUNT_ENTRY"/>
+            <right statusCode="RIGHT_READ_GAME_TEMPLATE_AS_ADMIN"/>
+            <right statusCode="RIGHT_WRITE_GAME_TEMPLATE_AS_ADMIN"/>
+            <right statusCode="RIGHT_UPDATE_GAME_TEMPLATE_AS_ADMIN"/>
+            <right statusCode="RIGHT_DELETE_GAME_TEMPLATE_AS_ADMIN"/>
+            <right statusCode="RIGHT_READ_HAND_AS_ADMIN"/>
+            <right statusCode="RIGHT_WRITE_HAND_AS_ADMIN"/>
+            <right statusCode="RIGHT_UPDATE_HAND_AS_ADMIN"/>
+            <right statusCode="RIGHT_DELETE_HAND_AS_ADMIN"/>
+            <right statusCode="RIGHT_READ_INTERNAL_MESSAGE"/>
+            <right statusCode="RIGHT_WRITE_INTERNAL_MESSAGE"/>
+            <right statusCode="RIGHT_UPDATE_INTERNAL_MESSAGE"/>
+            <right statusCode="RIGHT_DELETE_INTERNAL_MESSAGE"/>
+            <right statusCode="RIGHT_READ_INTERNAL_SYSTEM_MESSAGE"/>
+            <right statusCode="RIGHT_WRITE_INTERNAL_SYSTEM_MESSAGE"/>
+            <right statusCode="RIGHT_UPDATE_INTERNAL_SYSTEM_MESSAGE"/>
+            <right statusCode="RIGHT_DELETE_INTERNAL_SYSTEM_MESSAGE"/>
+            <right statusCode="RIGHT_READ_PLAYER_AS_ADMIN"/>
+            <right statusCode="RIGHT_WRITE_PLAYER_AS_ADMIN"/>
+            <right statusCode="RIGHT_UPDATE_PLAYER_AS_ADMIN"/>
+            <right statusCode="RIGHT_DELETE_PLAYER_AS_ADMIN"/>
+            <right statusCode="RIGHT_READ_POKER_GAME_AS_ADMIN"/>
+            <right statusCode="RIGHT_WRITE_POKER_GAME_AS_ADMIN"/>
+            <right statusCode="RIGHT_UPDATE_POKER_GAME_AS_ADMIN"/>
+            <right statusCode="RIGHT_DELETE_POKER_GAME_AS_ADMIN"/>
+            <right statusCode="RIGHT_READ_QUEUED_GAMBLER_AS_ADMIN"/>
+            <right statusCode="RIGHT_WRITE_QUEUED_GAMBLER_AS_ADMIN"/>
+            <right statusCode="RIGHT_UPDATE_QUEUED_GAMBLER_AS_ADMIN"/>
+            <right statusCode="RIGHT_DELETE_QUEUED_GAMBLER_AS_ADMIN"/>
+            <right statusCode="RIGHT_READ_GAME_OBSERVER_AS_ADMIN"/>
+            <right statusCode="RIGHT_WRITE_GAME_OBSERVER_AS_ADMIN"/>
+            <right statusCode="RIGHT_UPDATE_GAME_OBSERVER_AS_ADMIN"/>
+            <right statusCode="RIGHT_DELETE_GAME_OBSERVER_AS_ADMIN"/>
+            <right statusCode="RIGHT_READ_STAKE_AS_ADMIN"/>
+            <right statusCode="RIGHT_WRITE_STAKE_AS_ADMIN"/>
+            <right statusCode="RIGHT_UPDATE_STAKE_AS_ADMIN"/>
+            <right statusCode="RIGHT_DELETE_STAKE_AS_ADMIN"/>
+            <right statusCode="RIGHT_READ_SYSTEM_RIGHT_AS_ADMIN"/>
+            <right statusCode="RIGHT_WRITE_SYSTEM_RIGHT_AS_ADMIN"/>
+            <right statusCode="RIGHT_UPDATE_SYSTEM_RIGHT_AS_ADMIN"/>
+            <right statusCode="RIGHT_DELETE_SYSTEM_RIGHT_AS_ADMIN"/>
+            <right statusCode="RIGHT_READ_SYSTEM_ROLE_AS_ADMIN"/>
+            <right statusCode="RIGHT_WRITE_SYSTEM_ROLE_AS_ADMIN"/>
+            <right statusCode="RIGHT_UPDATE_SYSTEM_ROLE_AS_ADMIN"/>
+            <right statusCode="RIGHT_DELETE_SYSTEM_ROLE_AS_ADMIN"/>
+            <right statusCode="RIGHT_READ_SYSTEM_USER_AS_ADMIN"/>
+            <right statusCode="RIGHT_WRITE_SYSTEM_USER_AS_ADMIN"/>
+            <right statusCode="RIGHT_UPDATE_SYSTEM_USER_AS_ADMIN"/>
+            <right statusCode="RIGHT_DELETE_SYSTEM_USER_AS_ADMIN"/>
+            <right statusCode="RIGHT_READ_SYSTEM_USER_ROLE_AS_ADMIN"/>
+            <right statusCode="RIGHT_WRITE_SYSTEM_USER_ROLE_AS_ADMIN"/>
+            <right statusCode="RIGHT_UPDATE_SYSTEM_USER_ROLE_AS_ADMIN"/>
+            <right statusCode="RIGHT_DELETE_SYSTEM_USER_ROLE_AS_ADMIN"/>
+            <right statusCode="RIGHT_UPDATE_PASSWORD"/>
+            <right statusCode="RIGHT_READ_RELATIONSHIP_AS_ADMIN"/>
+            <right statusCode="RIGHT_WRITE_RELATIONSHIP_AS_ADMIN"/>
+            <right statusCode="RIGHT_UPDATE_RELATIONSHIP_AS_ADMIN"/>
+            <right statusCode="RIGHT_DELETE_RELATIONSHIP_AS_ADMIN"/>
+        </rights>
+    </role>
+    <role>
+        <name>Application user</name>
+        <description>Application user</description>
+        <rights>
+            <right statusCode="RIGHT_LOGIN_PLAYER"/>
+            <right statusCode="RIGHT_PLAY_GAME"/>
+            <right statusCode="RIGHT_READ_ACCOUNT"/>
+            <right statusCode="RIGHT_WRITE_ACCOUNT"/>
+            <right statusCode="RIGHT_UPDATE_ACCOUNT"/>
+            <right statusCode="RIGHT_DELETE_ACCOUNT"/>
+            <right statusCode="RIGHT_READ_ACCOUNT_TRANSFER"/>
+            <right statusCode="RIGHT_WRITE_ACCOUNT_TRANSFER"/>
+            <right statusCode="RIGHT_UPDATE_ACCOUNT_TRANSFER"/>
+            <right statusCode="RIGHT_DELETE_ACCOUNT_TRANSFER"/>
+            <right statusCode="RIGHT_READ_CASINO"/>
+            <right statusCode="RIGHT_READ_PLAYER"/>
+            <right statusCode="RIGHT_WRITE_PLAYER"/>
+            <right statusCode="RIGHT_UPDATE_PLAYER"/>
+            <right statusCode="RIGHT_DELETE_PLAYER"/>
+            <right statusCode="RIGHT_READ_SYSTEM_USER"/>
+            <right statusCode="RIGHT_WRITE_SYSTEM_USER"/>
+            <right statusCode="RIGHT_UPDATE_SYSTEM_USER"/>
+            <right statusCode="RIGHT_DELETE_SYSTEM_USER"/>
+            <right statusCode="RIGHT_UPDATE_PASSWORD"/>
+            <right statusCode="RIGHT_READ_RELATIONSHIP"/>
+            <right statusCode="RIGHT_WRITE_RELATIONSHIP"/>
+            <right statusCode="RIGHT_UPDATE_RELATIONSHIP"/>
+            <right statusCode="RIGHT_DELETE_RELATIONSHIP"/>
+            <right statusCode="RIGHT_READ_PLAYER_SETTINGS"/>
+            <right statusCode="RIGHT_READ_STAKE"/>
+            <right statusCode="RIGHT_READ_GAME_OBSERVER"/>
+        </rights>
+    </role>
+    <role>
+        <name>Developer</name>
+        <description>Developer</description>
+        <rights>
+            <right statusCode="RIGHT_DEVELOPER"/>
+        </rights>
+    </role>
+</roles>

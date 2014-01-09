@@ -1,0 +1,126 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" xmlns:spring="http://www.springframework.org/tags" xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:security="http://www.springframework.org/security/tags" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+
+	<spring:message var="option1" code="form.select" text="-- Please Select --" />
+
+	<div id="tranfer_amount">
+		<spring-form:label path="amount"><spring:message code="account.transfer.amount" text="Amount" /></spring-form:label>:&#160;
+		<spring-form:input path="amount" />
+		<spring-form:errors path="amount" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="tranfer_action">
+		<spring-form:label path="action"><spring:message code="account.transfer.action" text="Action" /></spring-form:label>:&#160;
+		<spring-form:select path="action">
+			<spring-form:option value="" label="${option1}" />
+			<spring-form:options items="${actions}" itemLabel="label" itemValue="value" />
+		</spring-form:select>
+		<spring-form:errors path="action" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="tranfer_status">
+		<spring-form:label path="status"><spring:message code="account.transfer.status" text="Status" /></spring-form:label>:&#160;
+		<spring-form:select path="status">
+			<spring-form:option value="" label="${option1}" />
+			<spring-form:options items="${statuses}" itemLabel="label" itemValue="value" />
+		</spring-form:select>
+		<spring-form:errors path="status" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="tranfer_type">
+		<spring-form:label path="type"><spring:message code="account.transfer.type" text="Type" /></spring-form:label>:&#160;
+		<spring-form:select path="type">
+			<spring-form:option value="" label="${option1}" />
+			<spring-form:options items="${types}" itemLabel="label" itemValue="value" />
+		</spring-form:select>
+		<spring-form:errors path="type" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="tranfer_bic">
+		<spring-form:label path="bicswift"><spring:message code="account.bicswift" text="Bic / Swift" /></spring-form:label>:&#160;
+		<spring-form:input path="bicswift" />
+		<spring-form:errors path="bicswift" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="tranfer_iban">
+		<spring-form:label path="iban"><spring:message code="account.iban" text="IBAN" /></spring-form:label>:&#160;
+		<spring-form:input path="iban" />
+		<spring-form:errors path="iban" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="tranfer_first_name">
+		<spring-form:label path="firstName"><spring:message code="account.name.first" text="First name" /></spring-form:label>:&#160;
+		<spring-form:input path="firstName" />
+		<spring-form:errors path="firstName" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="tranfer_last_name">
+		<spring-form:label path="lastName"><spring:message code="account.name.last" text="Last name" /></spring-form:label>:&#160;
+		<spring-form:input path="lastName" />
+		<spring-form:errors path="lastName" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="tranfer_address1">
+		<spring-form:label path="address1"><spring:message code="account.address.1" text="Address 1" /></spring-form:label>:&#160;
+		<spring-form:input path="address1" />
+		<spring-form:errors path="address1" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="tranfer_address2">
+		<spring-form:label path="address2"><spring:message code="account.address.2" text="Address 2" /></spring-form:label>:&#160;
+		<spring-form:input path="address2" />
+		<spring-form:errors path="address2" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="tranfer_address3">
+		<spring-form:label path="address3"><spring:message code="account.address.3" text="Address 3" /></spring-form:label>:&#160;
+		<spring-form:input path="address3" />
+		<spring-form:errors path="address3" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="tranfer_city">
+		<spring-form:label path="city"><spring:message code="account.city" text="City" /></spring-form:label>:&#160;
+		<spring-form:input path="city" />
+		<spring-form:errors path="city" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="tranfer_state">
+		<spring-form:label path="state"><spring:message code="account.state" text="State" /></spring-form:label>:&#160;
+		<spring-form:input path="state" />
+		<spring-form:errors path="state" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="tranfer_zip">
+		<spring-form:label path="zip"><spring:message code="account.zip" text="Zip" /></spring-form:label>:&#160;
+		<spring-form:input path="zip" />
+		<spring-form:errors path="zip" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="tranfer_country">
+		<spring-form:label path="country"><spring:message code="account.country" text="Country" /></spring-form:label>:&#160;
+		<spring-form:select path="country">
+			<spring-form:option value="" label="${option1}" />
+			<spring-form:options items="${countries}" itemLabel="label" itemValue="value" />
+		</spring-form:select>
+		<spring-form:errors path="country" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="tranfer_instructions">
+		<spring-form:label path="instructions"><spring:message code="account.instructions" text="Instructions" /></spring-form:label>&#160;
+		<spring-form:textarea path="instructions" rows="4" />
+		<spring-form:errors path="instructions" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div class="submit">
+		<spring:message var="save" code="button.save" text="Save"/> 
+		<input id="submit" type="submit" name="submit" value="${save}" class="submit"/>
+	</div>
+	<spring-form:hidden path="id" />
+	<spring-form:hidden path="version" />
+
+</div>

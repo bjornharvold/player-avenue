@@ -1,0 +1,82 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:spring-form="http://www.springframework.org/tags/form" 
+     xmlns:security="http://www.springframework.org/security/tags"
+	 xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:x="http://java.sun.com/jsp/jstl/xml"
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     xmlns:tiles="http://tiles.apache.org/tags-tiles"
+     xmlns:casino="urn:jsptagdir:/WEB-INF/tags"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<jsp:output omit-xml-declaration="yes"/>
+
+	<spring:message code="page.casino.title" text="Casino" var="entity_label"/>
+
+	<b>${entity_label}</b>
+	
+	<div style="float:right;">
+	<security:authorize ifAllGranted="RIGHT_UPDATE_CASINO_AS_ADMIN">
+		<spring:url value="/app/administration/casino/${casino.id}/form" var="edit_form_url"/>
+		<spring:url value="/images/update.png" var="edit_image_url"/>
+		<spring-form:form action="${edit_form_url}" method="GET">
+			<spring:message arguments="${entity_label}" var="altUpdate" code="button.edit" text="Edit" />
+			<input class="image" type="image" src="${edit_image_url}" alt="${altUpdate}" title="${altUpdate}" value="${altUpdate}" />
+		</spring-form:form>
+	</security:authorize>
+	</div>
+
+	<c:if test="${not empty casino}">
+		<div id="casino_name">
+            <label for="_name_id"><spring:message code="casino.name" text="Name" />:</label>
+            <div class="box" id="_name_id">${casino.name}</div>
+        </div>
+        <br/>
+        <div id="casino_status">
+            <label for="_status_id"><spring:message code="casino.status" text="Status" />:</label>
+            <div class="box" id="_status_id"><spring:message code="dropdown.CasinoStatusCd.${casino.status}" text="Unknown status" /></div>
+        </div>
+        <br/>
+        <div id="casino_currency">
+            <label for="_currency_id"><spring:message code="casino.currency" text="Currency" />:</label>
+            <div class="box" id="_currency_id"><spring:message code="dropdown.CurrencyCd.${casino.currency}" text="Unknow currency" /></div>
+        </div>
+        <br/>
+        <div id="casino_buffer">
+            <label for="_buffer_id"><spring:message code="configuration.game.buffer" text="Game buffer" />:</label>
+            <div class="box" id="_buffer_id">${casino.gameBuffer}</div>
+        </div>
+        <br/>
+        <div id="casino_min_limit">
+            <label for="_min_limit_id"><spring:message code="configuration.empty.game.min.limit" text="Empty game minimum limit" />:</label>
+            <div class="box" id="_min_limit_id">${casino.emptyGameMinimumLimit}</div>
+        </div>
+        <br/>
+        <div id="casino_max_limit">
+            <label for="_max_limit_id"><spring:message code="configuration.empty.game.max.limit" text="Empty game maximum limit" />:</label>
+            <div class="box" id="_max_limit_id">${casino.emptyGameMaximumLimit}</div>
+        </div>
+        <br/>
+        <div id="casino_delete_games_check">
+            <label for="_delete_games_check_id"><spring:message code="configuration.delete.games.on.check" text="Delete games on check" />:</label>
+            <div class="box" id="_delete_games_check_id">${casino.deleteGamesOnCheck}</div>
+        </div>
+        <br/>
+        <div id="casino_created_date">
+            <label for="_created_date_id"><spring:message code="table.date.created" text="Created" />:</label>
+            <div class="box" id="_created_date_id"><fmt:formatDate value="${casino.createdDate}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
+        </div>
+        <br/>
+        <div id="casino_last_update">
+            <label for="_last_update_id"><spring:message code="table.date.updated" text="Updated" />:</label>
+            <div class="box" id="_last_update_id"><fmt:formatDate value="${casino.lastUpdate}" pattern="yyyy-MM-dd HH:mm:ss" /></div>
+        </div>
+	</c:if>
+	<c:if test="${empty casino}">
+        <p><spring:message arguments="${entity_label}" code="entity.not.found.single"/></p>
+    </c:if>
+</div>

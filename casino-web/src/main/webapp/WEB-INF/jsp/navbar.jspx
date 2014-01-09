@@ -1,0 +1,23 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+
+<ul xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" xmlns:spring="http://www.springframework.org/tags" xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:security="http://www.springframework.org/security/tags" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+
+	<li>
+	<h2><spring:message code="global.menu" text="Menu" /></h2>
+	</li>
+	<ul>
+        <!--
+		<li><spring:url value="/app/registration/signup" var="signup" /> <a href="${signup}"><spring:message code="page.register.name" text="Register" /></a></li>
+
+		<li><spring:url value="/app/registration/forgotpassword" var="forgot" /> <a href="${forgot}"><spring:message code="page.forgotpassword.title" text="Forgot password" /></a></li>
+        -->
+		<li><spring:url value="/app/login" var="login" /> <a href="${login}"><spring:message code="page.login.name" text="Login" /></a></li>
+
+	</ul>
+
+</ul>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+	<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+	<definition name="player.game.finder" extends="template.player.page.master">
+		<put-attribute type="string" name="title" value="page.player.game.finder.title" />
+		<put-list-attribute name="contents">
+			<add-attribute type="template" value="/WEB-INF/jsp/player/game/gamefinder.jspx" />
+			<add-attribute type="template" value="/WEB-INF/jsp/player/game/search_results.jspx" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="player.game.observe" extends="template.player.page.master">
+		<put-attribute type="string" name="title" value="page.player.observe.game.title" />
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute type="template" value="/WEB-INF/jsp/player/game/game_styles.jspx" />
+		</put-list-attribute>
+		<put-list-attribute name="javascripts" inherit="true">
+			<add-attribute type="template" value="/WEB-INF/jsp/common/cometd_scripts.jspx" />
+			<add-attribute type="template" value="/WEB-INF/jsp/player/game/game_scripts.jspx" />
+		</put-list-attribute>
+		<put-list-attribute name="navbars" inherit="true">
+			<add-attribute type="template" value="/WEB-INF/jsp/player/game/navbar.jspx" />
+		</put-list-attribute>
+		<put-list-attribute name="contents">
+			<add-attribute type="template" value="/WEB-INF/jsp/player/game/game.jspx" />
+		</put-list-attribute>
+	</definition>
+
+</tiles-definitions>

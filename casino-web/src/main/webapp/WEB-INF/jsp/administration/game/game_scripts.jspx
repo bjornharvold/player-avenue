@@ -1,0 +1,56 @@
+<!--
+  ~ Copyright (c) 2010. This beautifully written piece of code has been created by Bjorn Harvold. 
+  ~ Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:spring-form="http://www.springframework.org/tags/form"
+          xmlns:security="http://www.springframework.org/security/tags"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:x="http://java.sun.com/jsp/jstl/xml"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns:tiles="http://tiles.apache.org/tags-tiles"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+    <jsp:directive.page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"/>
+
+    <spring:url value="/js/jquery-ui-1.8.6.custom.min.js" var="jquery"/>
+    <script language="javascript" type="text/javascript" src="${jquery}"><!----></script>
+
+
+    <spring:url value="/app/administration/casino/${casinoId}/game/${pokerGame.id}/player" var="action_url"/>
+    <spring:url value="/app/administration/casino/${casinoId}/game/${pokerGame.id}/findplayer" var="find_player_url"/>
+    <script language="javascript" type="text/javascript">
+        $(function() {
+
+            $("#findPlayers").autocomplete({
+                source: "${find_player_url}",
+                minLength: 3,
+                select: function(event, ui) {
+                    jQuery.get("${action_url}" + "/" + ui.item.id + "/observe", function(data) {
+                        $("#pokergame_observers").after(data).remove();
+                    }, "html"
+                            );
+                }
+            });
+
+            $("#queuePlayers").autocomplete({
+                source: "${find_player_url}",
+                minLength: 3,
+                select: function(event, ui) {
+                    jQuery.get("${action_url}" + "/" + ui.item.id + "/queue", function(data) {
+                        // remove any prior div with the same name
+                        if ($("#queue_gambler_form")) {
+                            $("#queue_gambler_form").remove();
+                        }
+                        $("#pokergame_queued_gamblers").before(data);
+                    }, "html"
+                            );
+                }
+            });
+        });
+    </script>
+
+
+</jsp:root>

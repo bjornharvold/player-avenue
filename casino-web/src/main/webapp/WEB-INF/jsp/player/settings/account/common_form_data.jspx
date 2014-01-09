@@ -1,0 +1,33 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+
+
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" xmlns:spring="http://www.springframework.org/tags" xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+	<jsp:directive.page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" />
+
+	<spring:message var="option1" code="form.select" text="-- Please Select --" />
+
+	<table cellpadding="0" cellspacing="2" border="0" width="100%">
+		<tr>
+			<td class="form_text"><spring-form:label path="currency">
+				<spring:message code="account.currency" text="Currency" />
+			</spring-form:label>:&#160;</td>
+			<td><spring-form:select path="currency">
+				<spring-form:option value="" label="${option1}" />
+				<spring-form:options items="${currencies}" itemLabel="label" itemValue="value" />
+			</spring-form:select><span class="required">&#160;*</span></td>
+			<td><spring-form:errors path="currency" cssClass="errors" delimiter=". "/></td>
+		</tr>
+
+		<tr>
+			<td colspan="2"><spring-form:hidden path="id" /></td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center"><spring:message var="save" code="button.save" text="Save" /> <input type="submit" name="submit" value="${save}" /></td>
+		</tr>
+	</table>
+
+</jsp:root>

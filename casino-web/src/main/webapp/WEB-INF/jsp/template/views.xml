@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+	<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+	<!-- Definitions for Tiles documentation   -->
+
+<tiles-definitions>
+
+	<!-- =======================================================  -->
+	<!-- Master definition  									-->
+	<!-- =======================================================  -->
+	
+	<!-- page master -->
+	<definition name="template.page.master" template="/WEB-INF/jsp/template/master.jspx">
+		<put-attribute type="string" name="title" value="NA" />
+		<put-attribute type="template" name="masthead" value="/WEB-INF/jsp/common/masthead.jspx" />
+        <put-attribute type="template" name="footer" value="/WEB-INF/jsp/common/footer.jspx" />
+		<put-list-attribute name="styles">
+			<add-attribute type="template" value="/WEB-INF/jsp/common/required_styles.jspx" />
+		</put-list-attribute>
+		<put-list-attribute name="javascripts">
+			<add-attribute type="template" value="/WEB-INF/jsp/common/required_scripts.jspx" />
+		</put-list-attribute>
+	</definition>
+
+	<!-- content master  -->
+	<definition name="template.content.master" template="/WEB-INF/jsp/template/content.jspx" />
+
+</tiles-definitions>

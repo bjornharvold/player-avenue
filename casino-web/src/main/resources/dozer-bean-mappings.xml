@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <!-- here we define the custom entity-2-dto mappings for our business domain -->
+    <configuration>
+        <stop-on-errors>true</stop-on-errors>
+        <date-format>MM/dd/yyyy HH:mm</date-format>
+        <wildcard>true</wildcard>
+        <trim-strings>false</trim-strings>
+
+        <custom-converters>
+
+            <converter type="com.online.casino.web.converter.HandConverter">
+                <class-a>com.online.casino.domain.entity.Hand</class-a>
+                <class-b>java.util.Map</class-b>
+            </converter>
+
+        </custom-converters>
+    </configuration>
+
+</mappings>

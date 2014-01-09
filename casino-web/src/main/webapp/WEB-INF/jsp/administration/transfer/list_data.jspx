@@ -1,0 +1,86 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:spring-form="http://www.springframework.org/tags/form"
+     xmlns:security="http://www.springframework.org/security/tags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:x="http://java.sun.com/jsp/jstl/xml"
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     xmlns:tiles="http://tiles.apache.org/tags-tiles"
+     xmlns:casino="urn:jsptagdir:/WEB-INF/tags"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <spring:message code="page.account.transfer.title" var="entity_label"/>
+    <spring:message code="page.account.transfers.title" var="entity_label_plural"/>
+
+    <c:if test="${not empty accountTransfers}">
+        <table>
+            <thead>
+            <tr>
+                <th width="20%"><spring:message code="table.date.created" text="Created"/></th>
+                <th width="10%"><spring:message code="account.transfer.amount" text="Amount"/></th>
+                <th width="10%"><spring:message code="account.transfer.action" text="Action"/></th>
+                <th width="10%"><spring:message code="account.transfer.type" text="Type"/></th>
+                <th width="10%"><spring:message code="account.transfer.status" text="Status"/></th>
+                <th width="5%">&#160;</th>
+                <th width="5%">&#160;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${accountTransfers}" varStatus="status" var="accounttransfer">
+                <tr>
+                    <td><fmt:formatDate value="${accounttransfer.createdDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                    <td><fmt:formatNumber value="${accounttransfer.amount}" maxFractionDigits="2"/></td>
+                    <td><spring:message code="dropdown.AccountTransferStatusCd.${accounttransfer.status}" text="Unknown status"/></td>
+                    <td><spring:message code="dropdown.AccountTransferActionCd.${accounttransfer.action}" text="Unknown action"/></td>
+                    <td><spring:message code="dropdown.AccountTransferTypeCd.${accounttransfer.type}" text="Unknown type"/></td>
+                    <td>
+                        <security:authorize ifAllGranted="RIGHT_READ_ACCOUNT_TRANSFER_AS_ADMIN">
+                            <spring:url value="/app/administration/user/${userId}/account/${accounttransfer.accountId}/transfer/${accounttransfer.id}" var="show_form_url"/>
+                            <spring:url value="/images/show.png" var="show_image_url"/>
+                            <spring-form:form action="${show_form_url}" method="GET">
+                                <spring:message arguments="${entity_label}" var="altView" code="button.view" text="View"/>
+                                <input class="image" type="image" src="${show_image_url}" alt="${altView}" title="${altView}" value="${altView}"/>
+                            </spring-form:form>
+                        </security:authorize>
+                    </td>
+                    <td>
+                        <c:if test="${accounttransfer.status != 'COMPLETE'}">
+                            <security:authorize ifAllGranted="RIGHT_WRITE_ACCOUNT_TRANSFER_AS_ADMIN">
+                                <spring:url value="/app/administration/user/${userId}/account/${accounttransfer.accountId}/transfer/${accounttransfer.id}/form" var="edit_form_url"/>
+                                <spring:url value="/images/update.png" var="edit_image_url"/>
+                                <spring-form:form action="${edit_form_url}" method="GET">
+                                    <spring:message arguments="${entity_label}" var="altUpdate" code="button.edit" text="Edit"/>
+                                    <input class="image" type="image" src="${edit_image_url}" alt="${altUpdate}" title="${altUpdate}" value="${altUpdate}"/>
+                                </spring-form:form>
+                            </security:authorize>
+                            <security:authorize ifAllGranted="RIGHT_DELETE_ACCOUNT_TRANSFER_AS_ADMIN">
+                                <spring:url value="/app/administration/user/${userId}/account/${accounttransfer.accountId}/transfer/${accounttransfer.id}" var="delete_form_url"/>
+                                <spring:url value="/images/delete.png" var="delete_image_url"/>
+                                <spring-form:form action="${delete_form_url}" method="DELETE">
+                                    <spring:message arguments="${entity_label}" var="altDelete" code="button.delete" text="Delete"/>
+                                    <input class="image" type="image" src="${delete_image_url}" alt="${altDelete}" title="${altDelete}" value="${altDelete}"/>
+                                </spring-form:form>
+                            </security:authorize>
+                        </c:if>
+                    </td>
+                </tr>
+            </c:forEach>
+            <tr class="footer">
+                <td colspan="8">
+                    <jsp:include page="new_link.jspx" flush="true"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </c:if>
+    <c:if test="${empty accountTransfers}">
+        <p><spring:message code="account.transfer.empty" text="There have been no accountTransfers to this account"/></p>
+        <jsp:include page="new_link.jspx" flush="true"/>
+    </c:if>
+</div>

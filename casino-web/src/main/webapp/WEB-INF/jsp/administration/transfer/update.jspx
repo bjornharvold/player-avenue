@@ -1,0 +1,22 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:spring-form="http://www.springframework.org/tags/form" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+
+	<spring:message var="entity_label" code="page.account.transfer.title" text="Account Transfer" />
+	<spring:message arguments="${entity_label}" var="title_msg" code="button.edit" text="Edit" />
+
+	<b>${title_msg}</b>
+	
+	<spring:url value="/app/administration/user/${userId}/account/${accountId}/transfer/${accountTransfer.id}/form" var="form_url"/>
+	<spring-form:form id="form" commandName="accountTransfer" action="${form_url}" method="PUT">
+
+		<jsp:include page="common_form_data.jspx" flush="true" />
+
+	</spring-form:form>
+
+</div>

@@ -1,0 +1,58 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div id="accountsTable" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" xmlns:spring="http://www.springframework.org/tags" xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:casino="urn:jsptagdir:/WEB-INF/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0"><jsp:output
+	omit-xml-declaration="yes" />
+
+	<spring:message code="page.account.title" var="entity_label"/>
+	<spring:message code="page.accounts.title" var="entity_label_plural"/>
+
+	<c:if test="${not empty accounts}">
+	<table>
+		<thead>
+			<tr>
+				<th width="5%"><spring:message code="table.date.created" text="Created" /></th>
+				<th width="20%"><spring:message code="account.balance" text="Balance" /></th>
+				<th width="20%"><spring:message code="account.accountNumber" text="Account Number" /></th>
+				<th width="20%"><spring:message code="account.currency" text="Currency" /></th>
+				<th width="2%">&#160;</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${accounts}" varStatus="status" var="account">
+				<tr>
+					<td><fmt:formatDate value="${account.createdDate}" dateStyle="short" /></td>
+					<td><c:choose>
+						<c:when test="${account.currency == 'DOLLAR'}">
+							<fmt:formatNumber var="currency" type="currency" value="${account.balance}" currencyCode="USD" />
+						</c:when>
+						<c:when test="${account.currency == 'EURO'}">
+							<fmt:formatNumber var="currency" type="currency" value="${account.balance}" currencySymbol="&#8364;" />
+						</c:when>
+						<c:otherwise>
+							<c:set var="currency" value="${account.balance}" />
+						</c:otherwise>
+					</c:choose> ${currency}</td>
+					<td>${account.accountNumber}</td>
+					<td><spring:message code="dropdown.CurrencyCd.${account.currency}" text="Unknown currency" /></td>
+					<td>
+						<security:authorize ifAllGranted="RIGHT_READ_ACCOUNT">
+						<spring:url value="/app/player/account/${account.id}" var="show_form_url"/>
+						<spring:url value="/images/show.png" var="show_image_url"/>
+						<spring-form:form action="${show_form_url}" method="GET">
+							<spring:message arguments="${entity_label}" var="altView" code="button.view" text="View" />
+							<input class="image" type="image" src="${show_image_url}" alt="${altView}" title="${altView}" value="${altView}" />
+						</spring-form:form>
+						</security:authorize>
+					</td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+	</c:if>
+	<c:if test="${empty accounts}">
+		<p><spring:message code="accounts.empty" text="User has no accounts set up" /></p>
+	</c:if>
+</div>

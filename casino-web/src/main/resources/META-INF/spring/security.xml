@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.1.xsd
+       http://www.springframework.org/schema/jee
+       http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+    <!-- spring security for the web layer -->
+    <security:http auto-config="true" access-denied-page="/403.jspx" use-expressions="true">
+
+        <security:session-management session-authentication-strategy-ref="sas"/>
+
+        <!-- TODO When we go live the channels should be set to HTTPS -->
+        <!-- admins are only allowed to log in from localhost -->
+        <security:intercept-url pattern="/app/administration/**" access="hasRole('RIGHT_LOGIN_ADMIN')"
+                                requires-channel="any"/>
+        <!--<security:intercept-url pattern="/administration/**" access="hasRole('ROLE_SUPER_ADMINISTRATOR') and hasIpAddress('localhost')" requires-channel="any"/>-->
+        <security:intercept-url pattern="/app/player/**" access="hasRole('RIGHT_LOGIN_PLAYER')" requires-channel="any"/>
+
+        <security:form-login login-page="/app/login" authentication-failure-url="/app/login?success=false"
+                             always-use-default-target="true" default-target-url="/app/login/redirect"/>
+        <security:logout logout-success-url="/app/index"/>
+
+        <security:session-management>
+            <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" expired-url="/app/login"/>
+        </security:session-management>
+
+        <security:port-mappings>
+            <security:port-mapping http="9080" https="9443"/>
+        </security:port-mappings>
+
+    </security:http>
+
+    <bean id="sas" class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">
+        <constructor-arg name="sessionRegistry" ref="sessionRegistry"/>
+        <property name="maximumSessions" value="1"/>
+    </bean>
+
+    <bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl"/>
+
+
+    <!-- This Spring Security-friendly PasswordEncoder implementation will -->
+    <!-- wrap the PasswordEncryptor instance so that it can be used from   -->
+    <!-- the security framework.                                           -->
+    <!-- deprecated doesn't support Spring Security 3, rolled own instead
+    <bean id="passwordEncoder" class="org.jasypt.spring.security2.PasswordEncoder">
+        <property name="passwordEncryptor" ref="passwordEncryptor"/>
+    </bean>
+    -->
+
+    <!-- spring security for the domain layer -->
+    <security:global-method-security secured-annotations="enabled" jsr250-annotations="enabled"
+                                     pre-post-annotations="enabled">
+        <security:expression-handler ref="expressionHandler"/>
+    </security:global-method-security>
+
+    <security:authentication-manager alias="authenticationManager">
+        <!-- spring-security uses our custom user cometAdministrationService implementation -->
+        <security:authentication-provider user-service-ref="userService">
+            <security:password-encoder ref="passwordEncoder"/>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+
+    <bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+        <property name="allowIfAllAbstainDecisions" value="false"/>
+        <property name="decisionVoters">
+            <list>
+                <bean class="org.springframework.security.access.vote.RoleVoter"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+        <property name="permissionEvaluator">
+            <bean class="com.online.casino.security.CustomPermissionEvaluator"/>
+        </property>
+    </bean>
+</beans>

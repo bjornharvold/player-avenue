@@ -1,0 +1,90 @@
+<!--
+  ~ Copyright (c) 2011. This beautifully written piece of code has been created by Bjorn Harvold.
+  ~ Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:spring-form="http://www.springframework.org/tags/form"
+     xmlns:security="http://www.springframework.org/security/tags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:x="http://java.sun.com/jsp/jstl/xml"
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     xmlns:tiles="http://tiles.apache.org/tags-tiles"
+     xmlns:casino="urn:jsptagdir:/WEB-INF/tags"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <h2><spring:message code="page.game.title" text="Game"/></h2>
+
+    <div id="gameConsole">
+        <h3>Players</h3>
+
+        <div id="players">
+            <p>players go here</p>
+        </div>
+
+        <div>
+            <h4>Private cards</h4>
+
+            <p id="privateCards">private cards go here</p>
+        </div>
+        <div>
+            <h4>Public cards</h4>
+
+            <p id="publicCards">public cards go here</p>
+        </div>
+        <div>
+            <h4>Pot</h4>
+
+            <p id="pot">pot goes here</p>
+        </div>
+        <div>
+            <h4>Winners of last game</h4>
+
+            <p id="winners">winners go here</p>
+        </div>
+        <div id="gameControls">
+            <h3>Controls</h3>
+
+            <jsp:include page="queue_gambler_control.jspx"/>
+
+            <jsp:include page="game_controls.jspx"/>
+
+        </div>
+    </div>
+    <div id="logs">
+        <h3>Logs</h3>
+
+        <p>
+            <a href="#" id="emptyGameLog">Empty game log</a>&#160;
+            <a href="#" id="emptyUserLog">Empty user log</a>&#160;
+            <a href="#" id="emptySystemLog">Empty system log</a>
+        </p>
+
+        <div id="log1">
+            <h4>Game channel log</h4>
+
+            <div id="gameLog" style="display:block;">
+
+            </div>
+        </div>
+
+        <div id="log2">
+            <h4>User channel log</h4>
+
+            <div id="userLog" style="display:block;">
+
+            </div>
+        </div>
+
+        <div id="log3">
+            <h4>System log</h4>
+
+            <div id="systemLog" style="display:block;">
+
+            </div>
+        </div>
+    </div>
+</div>

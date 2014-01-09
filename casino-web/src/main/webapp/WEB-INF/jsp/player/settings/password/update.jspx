@@ -1,0 +1,45 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+
+	<spring:message var="option1" code="form.select" text="-- Please Select --" />
+	<spring:message var="entity_label" code="page.user.title" text="User" />
+	<spring:message arguments="${entity_label}" var="title_msg" code="button.edit" text="Edit" />
+
+	<b>${title_msg}</b>
+	
+	<spring:url value="/app/player/password/form" var="form_url"/>
+	<spring-form:form id="form" commandName="applicationUser" action="${form_url}" method="PUT">
+	
+			<div id="user_password.current">
+				<spring-form:label path="currentPassword"><spring:message code="user.password.current" text="Current password" /></spring-form:label>:&#160;
+				<spring-form:password path="currentPassword" />
+				<spring-form:errors path="currentPassword" cssClass="errors" delimiter=". "/>
+			</div>
+			<br/>
+			<div id="user_password_new">
+				<spring-form:label path="newPassword"><spring:message code="user.password.new" text="New password" /></spring-form:label>:&#160;
+				<spring-form:password path="newPassword" />
+				<spring-form:errors path="newPassword" cssClass="errors" delimiter=". "/>
+			</div>
+			<br/>
+			<div id="user_password_confirm">
+				<spring-form:label path="passwordConfirm"><spring:message code="user.password.new.confirm" text="Confirm new password" /></spring-form:label>:&#160;
+				<spring-form:password path="passwordConfirm" />
+				<spring-form:errors path="passwordConfirm" cssClass="errors" delimiter=". "/>
+			</div>
+			<br/>
+			<div class="submit">
+				<spring:message var="save" code="button.save" text="Save"/> 
+				<input id="submit" type="submit" name="submit" value="${save}" class="submit"/>
+			</div>
+			<spring-form:hidden path="id" />
+			<spring-form:hidden path="version" />
+
+	</spring-form:form>
+
+</div>

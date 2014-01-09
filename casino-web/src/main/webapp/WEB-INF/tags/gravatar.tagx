@@ -1,0 +1,28 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+
+
+
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:spring-form="http://www.springframework.org/tags/form"
+          xmlns:tiles="http://tiles.apache.org/tags-tiles"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:x="http://java.sun.com/jsp/jstl/xml"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+    <jsp:directive.tag import="com.online.casino.web.utils.MD5Util"/>
+
+    <jsp:directive.tag body-content="empty"/>
+    <jsp:directive.attribute name="email" fragment="false" required="true" type="java.lang.String"/>
+
+    <jsp:scriptlet>
+        String gravatar = "http://www.gravatar.com/avatar/" + MD5Util.md5Hex(email) + "?d=wavatar";
+        request.setAttribute("gravatar", gravatar);
+    </jsp:scriptlet>
+
+    <img src="${gravatar}" alt="gravatar" width="80" height="80"/>
+</jsp:root>

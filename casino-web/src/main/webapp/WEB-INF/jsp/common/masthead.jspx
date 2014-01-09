@@ -1,0 +1,87 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:spring-form="http://www.springframework.org/tags/form"
+     xmlns:security="http://www.springframework.org/security/tags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:x="http://java.sun.com/jsp/jstl/xml"
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     xmlns:tiles="http://tiles.apache.org/tags-tiles"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+     xmlns:casino="urn:jsptagdir:/WEB-INF/tags">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <div id="headercontent">
+
+        <div id="controlpanel">
+
+            <div id="button_panel">
+                <spring:message code="page.dashboard.title" var="dashboard"/>
+                <a href="/" title="${dashboard}" class="dashboardBtn"><!----></a>
+                <spring:message code="page.messages.title" var="messages"/>
+                <a href="/" title="${messages}" class="msgBtn"><!----></a>
+                <spring:message code="page.friends.title" var="friends"/>
+                <a href="/" title="${friends}" class="friendBtn"><!----></a>
+                <spring:message code="page.invites.title" var="invites"/>
+                <a href="/" title="${invites}" class="inviteBtn"><!----></a>
+            </div>
+
+            <div id="user_panel">
+                <h5><spring:message code="hi"/>, Peter Jackson!</h5>
+
+                <spring:message code="page.settings.title" var="settings"/>
+                <spring:message code="button.logout" var="logout"/>
+
+                <p><a href="/" title="${settings}">${settings}</a> | <a href="/" title="${logout}">${logout}</a></p>
+            </div>
+
+            <div id="funds_panel">
+                <span id="funds_title"><spring:message code="account.funds"/></span>
+                <a href="/" title="Add funds" class="addfundsBtn"><!----></a>
+                <!--<spring:url value="/images/greenline.png" var="greenLine"/>-->
+                <!--<img src="${greenLine}" width="142" height="1" alt="" style="margin:5px 0;"/>-->
+                <span class="currency">CASH $:</span> <span class="money">23476</span><br/>
+                <span class="currency">PLAY $:</span> <span class="money">1879</span>
+            </div>
+            <spring:message code="play.now" var="playNow"/>
+            <a href="/" title="${playNow}" class="playnowBtn"><!----></a>
+
+        </div>
+
+        <div id="mainnav">
+            <ul>
+                <spring:message code="link.lobby" var="lobby"/>
+                <li><a href="/" title="${lobby}">${lobby}</a></li>
+                <spring:message code="link.leaderboard" var="leaderboard"/>
+                <li><a href="/" title="${leaderboard}">${leaderboard}</a></li>
+                <spring:message code="link.events" var="events"/>
+                <li><a href="/" title="${events}">${events}</a></li>
+                <spring:message code="link.thegame" var="thegame"/>
+                <li><a href="/" title="${thegame}">${thegame}</a></li>
+                <spring:message code="link.faq" var="faq"/>
+                <li><a href="/" title="${faq}">${faq}</a></li>
+            </ul>
+        </div>
+
+        <spring:url value="/" var="home_url"/>
+        <spring:message code="button.home" var="home_txt"/>
+        <a href="${home_url}" title="${home_txt}" class="logoBtn"><!----></a>
+
+        <div id="social">
+
+            <div id="team"><span id="teammessage">“Some cool message from the awesome casino team”</span><br/> about 2 hours ago</div>
+
+            <spring:message code="facebook.message" var="fb"/>
+            <spring:message code="twitter.message" var="twitter"/>
+            <a href="http://www.facebook.com/playeravenue" title="${fb}" class="facebookBtn"><!----></a>
+            <a href="http://www.twitter.com/playeravenue" title="${twitter}" class="twitterBtn"><!----></a>
+
+        </div>
+
+    </div>
+
+</div>

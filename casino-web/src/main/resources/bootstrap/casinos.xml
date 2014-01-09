@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!--
+		~ Copyright (c) 2009. This beautifully written piece of code has been
+		created by Bjorn Harvold. Please do not use my code without explicit
+		permission or I just might have to come by your office and ruin your
+		day.
+	-->
+
+<casinos>
+	<casino id="1" name="Las Vegas" default="true">
+		<currency>DOLLAR</currency>
+		<commission>0.01</commission>
+		<game_buffer>10</game_buffer>
+		<empty_game_minimum_limit>5</empty_game_minimum_limit>
+		<empty_game_maximum_limit>20</empty_game_maximum_limit>
+		<delete_games_on_check>10</delete_games_on_check>
+	</casino>
+	<casino id="2" name="Playland" default="true">
+		<currency>PLAY</currency>
+		<commission>0.01</commission>
+		<game_buffer>10</game_buffer>
+		<empty_game_minimum_limit>5</empty_game_minimum_limit>
+		<empty_game_maximum_limit>20</empty_game_maximum_limit>
+		<delete_games_on_check>10</delete_games_on_check>
+	</casino>
+</casinos>

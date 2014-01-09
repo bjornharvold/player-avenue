@@ -1,0 +1,47 @@
+/*
+ * Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+ */
+
+/* jqModal base Styling courtesy of;
+	Brice Burgess <bhb@iceburg.net> */
+
+/* The Window's CSS z-index value is respected (takes priority). If none is supplied,
+	the Window's z-index value will be set to 3000 by default (via jqModal.js). */
+
+.jqmWindow {
+    display: none;
+
+    position: fixed;
+    top: 17%;
+    left: 50%;
+
+    margin-left: -217px;
+    width: 435px;
+
+    background-color: #fff;
+    color: #435bac;
+    border: 1px solid #6c739d;
+    padding: 0px;
+}
+
+.jqmOverlay {
+    background-color: #fff;
+}
+
+/* Background iframe styling for IE6. Prevents ActiveX bleed-through (<select> form elements, etc.) */
+* iframe.jqm {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: expression(this.parentNode.offsetWidth+'px');
+    height: expression(this.parentNode.offsetHeight+'px');
+}
+
+/* Fixed posistioning emulation for IE6
+     Star selector used to hide definition from browsers other than IE6
+     For valid CSS, use a conditional include instead */
+* html .jqmWindow {
+    position: absolute;
+    top: expression((document.documentElement.scrollTop || document.body.scrollTop) + Math.round(17 * (document.documentElement.offsetHeight || document.body.clientHeight) / 100) + 'px');
+}

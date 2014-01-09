@@ -1,0 +1,75 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div id="playersTable" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" xmlns:spring="http://www.springframework.org/tags" xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:casino="urn:jsptagdir:/WEB-INF/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:output omit-xml-declaration="yes" />
+
+	<spring:message code="page.player.title" var="entity_label"/>
+	<spring:message code="page.players.title" var="entity_label_plural"/>
+
+
+	<c:if test="${not empty players}">
+	<table>
+		<thead>
+			<tr>
+				<th width="10%"><spring:message code="table.date.created" text="Created" /></th>
+				<th width="70%"><spring:message code="player.nickname" text="Nickname" /></th>
+				<th width="5%"><spring:message code="user.status" text="Status" /></th>
+				<th width="5%">&#160;</th>
+				<th width="5%">&#160;</th>
+				<th width="5%">&#160;</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${players}" varStatus="status" var="player">
+				<tr valign="top">
+					<td><fmt:formatDate value="${player.createdDate}" dateStyle="short" /></td>
+					<td>${player.nickname}</td>
+					<td><spring:message code="dropdown.PlayerStatusCd.${player.status}" text="Unknown status" /></td>
+					<td>
+						<security:authorize ifAllGranted="RIGHT_READ_PLAYER_AS_ADMIN">
+						<spring:url value="/app/administration/user/${applicationUser.id}/player/${player.id}" var="show_form_url"/>
+						<spring:url value="/images/show.png" var="show_image_url"/>
+						<spring-form:form action="${show_form_url}" method="GET">
+							<spring:message arguments="${entity_label}" var="altView" code="button.view" text="View" />
+							<input class="image" type="image" src="${show_image_url}" alt="${altView}" title="${altView}" value="${altView}" />
+						</spring-form:form>
+						</security:authorize>
+					</td>
+					<td>
+						<security:authorize ifAllGranted="RIGHT_UPDATE_PLAYER_AS_ADMIN">
+						<spring:url value="/app/administration/user/${applicationUser.id}/player/${player.id}/form" var="edit_form_url"/>
+						<spring:url value="/images/update.png" var="edit_image_url"/>
+						<spring-form:form action="${edit_form_url}" method="GET">
+							<spring:message arguments="${entity_label}" var="altUpdate" code="button.edit" text="Edit" />
+							<input class="image" type="image" src="${edit_image_url}" alt="${altUpdate}" title="${altUpdate}" value="${altUpdate}" />
+						</spring-form:form>
+						</security:authorize>
+					</td>
+					<td>
+						<security:authorize ifAllGranted="RIGHT_DELETE_PLAYER_AS_ADMIN">
+						<spring:url value="/app/administration/user/${applicationUser.id}/player/${player.id}" var="delete_form_url"/>
+						<spring:url value="/images/delete.png" var="delete_image_url"/>
+						<spring-form:form action="${delete_form_url}" method="DELETE">
+							<spring:message arguments="${entity_label}" var="altDelete" code="button.delete" text="Delete" />
+							<input class="image" type="image" src="${delete_image_url}" alt="${altDelete}" title="${altDelete}" value="${altDelete}" />
+						</spring-form:form>
+						</security:authorize>
+					</td>					
+				</tr>
+			</c:forEach>
+			<tr class="footer">
+                  <td colspan="8">
+                      	<jsp:include page="new_link.jspx" flush="true"/>
+                  </td>
+            </tr>	
+		</tbody>
+	</table>
+	</c:if>
+	<c:if test="${empty players}">
+	<p><spring:message code="player.empty" text="No players have been created for this user" /></p>
+	<jsp:include page="new_link.jspx" flush="true"/>
+	</c:if>
+</div>

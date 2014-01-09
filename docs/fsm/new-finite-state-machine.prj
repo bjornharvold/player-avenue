@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans gui_drawing_height="1174" gui_drawing_width="1920">
+   <bean _gui_location_x="32" _gui_location_y="30" class="com.wazeegroup.physhun.framework.ConcreteState" id="startState">
+      <property name="initialState">
+         <value>true</value>
+      </property>
+   </bean>
+   <bean _gui_location_x="232" _gui_location_y="50" class="com.wazeegroup.physhun.framework.ConcreteState" id="dealNewHandState"/>
+   <bean _gui_location_x="449" _gui_location_y="70" class="com.wazeegroup.physhun.framework.ConcreteState" id="smallBlindState"/>
+   <bean _gui_location_x="669" _gui_location_y="90" class="com.wazeegroup.physhun.framework.ConcreteState" id="bigBlindState"/>
+   <bean _gui_location_x="886" _gui_location_y="110" class="com.wazeegroup.physhun.framework.ConcreteState" id="pocketCardState"/>
+   <bean _gui_location_x="1099" _gui_location_y="130" class="com.wazeegroup.physhun.framework.ConcreteState" id="flopState"/>
+   <bean _gui_location_x="1315" _gui_location_y="150" class="com.wazeegroup.physhun.framework.ConcreteState" id="turnState"/>
+   <bean _gui_location_x="1518" _gui_location_y="170" class="com.wazeegroup.physhun.framework.ConcreteState" id="riverState"/>
+   <bean _gui_location_x="1762" _gui_location_y="984" class="com.wazeegroup.physhun.framework.ConcreteState" id="endState">
+      <property name="terminationState">
+         <value>true</value>
+      </property>
+   </bean>
+   <bean _gui_location_x="1721" _gui_location_y="190" class="com.wazeegroup.physhun.framework.ConcreteState" id="showdown"/>
+   <bean _gui_location_x="1005" _gui_location_y="5" class="com.wazeegroup.physhun.framework.ConcreteNestedModel" id="bettableState">
+      <property name="initialState">
+         <value>true</value>
+      </property>
+      <property name="terminationState">
+         <value>true</value>
+      </property>
+      <property name="model">
+         <ref bean="betModel"/>
+      </property>
+   </bean>
+   <bean class="com.online.casino.service.fsm.condition.IsBettable" id="isBettable" singleton="true"/>
+   <bean class="com.online.casino.service.fsm.condition.IsEndGame" id="isEndGame" singleton="true"/>
+   <bean class="com.online.casino.service.fsm.condition.IsPlayerQueueingUpForGame" id="isPlayerQueueingUpForGame" singleton="true"/>
+   <bean class="com.online.casino.service.fsm.condition.IsProgressable" id="isProgressable" singleton="true"/>
+   <bean class="com.online.casino.service.fsm.condition.IsStartable" id="isStartable" singleton="true"/>
+   <bean class="com.online.casino.service.fsm.action.DealNewHandAction" id="dealNewHandAction"/>
+   <bean class="com.online.casino.service.fsm.action.DefaultAction" id="defaultAction"/>
+   <bean class="com.online.casino.service.fsm.action.EndGameAction" id="endGameAction"/>
+   <bean class="com.online.casino.service.fsm.action.ProgressGameAction" id="progressGameAction"/>
+   <bean class="com.online.casino.service.fsm.action.QueueAction" id="queueAction"/>
+   <bean _gui_dest_port_id="2" _gui_edge_points_x="137,237" _gui_edge_points_y="70,70" _gui_source_port_id="7" class="com.wazeegroup.physhun.framework.ConcreteTransition" id="startToDealNewHand">
+      <property name="fromState">
+         <ref bean="startState"/>
+      </property>
+      <property name="timeout">
+         <value/>
+      </property>
+      <property name="toState">
+         <ref bean="dealNewHandState"/>
+      </property>
+      <property name="condition">
+         <ref bean="isStartable"/>
+      </property>
+      <property name="action">
+         <ref bean="dealNewHandAction"/>
+      </property>
+   </bean>
+   <bean _gui_dest_port_id="2" _gui_edge_points_x="554,674" _gui_edge_points_y="110,110" _gui_source_port_id="7" class="com.wazeegroup.physhun.framework.ConcreteTransition" id="smallBlindToBigBlind">
+      <property name="fromState">
+         <ref bean="smallBlindState"/>
+      </property>
+      <property name="toState">
+         <ref bean="bigBlindState"/>
+      </property>
+      <property name="condition">
+         <ref bean="isProgressable"/>
+      </property>
+      <property name="action">
+         <ref bean="progressGameAction"/>
+      </property>
+   </bean>
+   <bean _gui_dest_port_id="2" _gui_edge_points_x="774,891" _gui_edge_points_y="130,130" _gui_source_port_id="7" class="com.wazeegroup.physhun.framework.ConcreteTransition" id="bigBlindToPocketCards">
+      <property name="fromState">
+         <ref bean="bigBlindState"/>
+      </property>
+      <property name="toState">
+         <ref bean="pocketCardState"/>
+      </property>
+      <property name="condition">
+         <ref bean="isProgressable"/>
+      </property>
+      <property name="action">
+         <ref bean="progressGameAction"/>
+      </property>
+   </bean>
+   <bean _gui_dest_port_id="2" _gui_edge_points_x="991,1104" _gui_edge_points_y="150,150" _gui_source_port_id="7" class="com.wazeegroup.physhun.framework.ConcreteTransition" id="pocketCardsToFlop">
+      <property name="fromState">
+         <ref bean="pocketCardState"/>
+      </property>
+      <property name="toState">
+         <ref bean="flopState"/>
+      </property>
+      <property name="condition">
+         <ref bean="isProgressable"/>
+      </property>
+      <property name="action">
+         <ref bean="progressGameAction"/>
+      </property>
+   </bean>
+   <bean _gui_dest_port_id="2" _gui_edge_points_x="1204,1320" _gui_edge_points_y="170,170" _gui_source_port_id="7" class="com.wazeegroup.physhun.framework.ConcreteTransition" id="flopToTurn">
+      <property name="fromState">
+         <ref bean="flopState"/>
+      </property>
+      <property name="toState">
+         <ref bean="turnState"/>
+      </property>
+      <property name="condition">
+         <ref bean="isProgressable"/>
+      </property>
+      <property name="action">
+         <ref bean="progressGameAction"/>
+      </property>
+   </bean>
+   <bean _gui_dest_port_id="2" _gui_edge_points_x="1420,1523" _gui_edge_points_y="190,190" _gui_source_port_id="7" class="com.wazeegroup.physhun.framework.ConcreteTransition" id="turnToRiver">
+      <property name="fromState">
+         <ref bean="turnState"/>
+      </property>
+      <property name="toState">
+         <ref bean="riverState"/>
+      </property>
+      <property name="condition">
+         <ref bean="isProgressable"/>
+      </property>
+      <property name="action">
+         <ref bean="progressGameAction"/>
+      </property>
+   </bean>
+   <bean _gui_dest_port_id="6" _gui_edge_points_x="302,1767" _gui_edge_points_y="105,1024" _gui_source_port_id="9" class="com.wazeegroup.physhun.framework.ConcreteTransition" id="dealNewHandToEnd">
+      <property name="fromState">
+         <ref bean="dealNewHandState"/>
+      </property>
+      <property name="toState">
+         <ref bean="endState"/>
+      </property>
+      <property name="condition">
+         <ref bean="isEndGame"/>
+      </property>
+      <property name="action">
+         <ref bean="endGameAction"/>
+      </property>
+   </bean>
+   <bean _gui_dest_port_id="6" _gui_edge_points_x="519,1767" _gui_edge_points_y="125,1024" _gui_source_port_id="9" class="com.wazeegroup.physhun.framework.ConcreteTransition" id="smallBlindToEnd">
+      <property name="fromState">
+         <ref bean="smallBlindState"/>
+      </property>
+      <property name="toState">
+         <ref bean="endState"/>
+      </property>
+      <property name="condition">
+         <ref bean="isEndGame"/>
+      </property>
+      <property name="action">
+         <ref bean="endGameAction"/>
+      </property>
+   </bean>
+   <bean _gui_dest_port_id="6" _gui_edge_points_x="739,1767" _gui_edge_points_y="145,1024" _gui_source_port_id="9" class="com.wazeegroup.physhun.framework.ConcreteTransition" id="bigBlindToEnd">
+      <property name="fromState">
+         <ref bean="bigBlindState"/>
+      </property>
+      <property name="toState">
+         <ref bean="endState"/>
+      </property>
+      <property name="condition">
+         <ref bean="isEndGame"/>
+      </property>
+      <property name="action">
+         <ref bean="endGameAction"/>
+      </property>
+   </bean>
+   <bean _gui_dest_port_id="6" _gui_edge_points_x="956,1767" _gui_edge_points_y="165,1024" _gui_source_port_id="9" class="com.wazeegroup.physhun.framework.ConcreteTransition" id="pocketCardToEnd">
+      <property name="fromState">
+         <ref bean="pocketCardState"/>
+      </property>
+      <property name="toState">
+         <ref bean="endState"/>
+      </property>
+      <property name="condition">
+         <ref bean="isEndGame"/>
+      </property>
+      <property name="action">
+         <ref bean="endGameAction"/>
+      </property>
+   </bean>
+   <bean _gui_dest_port_id="6" _gui_edge_points_x="1169,1767" _gui_edge_points_y="185,1024" _gui_source_port_id="9" class="com.wazeegroup.physhun.framework.ConcreteTransition" id="flopToEnd">
+      <property name="fromState">
+         <ref bean="flopState"/>
+      </property>
+      <property name="toState">
+         <ref bean="endState"/>
+      </property>
+      <property name="condition">
+         <ref bean="isEndGame"/>
+      </property>
+      <property name="action">
+         <ref bean="endGameAction"/>
+      </property>
+   </bean>
+   <bean _gui_dest_port_id="6" _gui_edge_points_x="1385,1767" _gui_edge_points_y="205,1024" _gui_source_port_id="9" class="com.wazeegroup.physhun.framework.ConcreteTransition" id="turnToEnd">
+      <property name="fromState">
+         <ref bean="turnState"/>
+      </property>
+      <property name="toState">
+         <ref bean="endState"/>
+      </property>
+      <property name="condition">
+         <ref bean="isEndGame"/>
+      </property>
+      <property name="action">
+         <ref bean="endGameAction"/>
+      </property>
+   </bean>
+   <bean _gui_dest_port_id="6" _gui_edge_points_x="1588,1767" _gui_edge_points_y="225,1024" _gui_source_port_id="9" class="com.wazeegroup.physhun.framework.ConcreteTransition" id="riverToEnd">
+      <property name="fromState">
+         <ref bean="riverState"/>
+      </property>
+      <property name="toState">
+         <ref bean="endState"/>
+      </property>
+      <property name="condition">
+         <ref bean="isEndGame"/>
+      </property>
+      <property name="action">
+         <ref bean="endGameAction"/>
+      </property>
+   </bean>
+   <bean _gui_dest_port_id="2" _gui_edge_points_x="1623,1726" _gui_edge_points_y="210,210" _gui_source_port_id="7" class="com.wazeegroup.physhun.framework.ConcreteTransition" id="riverToShowdown">
+      <property name="fromState">
+         <ref bean="riverState"/>
+      </property>
+      <property name="toState">
+         <ref bean="showdown"/>
+      </property>
+      <property name="condition">
+         <ref bean="isProgressable"/>
+      </property>
+      <property name="action">
+         <ref bean="progressGameAction"/>
+      </property>
+   </bean>
+   <bean _gui_dest_port_id="6" _gui_edge_points_x="1791,1767" _gui_edge_points_y="245,1024" _gui_source_port_id="9" class="com.wazeegroup.physhun.framework.ConcreteTransition" id="showdownToEnd">
+      <property name="fromState">
+         <ref bean="showdown"/>
+      </property>
+      <property name="toState">
+         <ref bean="endState"/>
+      </property>
+      <property name="condition">
+         <ref bean="isEndGame"/>
+      </property>
+      <property name="action">
+         <ref bean="endGameAction"/>
+      </property>
+   </bean>
+   <bean _gui_dest_port_id="2" _gui_edge_points_x="337,454" _gui_edge_points_y="90,90" _gui_source_port_id="7" class="com.wazeegroup.physhun.framework.ConcreteTransition" id="dealNewHandToSmallBlind">
+      <property name="fromState">
+         <ref bean="dealNewHandState"/>
+      </property>
+      <property name="toState">
+         <ref bean="smallBlindState"/>
+      </property>
+      <property name="condition">
+         <ref bean="isProgressable"/>
+      </property>
+      <property name="action">
+         <ref bean="progressGameAction"/>
+      </property>
+   </bean>
+   <bean _gui_dest_port_id="6" _gui_edge_points_x="956,1010" _gui_edge_points_y="115,45" _gui_source_port_id="8" class="com.wazeegroup.physhun.framework.ConcreteTransition" id="pocketCardsToBettable">
+      <property name="fromState">
+         <ref bean="pocketCardState"/>
+      </property>
+      <property name="toState">
+         <ref bean="bettableState"/>
+      </property>
+      <property name="condition">
+         <ref bean="isBettable"/>
+      </property>
+      <property name="action">
+         <ref bean="defaultAction"/>
+      </property>
+   </bean>
+   <bean _gui_dest_port_id="3" _gui_edge_points_x="1045,991" _gui_edge_points_y="60,130" _gui_source_port_id="1" class="com.wazeegroup.physhun.framework.ConcreteTransition" id="bettableToPocketCards">
+      <property name="fromState">
+         <ref bean="bettableState"/>
+      </property>
+      <property name="toState">
+         <ref bean="pocketCardState"/>
+      </property>
+      <property name="condition">
+         <ref bean="isBettable"/>
+      </property>
+      <property name="action">
+         <ref bean="defaultAction"/>
+      </property>
+   </bean>
+   <bean class="" id="" type="stateModel">
+      <property name="states">
+         <list>
+            <ref bean="startState"/>
+            <ref bean="dealNewHandState"/>
+            <ref bean="smallBlindState"/>
+            <ref bean="bigBlindState"/>
+            <ref bean="pocketCardState"/>
+            <ref bean="flopState"/>
+            <ref bean="turnState"/>
+            <ref bean="riverState"/>
+            <ref bean="endState"/>
+            <ref bean="showdown"/>
+            <ref bean="bettableState"/>
+         </list>
+      </property>
+      <property name="transitions">
+         <list>
+            <ref bean="startToDealNewHand"/>
+            <ref bean="smallBlindToBigBlind"/>
+            <ref bean="bigBlindToPocketCards"/>
+            <ref bean="pocketCardsToFlop"/>
+            <ref bean="flopToTurn"/>
+            <ref bean="turnToRiver"/>
+            <ref bean="dealNewHandToEnd"/>
+            <ref bean="smallBlindToEnd"/>
+            <ref bean="bigBlindToEnd"/>
+            <ref bean="pocketCardToEnd"/>
+            <ref bean="flopToEnd"/>
+            <ref bean="turnToEnd"/>
+            <ref bean="riverToEnd"/>
+            <ref bean="riverToShowdown"/>
+            <ref bean="showdownToEnd"/>
+            <ref bean="dealNewHandToSmallBlind"/>
+            <ref bean="pocketCardsToBettable"/>
+            <ref bean="bettableToPocketCards"/>
+         </list>
+      </property>
+      <property name="actions">
+         <list>
+            <ref bean="dealNewHandAction"/>
+            <ref bean="defaultAction"/>
+            <ref bean="endGameAction"/>
+            <ref bean="progressGameAction"/>
+            <ref bean="queueAction"/>
+         </list>
+      </property>
+      <property name="conditions">
+         <list>
+            <ref bean="isBettable"/>
+            <ref bean="isEndGame"/>
+            <ref bean="isPlayerQueueingUpForGame"/>
+            <ref bean="isProgressable"/>
+            <ref bean="isStartable"/>
+         </list>
+      </property>
+   </bean>
+</beans>

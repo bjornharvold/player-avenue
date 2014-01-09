@@ -1,0 +1,27 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Welcome to Player Avenue</title>
+    </head>
+
+    <body>
+        <p>Thank you for signing up with online casino. In order to process your registration, you need to activate your
+            account.
+        </p>
+        <p>Click on the link to finish activation:
+            <a href="http://${host}/registration/activate/${activationId}" title="Activate">
+                http://${host}/registration/activate/${activationId}
+            </a>
+        </p>
+        <p>Now get out there and play some poker!</p>
+        <p>___________________
+            <br/>
+            The Player Avenue Team
+        </p>
+    </body>
+</html>

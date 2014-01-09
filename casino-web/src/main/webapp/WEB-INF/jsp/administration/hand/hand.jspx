@@ -1,0 +1,139 @@
+<!--
+  ~ Copyright (c) 2010. This beautifully written piece of code has been created by Bjorn Harvold. 
+  ~ Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:spring-form="http://www.springframework.org/tags/form"
+     xmlns:security="http://www.springframework.org/security/tags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:x="http://java.sun.com/jsp/jstl/xml"
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     xmlns:tiles="http://tiles.apache.org/tags-tiles"
+     xmlns:casino="urn:jsptagdir:/WEB-INF/tags"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <spring:message code="page.game.hand.title" text="Hand" var="entity_label"/>
+
+    <b>${entity_label}</b>
+
+    <div style="float:right;">
+        <security:authorize ifAllGranted="RIGHT_UPDATE_HAND_AS_ADMIN">
+            <c:if test="${progressable == true}">
+                <spring:url value="/app/administration/casino/${casinoId}/game/${pokergameId}/hand/${handId}/progress" var="edit_form_url"/>
+                <spring:url value="/images/page_white_go.png" var="go_image_url"/>
+                <spring-form:form action="${edit_form_url}" method="GET">
+                    <spring:message arguments="${entity_label}" var="altProgress" code="button.progress" text="Progress Hand"/>
+                    <input class="image" type="image" src="${go_image_url}" alt="${altProgress}" title="${altProgress}" value="${altProgress}"/>
+                </spring-form:form>
+            </c:if>
+            <c:if test="${endgame == true and hand.status != 'COMPLETE'}">
+                <spring:url value="/app/administration/casino/${casinoId}/game/${pokergameId}/hand/${handId}/endgame" var="endgame_form_url"/>
+                    <spring:url value="/images/cross.png" var="endgame_image_url"/>
+                    <spring-form:form action="${endgame_form_url}" method="GET">
+                    <spring:message arguments="${entity_label}" var="altEndGame" code="button.endgame" text="End Hand"/>
+                    <input class="image" type="image" src="${endgame_image_url}" alt="${altEndGame}" title="${altEndGame}" value="${altEndGame}"/>
+                </spring-form:form>
+            </c:if>
+        </security:authorize>
+    </div>
+    
+    <c:if test="${not empty hand}">
+        <div id="hand_status">
+            <label for="_status_id"><spring:message code="hand.status" text="Status"/>:</label>
+
+            <div class="box" id="_status_id"><spring:message code="dropdown.HandStatusCd.${hand.status}" text="Unknow status"/></div>
+        </div>
+        <br/>
+
+        <div id="hand_current_round_number">
+            <label for="_current_round_number_id"><spring:message code="hand.current.round.number" text="Current round number"/>:</label>
+
+            <div class="box" id="_current_round_number_id">${hand.currentRoundNumber}</div>
+        </div>
+        <br/>
+
+        <div id="hand_big_blind_seat">
+            <label for="_big_blind_seat_id"><spring:message code="pokergame.seat.bb" text="BB seat"/>:</label>
+
+            <div class="box" id="_big_blind_seat_id">${hand.bigBlindSeat}</div>
+        </div>
+        <br/>
+
+        <div id="hand_small_blind_seat">
+            <label for="_small_blind_seat_id"><spring:message code="pokergame.seat.sb" text="SB seat"/>:</label>
+
+            <div class="box" id="_small_blind_seat_id">${hand.smallBlindSeat}</div>
+        </div>
+        <br/>
+
+        <div id="hand_dealer_seat">
+            <label for="_dealer_seat_id"><spring:message code="pokergame.seat.dealer" text="Dealer seat"/>:</label>
+
+            <div class="box" id="_dealer_seat_id">${hand.dealerSeat}</div>
+        </div>
+        <br/>
+
+        <div id="hand_current_gambler_seat">
+            <label for="_current_gambler_seat_id"><spring:message code="hand.seat.current.gambler" text="Current gambler"/>:</label>
+
+            <div class="box" id="_current_gambler_seat_id">${hand.currentGamblerSeat}</div>
+        </div>
+        <br/>
+
+        <div id="hand_first_gambler_seat">
+            <label for="_first_gambler_seat_id"><spring:message code="hand.seat.first.gambler" text="First gambler"/>:</label>
+
+            <div class="box" id="_first_gambler_seat_id">${hand.firstGamblerSeat}</div>
+        </div>
+        <br/>
+
+        <div id="hand_pot">
+            <label for="_pot_id"><spring:message code="hand.pot" text="Pot"/>:</label>
+
+            <div class="box" id="_pot_id">${pot}</div>
+        </div>
+        <br/>
+
+        <div id="hand_flop">
+            <label for="_flop_id"><spring:message code="hand.flop" text="Flop"/>:</label>
+
+            <div class="box" id="_flop_id">${hand.flop}</div>
+        </div>
+        <br/>
+
+        <div id="hand_turn">
+            <label for="_turn_id"><spring:message code="hand.turn" text="Turn"/>:</label>
+
+            <div class="box" id="_turn_id">${hand.turn}</div>
+        </div>
+        <br/>
+
+        <div id="hand_river">
+            <label for="_river_id"><spring:message code="hand.river" text="River"/>:</label>
+
+            <div class="box" id="_river_id">${hand.river}</div>
+        </div>
+        <br/>
+
+        <div id="hand_created_date">
+            <label for="_created_date_id"><spring:message code="table.date.created" text="Created"/>:</label>
+
+            <div class="box" id="_created_date_id"><fmt:formatDate value="${hand.createdDate}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
+        </div>
+        <br/>
+
+        <div id="hand_last_update">
+            <label for="_last_update_id"><spring:message code="table.date.updated" text="Updated"/>:</label>
+
+            <div class="box" id="_last_update_id"><fmt:formatDate value="${hand.lastUpdate}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
+        </div>
+    </c:if>
+    <c:if test="${empty hand}">
+        <p><spring:message arguments="${entity_label}" code="entity.not.found.single"/></p>
+    </c:if>
+
+</div>

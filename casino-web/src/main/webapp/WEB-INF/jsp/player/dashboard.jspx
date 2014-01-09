@@ -1,0 +1,20 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" xmlns:spring="http://www.springframework.org/tags" xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+	<jsp:output omit-xml-declaration="yes"/>
+
+	<b>Welcome to the temporary player dashboard: <security:authentication property="principal.username" /></b>
+
+	<p>Here's a list of casinos you can play in. Add more currency accounts to see more casinos:</p>
+
+	<ul>
+		<c:forEach items="${casinos}" var="casino" varStatus="status">
+			<li><a href="/app/player/casino/${casino.id}/game/find"><b>${casino.name}</b> (<spring:message code="dropdown.CurrencyCd.${casino.currency}" text="Unknown currency" />)</a></li>
+		</c:forEach>
+	</ul>
+
+
+</div>

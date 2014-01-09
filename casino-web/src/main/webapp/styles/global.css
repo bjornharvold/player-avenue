@@ -1,0 +1,204 @@
+/* main elements */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #FFF;
+    text-align: center;
+    background: url(../images/pattern-bg.jpg) repeat;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+}
+
+/*HEADER*/
+
+#header {
+    text-align: center;
+    background: url(../images/header-bg.png) no-repeat;
+    background-position: top center;
+    height: 160px;
+    margin: 20px 0 20px 0;
+}
+
+#headercontent {
+    width: 1000px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+#logo {
+    float: left;
+    width: 148px;
+    height: inherit;
+}
+
+#social {
+    background-color: #4a4849;
+    color: #ededed;
+    width: 244px;
+    float: left;
+    padding: 30px 20px 0 50px;
+    height: 130px;
+}
+
+#team {
+    border-bottom: 1px solid #999;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+#teammessage {
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: -0.02em
+}
+
+#controlpanel {
+    color: #FFF;
+    background-color: #33a691;
+    width: 330px;
+    float: right;
+    height: 160px;
+}
+
+#mainnav {
+    color: #33a691;
+    font-size: 14px;
+    text-transform: uppercase;
+    width: 200px;
+    float: right;
+    margin-right: 8px;
+    text-align: right;
+}
+
+#mainnav ul {
+    list-style: none;
+    float: right;
+}
+
+#mainnav li {
+    height: 29px;
+    border-bottom: 1px solid #90c9bf;
+    width: 121px;
+}
+
+#mainnav li a {
+    color: #33a691;
+    text-decoration: none;
+    display: block;
+    padding-top: 7px;
+
+}
+
+#mainnav li a:hover {
+    color: #4a4849;
+}
+
+#user_panel {
+    margin: 0 7px 0 10px;
+    text-align: left;
+    float: right;
+}
+
+#button_panel {
+    float: right;
+}
+
+#funds_panel {
+    background-color: #289780;
+    width: 140px;
+    height: 74px;
+    float: left;
+    margin: 25px 8px 0 10px;
+    clear: both;
+    font-size: 16px;
+    font-weight: bold;
+    padding:10px 12px 0px 12px;
+    text-align: left;
+}
+
+#funds_title {
+    font-size: 14px;
+}
+
+#controlpanel a {
+    color: #FFF;
+}
+
+#controlpanel a:hover {
+    color: #a9ebdf;
+}
+
+#controlpanel h5 {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+.currency {
+    color: #85d4c5;
+    font-weight: normal;
+    display: block;
+    width: 70px;
+    float: left;
+}
+
+.money {
+    color: #FFF;
+    text-align: right;
+    display: block;
+    width: 65px;
+    float: left;
+}
+
+/*MAIN*/
+
+#main {
+    text-align: center;
+    background: url(../images/white-bg.png) repeat;
+    height: 160px;
+    width: 100%;
+}
+
+#maincontent {
+    width: 1000px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+/*FOOTER*/
+
+#footer {
+    text-align: center;
+    background: #4a4849;
+    height: 60px;
+    width: 100%;
+    margin: 20px 0 20px 0;
+    font-size: 11px;
+}
+
+#footercontent {
+    text-align: left;
+    width: 1000px;
+    margin: 0 auto;
+    color: #FFF;
+    padding-top: 15px;
+}
+
+#links {
+    float: right;
+    margin-top: 8px;
+}
+
+#footer a {
+    color: #FFF;
+    text-decoration: none;
+}
+
+#footer a:hover {
+    color: #FFF;
+    text-decoration: underline;
+}

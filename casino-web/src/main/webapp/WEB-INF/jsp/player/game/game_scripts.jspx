@@ -1,0 +1,144 @@
+<!--
+  ~ Copyright (c) 2011. This beautifully written piece of code has been created by Bjorn Harvold.
+  ~ Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:spring-form="http://www.springframework.org/tags/form"
+          xmlns:security="http://www.springframework.org/security/tags"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:x="http://java.sun.com/jsp/jstl/xml"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns:tiles="http://tiles.apache.org/tags-tiles"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+    <jsp:directive.page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"/>
+
+    <spring:url value="/js/comet_configuration.js" var="cometd_config"/>
+    <script language="javascript" type="text/javascript" src="${cometd_config}"><!----></script>
+
+    <spring:url value="/js/comet_pokergame_channel.js" var="cometd_game"/>
+    <script language="javascript" type="text/javascript" src="${cometd_game}"><!----></script>
+
+    <spring:url value="/js/comet_user_channel.js" var="cometd_user"/>
+    <script language="javascript" type="text/javascript" src="${cometd_user}"><!----></script>
+
+    <spring:url value="/js/com/jquery/jquery-ui-1.8.12.custom.min.js" var="jquery_ui"/>
+    <script language="javascript" type="text/javascript" src="${jquery_ui}"><!----></script>
+
+    <spring:url value="/js/jquery.countdown.min.js" var="jquery_countdown"/>
+    <script language="javascript" type="text/javascript" src="${jquery_countdown}"><!----></script>
+
+    <security:authentication property="principal.id" var="userId"/>
+
+    <spring:message code="s3.url" var="s3Url"/>
+    <spring:message code="page.unload.warning" var="unloadWarning"/>
+
+    <!-- the config is how we configure the cometd channels so they'll init properly -->
+    <script type="text/javascript">
+        <![CDATA[
+        
+        var pokergameId = "${pokergameId}";
+        var handId;
+        var gamblerId;
+        var playerId = "${playerId}";
+        var userId = "${userId}";
+        var s3Url = "${s3Url}";
+
+        var config = {
+            contextPath: "${pageContext.request.contextPath}",
+            logLevel: "info",
+            onConnectionEstablished: function(message) {
+                $("#systemLog").append("<p>Connection established: " + $.JSON.encode(message) + "</p>");
+
+                // time to start subscribing to the user and game channels
+                listenToPokerGameChannel({
+                    pokergameId: pokergameId
+                });
+                listenToUserChannel({
+                    userId: userId
+                });
+            },
+            onConnectionBroken: function(message) {
+                $("#systemLog").append("<p>Connection broken: " + $.JSON.encode(message) + "</p>");
+            },
+            onConnectionClosed: function(message) {
+                $("#systemLog").append("<p>Connection closed: " + $.JSON.encode(message) + "</p>");
+            },
+            onHandshakeSuccess: function(message) {
+                $("#systemLog").append("<p>Handshake successful: " + $.JSON.encode(message) + "</p>");
+            },
+            onHandshakeFailure: function(message) {
+                $("#systemLog").append("<p>Handshake failure: " + $.JSON.encode(message) + "</p>");
+            },
+            onDisconnect: function(message) {
+                $("#systemLog").append("<p>Disconnected: " + $.JSON.encode(message) + "</p>");
+            },
+            onSubscribe: function(message) {
+                $("#systemLog").append("<p>Subscribe: " + $.JSON.encode(message) + "</p>");
+            },
+            onUnsubscribe: function(message) {
+                $("#systemLog").append("<p>Unsubscribe: " + $.JSON.encode(message) + "</p>");
+            },
+            onPublish: function(message) {
+                $("#systemLog").append("<p>Publish: " + $.JSON.encode(message) + "</p>");
+            },
+            onUnsuccessful: function(message) {
+                $("#systemLog").append("<p>Unsuccessful: " + $.JSON.encode(message) + "</p>");
+            }
+        };
+
+        jQuery(function($) {
+            // immediately register unload process
+            $(window).bind("beforeunload",  function() {
+                return "${unloadWarning}";
+            });
+
+            $(window).unload(function() {
+//                alert("Leaving all games now!");
+//                doLeave();
+            });
+
+            // first we initialize cometd channels
+            initializeCometHandshake();
+
+            // then we bind form elements
+            $("#queuePlayerAction").click(function() {
+                // serialize the form to json and pass it over to comet channel
+                var json = $("#queuePlayerForm").serializeObject();
+                json.userId = userId;
+                $("#systemLog").append("<p>I want to queue player!</p>");
+
+                doQueuePlayer(json);
+                $("#queuePlayerForm").toggle('slow');
+            });
+
+            // toggle for hiding queue player controls
+            $("#queuePlayerFormToggle").click(function() {
+                $("#queuePlayerForm").toggle('slow');
+            });
+
+            $("#emptyGameLog").click(function() {
+                $("#gameLog").empty();
+            });
+
+            $("#emptyUserLog").click(function() {
+                $("#userLog").empty();
+            });
+
+            $("#emptySystemLog").click(function() {
+                $("#systemLog").empty();
+            });
+
+            $("#slider").slider({
+                disabled: true,
+                slide: function(event, ui) {
+                    $( "#amount" ).val( "$" + ui.value );
+                }
+            });
+        });
+        ]]>
+    </script>
+
+</jsp:root>

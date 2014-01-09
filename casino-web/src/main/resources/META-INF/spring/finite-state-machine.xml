@@ -1,0 +1,988 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2010. This beautifully written piece of code has been created by Bjorn Harvold.
+  ~ Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.1.xsd
+       http://www.springframework.org/schema/jee
+       http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+       http://www.springframework.org/schema/task
+       http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+    <bean id="volatileProcessStateModelPersistence" class="com.wazeegroup.physhun.engine.VolatileProcessStateModelPersistence"/>
+    
+    <!-- FSM container -->
+    <bean id="container" class="com.wazeegroup.physhun.engine.SimpleProcessContainer">
+        <property name="processEngine" ref="engine"/>
+        <property name="containerPersistence" ref="volatileProcessStateModelPersistence"/>
+    </bean>
+
+    <!-- FSM engine -->
+    <bean id="engine" class="com.online.casino.physhun.StandardEngineWithTimeoutSupport">
+        <property name="transactionManager" ref="transactionManager"/>
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+        <property name="persistenceSupport">
+            <bean class="com.online.casino.domain.entity.FsmProcessObject"/>
+        </property>
+    </bean>
+
+    <!-- our state model -->
+    <bean id="stateModel" class="com.wazeegroup.physhun.framework.ConcreteStateModel">
+        <property name="states">
+            <list>
+                <ref bean="startState"/>
+                <ref bean="dealNewHandState"/>
+                <ref bean="smallBlindState"/>
+                <ref bean="bigBlindState"/>
+                <ref bean="pocketCardsState"/>
+                <ref bean="flopState"/>
+                <ref bean="turnState"/>
+                <ref bean="riverState"/>
+                <ref bean="betOnPocketCardsState"/>
+                <ref bean="betOnFlopState"/>
+                <ref bean="betOnTurnState"/>
+                <ref bean="betOnRiverState"/>
+                <ref bean="playerResponseRequiredPocketCardsState"/>
+                <ref bean="playerResponseRequiredFlopState"/>
+                <ref bean="playerResponseRequiredTurnState"/>
+                <ref bean="playerResponseRequiredRiverState"/>
+            </list>
+        </property>
+        <property name="transitions">
+            <list>
+                <ref bean="startToDealNewHand"/>
+                <ref bean="playerQueueingUpForGameAtStart"/>
+                <ref bean="playerQueueingUpForGameAtDealNewHand"/>
+                <ref bean="playerQueueingUpForGameAtSmallBlind"/>
+                <ref bean="playerQueueingUpForGameAtBigBlind"/>
+                <ref bean="playerQueueingUpForGameAtPocketCards"/>
+                <ref bean="playerQueueingUpForGameAtBetOnPocketCards"/>
+                <ref bean="playerQueueingUpForGameAtPlayerResponseRequiredPocketCards"/>
+                <ref bean="playerQueueingUpForGameAtFlop"/>
+                <ref bean="playerQueueingUpForGameAtBetOnFlop"/>
+                <ref bean="playerQueueingUpForGameAtPlayerResponseRequiredFlop"/>
+                <ref bean="playerQueueingUpForGameAtTurn"/>
+                <ref bean="playerQueueingUpForGameAtBetOnTurn"/>
+                <ref bean="playerQueueingUpForGameAtPlayerResponseRequiredTurn"/>
+                <ref bean="playerQueueingUpForGameAtRiver"/>
+                <ref bean="playerQueueingUpForGameAtBetOnRiver"/>
+                <ref bean="playerQueueingUpForGameAtPlayerResponseRequiredRiver"/>
+                <ref bean="playerReQueueingUpForGameAtStart"/>
+                <ref bean="playerReQueueingUpForGameAtDealNewHand"/>
+                <ref bean="playerReQueueingUpForGameAtSmallBlind"/>
+                <ref bean="playerReQueueingUpForGameAtBigBlind"/>
+                <ref bean="playerReQueueingUpForGameAtPocketCards"/>
+                <ref bean="playerReQueueingUpForGameAtBetOnPocketCards"/>
+                <ref bean="playerReQueueingUpForGameAtPlayerResponseRequiredPocketCards"/>
+                <ref bean="playerReQueueingUpForGameAtFlop"/>
+                <ref bean="playerReQueueingUpForGameAtBetOnFlop"/>
+                <ref bean="playerReQueueingUpForGameAtPlayerResponseRequiredFlop"/>
+                <ref bean="playerReQueueingUpForGameAtTurn"/>
+                <ref bean="playerReQueueingUpForGameAtBetOnTurn"/>
+                <ref bean="playerReQueueingUpForGameAtPlayerResponseRequiredTurn"/>
+                <ref bean="playerReQueueingUpForGameAtRiver"/>
+                <ref bean="playerReQueueingUpForGameAtBetOnRiver"/>
+                <ref bean="playerReQueueingUpForGameAtPlayerResponseRequiredRiver"/>
+                <ref bean="playerLeavesAtStart"/>
+                <ref bean="playerLeavesAtDealNewHand"/>
+                <ref bean="playerLeavesAtSmallBlind"/>
+                <ref bean="playerLeavesAtBigBlind"/>
+                <ref bean="playerLeavesAtPocketCards"/>
+                <ref bean="playerLeavesAtPlayerResponseRequiredPocketCards"/>
+                <ref bean="playerLeavesAtBetOnPocketCards"/>
+                <ref bean="playerLeavesAtFlop"/>
+                <ref bean="playerLeavesAtPlayerResponseRequiredFlop"/>
+                <ref bean="playerLeavesAtBetOnFlop"/>
+                <ref bean="playerLeavesAtTurn"/>
+                <ref bean="playerLeavesAtPlayerResponseRequiredTurn"/>
+                <ref bean="playerLeavesAtBetOnTurn"/>
+                <ref bean="playerLeavesAtPlayerResponseRequiredRiver"/>
+                <ref bean="playerLeavesAtRiver"/>
+                <ref bean="playerLeavesAtBetOnRiver"/>
+                <ref bean="dealNewHandToPostSmallBlind"/>
+                <ref bean="playerPostingSmallBlind"/>
+                <ref bean="postSmallBlindToPostBigBlind"/>
+                <ref bean="playerPostingBigBlind"/>
+                <ref bean="bigBlindToEndGame"/>
+                <ref bean="postBigBlindToPocketCards"/>
+                <ref bean="pocketCardsToPlayerResponseRequired"/>
+                <ref bean="playerResponseRequiredBetOnPocketCards"/>
+                <ref bean="playerResponseRequiredTimeoutOnPocketCards"/>
+                <ref bean="betOnPocketCardsToPocketCards"/>
+                <ref bean="playerCallsBetOnPocketCards"/>
+                <ref bean="playerChecksBetOnPocketCards"/>
+                <ref bean="playerRaisesBetOnPocketCards"/>
+                <ref bean="playerFoldsBetOnPocketCards"/>
+                <ref bean="pocketCardsToFlop"/>
+                <ref bean="pocketCardsToEndGame"/>
+                <ref bean="flopToPlayerResponseRequired"/>
+                <ref bean="playerResponseRequiredBetOnFlop"/>
+                <ref bean="playerResponseRequiredTimeoutOnFlop"/>
+                <ref bean="betOnFlopToFlop"/>
+                <ref bean="playerCallsBetOnFlop"/>
+                <ref bean="playerChecksBetOnFlop"/>
+                <ref bean="playerRaisesBetOnFlop"/>
+                <ref bean="playerFoldsBetOnFlop"/>
+                <ref bean="flopToTurn"/>
+                <ref bean="flopToEndGame"/>
+                <ref bean="turnToPlayerResponseRequired"/>
+                <ref bean="playerResponseRequiredBetOnTurn"/>
+                <ref bean="playerResponseRequiredTimeoutOnTurn"/>
+                <ref bean="betOnTurnToTurn"/>
+                <ref bean="playerCallsBetOnTurn"/>
+                <ref bean="playerChecksBetOnTurn"/>
+                <ref bean="playerRaisesBetOnTurn"/>
+                <ref bean="playerFoldsBetOnTurn"/>
+                <ref bean="turnToRiver"/>
+                <ref bean="turnToEndGame"/>
+                <ref bean="riverToPlayerResponseRequired"/>
+                <ref bean="playerResponseRequiredBetOnRiver"/>
+                <ref bean="playerResponseRequiredTimeoutOnRiver"/>
+                <ref bean="betOnRiverToRiver"/>
+                <ref bean="playerCallsBetOnRiver"/>
+                <ref bean="playerChecksBetOnRiver"/>
+                <ref bean="playerRaisesBetOnRiver"/>
+                <ref bean="playerFoldsBetOnRiver"/>
+                <ref bean="riverToEndGame"/>
+                <ref bean="riverToComplete"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- CONDITION -->
+    <bean id="defaultTriggeredCondition" class="com.wazeegroup.physhun.generic.condition.TriggeredDefault"/>
+    <bean id="defaultCondition" class="com.wazeegroup.physhun.generic.condition.Default"/>
+    <bean id="falseCondition" class="com.wazeegroup.physhun.generic.condition.False"/>
+
+    <!-- STATES -->
+    <!-- State 1. this is where a game starts -->
+    <bean id="startState" class="com.wazeegroup.physhun.framework.ConcreteState" p:initialState="true"/>
+
+    <!-- State 1b. this is when a game has started -->
+    <bean id="dealNewHandState" class="com.wazeegroup.physhun.framework.ConcreteState"/>
+
+    <!-- State 2. this is posting the small blind -->
+    <bean id="smallBlindState" class="com.wazeegroup.physhun.framework.ConcreteState"/>
+
+    <!-- State 3. this is posting the big blind -->
+    <bean id="bigBlindState" class="com.wazeegroup.physhun.framework.ConcreteState"/>
+
+    <!-- State 4. pocket cards -->
+    <bean id="pocketCardsState" class="com.wazeegroup.physhun.framework.ConcreteState"/>
+
+    <!-- State 5. flop -->
+    <bean id="flopState" class="com.wazeegroup.physhun.framework.ConcreteState"/>
+
+    <!-- State 6. turn -->
+    <bean id="turnState" class="com.wazeegroup.physhun.framework.ConcreteState"/>
+
+    <!-- State 7. river -->
+    <bean id="riverState" class="com.wazeegroup.physhun.framework.ConcreteState"/>
+
+    <!-- Temporary states where players bet within the states above-->
+    <bean id="betOnPocketCardsState" class="com.wazeegroup.physhun.framework.ConcreteState"/>
+    <bean id="betOnFlopState" class="com.wazeegroup.physhun.framework.ConcreteState"/>
+    <bean id="betOnTurnState" class="com.wazeegroup.physhun.framework.ConcreteState"/>
+    <bean id="betOnRiverState" class="com.wazeegroup.physhun.framework.ConcreteState"/>
+
+    <!-- Temporary states where we fire of a notification to a player to make a move -->
+    <bean id="playerResponseRequiredPocketCardsState" class="com.wazeegroup.physhun.framework.ConcreteState"/>
+    <bean id="playerResponseRequiredFlopState" class="com.wazeegroup.physhun.framework.ConcreteState"/>
+    <bean id="playerResponseRequiredTurnState" class="com.wazeegroup.physhun.framework.ConcreteState"/>
+    <bean id="playerResponseRequiredRiverState" class="com.wazeegroup.physhun.framework.ConcreteState"/>
+
+    <!-- TRANSITIONS -->
+
+    <!-- State: startState. This is the transition from HandStatus.STARTED to HandStatus.POST_SMALL_BLIND -->
+    <bean id="startToDealNewHand" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isStartable"/>
+        <property name="action" ref="dealNewHandAction"/>
+        <property name="fromState" ref="startState"/>
+        <property name="toState" ref="dealNewHandState"/>
+    </bean>
+
+    <!-- GLOBAL transitions that can occur at any state -->
+
+    <!-- State: startState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerQueueingUpForGameAtStart" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerQueueingUpForGame"/>
+        <property name="action" ref="queuePlayerAction"/>
+        <property name="fromState" ref="startState"/>
+        <property name="toState" ref="startState"/>
+    </bean>
+
+    <!-- State: startState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerReQueueingUpForGameAtStart" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerReQueueingUpForGame"/>
+        <property name="action" ref="reQueuePlayerAction"/>
+        <property name="fromState" ref="startState"/>
+        <property name="toState" ref="startState"/>
+    </bean>
+
+    <!-- State: dealNewHandState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerQueueingUpForGameAtDealNewHand" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerQueueingUpForGame"/>
+        <property name="action" ref="queuePlayerAction"/>
+        <property name="fromState" ref="dealNewHandState"/>
+        <property name="toState" ref="dealNewHandState"/>
+    </bean>
+
+    <!-- State: dealNewHandState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerReQueueingUpForGameAtDealNewHand" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerReQueueingUpForGame"/>
+        <property name="action" ref="reQueuePlayerAction"/>
+        <property name="fromState" ref="dealNewHandState"/>
+        <property name="toState" ref="dealNewHandState"/>
+    </bean>
+
+    <!-- State: smallBlindState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerQueueingUpForGameAtSmallBlind" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerQueueingUpForGame"/>
+        <property name="action" ref="queuePlayerAction"/>
+        <property name="fromState" ref="smallBlindState"/>
+        <property name="toState" ref="smallBlindState"/>
+    </bean>
+
+    <!-- State: smallBlindState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerReQueueingUpForGameAtSmallBlind" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerReQueueingUpForGame"/>
+        <property name="action" ref="reQueuePlayerAction"/>
+        <property name="fromState" ref="smallBlindState"/>
+        <property name="toState" ref="smallBlindState"/>
+    </bean>
+
+    <!-- State: bigBlindState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerQueueingUpForGameAtBigBlind" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerQueueingUpForGame"/>
+        <property name="action" ref="queuePlayerAction"/>
+        <property name="fromState" ref="bigBlindState"/>
+        <property name="toState" ref="bigBlindState"/>
+    </bean>
+
+    <!-- State: bigBlindState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerReQueueingUpForGameAtBigBlind" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerReQueueingUpForGame"/>
+        <property name="action" ref="reQueuePlayerAction"/>
+        <property name="fromState" ref="bigBlindState"/>
+        <property name="toState" ref="bigBlindState"/>
+    </bean>
+
+    <!-- State: pocketCardsState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerQueueingUpForGameAtPocketCards" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerQueueingUpForGame"/>
+        <property name="action" ref="queuePlayerAction"/>
+        <property name="fromState" ref="pocketCardsState"/>
+        <property name="toState" ref="pocketCardsState"/>
+    </bean>
+
+    <!-- State: pocketCardsState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerReQueueingUpForGameAtPocketCards" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerReQueueingUpForGame"/>
+        <property name="action" ref="reQueuePlayerAction"/>
+        <property name="fromState" ref="pocketCardsState"/>
+        <property name="toState" ref="pocketCardsState"/>
+    </bean>
+
+    <!-- State: flopState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerQueueingUpForGameAtFlop" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerQueueingUpForGame"/>
+        <property name="action" ref="queuePlayerAction"/>
+        <property name="fromState" ref="flopState"/>
+        <property name="toState" ref="flopState"/>
+    </bean>
+
+    <!-- State: flopState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerReQueueingUpForGameAtFlop" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerReQueueingUpForGame"/>
+        <property name="action" ref="reQueuePlayerAction"/>
+        <property name="fromState" ref="flopState"/>
+        <property name="toState" ref="flopState"/>
+    </bean>
+
+    <!-- State: turnState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerQueueingUpForGameAtTurn" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerQueueingUpForGame"/>
+        <property name="action" ref="queuePlayerAction"/>
+        <property name="fromState" ref="turnState"/>
+        <property name="toState" ref="turnState"/>
+    </bean>
+
+    <!-- State: turnState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerReQueueingUpForGameAtTurn" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerReQueueingUpForGame"/>
+        <property name="action" ref="reQueuePlayerAction"/>
+        <property name="fromState" ref="turnState"/>
+        <property name="toState" ref="turnState"/>
+    </bean>
+
+    <!-- State: riverState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerQueueingUpForGameAtRiver" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerQueueingUpForGame"/>
+        <property name="action" ref="queuePlayerAction"/>
+        <property name="fromState" ref="riverState"/>
+        <property name="toState" ref="riverState"/>
+    </bean>
+
+    <!-- State: riverState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerReQueueingUpForGameAtRiver" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerReQueueingUpForGame"/>
+        <property name="action" ref="reQueuePlayerAction"/>
+        <property name="fromState" ref="riverState"/>
+        <property name="toState" ref="riverState"/>
+    </bean>
+
+    <!-- State: betOnPocketCardsState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerQueueingUpForGameAtBetOnPocketCards" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerQueueingUpForGame"/>
+        <property name="action" ref="queuePlayerAction"/>
+        <property name="fromState" ref="betOnPocketCardsState"/>
+        <property name="toState" ref="betOnPocketCardsState"/>
+    </bean>
+
+    <!-- State: betOnPocketCardsState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerReQueueingUpForGameAtBetOnPocketCards" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerReQueueingUpForGame"/>
+        <property name="action" ref="reQueuePlayerAction"/>
+        <property name="fromState" ref="betOnPocketCardsState"/>
+        <property name="toState" ref="betOnPocketCardsState"/>
+    </bean>
+
+    <!-- State: playerResponseRequiredPocketCardsState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerQueueingUpForGameAtPlayerResponseRequiredPocketCards" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerQueueingUpForGame"/>
+        <property name="action" ref="queuePlayerAction"/>
+        <property name="fromState" ref="playerResponseRequiredPocketCardsState"/>
+        <property name="toState" ref="playerResponseRequiredPocketCardsState"/>
+    </bean>
+
+    <!-- State: playerResponseRequiredPocketCardsState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerReQueueingUpForGameAtPlayerResponseRequiredPocketCards" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerReQueueingUpForGame"/>
+        <property name="action" ref="reQueuePlayerAction"/>
+        <property name="fromState" ref="playerResponseRequiredPocketCardsState"/>
+        <property name="toState" ref="playerResponseRequiredPocketCardsState"/>
+    </bean>
+
+    <!-- State: betOnFlopState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerQueueingUpForGameAtBetOnFlop" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerQueueingUpForGame"/>
+        <property name="action" ref="queuePlayerAction"/>
+        <property name="fromState" ref="betOnFlopState"/>
+        <property name="toState" ref="betOnFlopState"/>
+    </bean>
+
+    <!-- State: betOnFlopState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerReQueueingUpForGameAtBetOnFlop" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerReQueueingUpForGame"/>
+        <property name="action" ref="reQueuePlayerAction"/>
+        <property name="fromState" ref="betOnFlopState"/>
+        <property name="toState" ref="betOnFlopState"/>
+    </bean>
+
+    <!-- State: playerResponseRequiredFlopState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerQueueingUpForGameAtPlayerResponseRequiredFlop" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerQueueingUpForGame"/>
+        <property name="action" ref="queuePlayerAction"/>
+        <property name="fromState" ref="playerResponseRequiredFlopState"/>
+        <property name="toState" ref="playerResponseRequiredFlopState"/>
+    </bean>
+
+    <!-- State: playerResponseRequiredFlopState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerReQueueingUpForGameAtPlayerResponseRequiredFlop" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerReQueueingUpForGame"/>
+        <property name="action" ref="reQueuePlayerAction"/>
+        <property name="fromState" ref="playerResponseRequiredFlopState"/>
+        <property name="toState" ref="playerResponseRequiredFlopState"/>
+    </bean>
+
+    <!-- State: betOnTurnState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerQueueingUpForGameAtBetOnTurn" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerQueueingUpForGame"/>
+        <property name="action" ref="queuePlayerAction"/>
+        <property name="fromState" ref="betOnTurnState"/>
+        <property name="toState" ref="betOnTurnState"/>
+    </bean>
+
+    <!-- State: betOnTurnState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerReQueueingUpForGameAtBetOnTurn" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerReQueueingUpForGame"/>
+        <property name="action" ref="reQueuePlayerAction"/>
+        <property name="fromState" ref="betOnTurnState"/>
+        <property name="toState" ref="betOnTurnState"/>
+    </bean>
+
+    <!-- State: playerResponseRequiredTurnState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerQueueingUpForGameAtPlayerResponseRequiredTurn" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerQueueingUpForGame"/>
+        <property name="action" ref="queuePlayerAction"/>
+        <property name="fromState" ref="playerResponseRequiredTurnState"/>
+        <property name="toState" ref="playerResponseRequiredTurnState"/>
+    </bean>
+
+    <!-- State: playerResponseRequiredTurnState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerReQueueingUpForGameAtPlayerResponseRequiredTurn" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerReQueueingUpForGame"/>
+        <property name="action" ref="reQueuePlayerAction"/>
+        <property name="fromState" ref="playerResponseRequiredTurnState"/>
+        <property name="toState" ref="playerResponseRequiredTurnState"/>
+    </bean>
+
+    <!-- State: betOnRiverState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerQueueingUpForGameAtBetOnRiver" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerQueueingUpForGame"/>
+        <property name="action" ref="queuePlayerAction"/>
+        <property name="fromState" ref="betOnRiverState"/>
+        <property name="toState" ref="betOnRiverState"/>
+    </bean>
+
+    <!-- State: betOnRiverState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerReQueueingUpForGameAtBetOnRiver" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerReQueueingUpForGame"/>
+        <property name="action" ref="reQueuePlayerAction"/>
+        <property name="fromState" ref="betOnRiverState"/>
+        <property name="toState" ref="betOnRiverState"/>
+    </bean>
+    
+    <!-- State: playerResponseRequiredRiverState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerQueueingUpForGameAtPlayerResponseRequiredRiver" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerQueueingUpForGame"/>
+        <property name="action" ref="queuePlayerAction"/>
+        <property name="fromState" ref="playerResponseRequiredRiverState"/>
+        <property name="toState" ref="playerResponseRequiredRiverState"/>
+    </bean>
+
+    <!-- State: playerResponseRequiredRiverState. This is a looped transition from that can happen at any time and will happen at least 2 times before a new hand can be dealt -->
+    <bean id="playerReQueueingUpForGameAtPlayerResponseRequiredRiver" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerReQueueingUpForGame"/>
+        <property name="action" ref="reQueuePlayerAction"/>
+        <property name="fromState" ref="playerResponseRequiredRiverState"/>
+        <property name="toState" ref="playerResponseRequiredRiverState"/>
+    </bean>
+
+    <!-- State: startState. Player leaves the game -->
+    <bean id="playerLeavesAtStart" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isLeaveable"/>
+        <property name="action" ref="leaveAction"/>
+        <property name="fromState" ref="startState"/>
+        <property name="toState" ref="startState"/>
+    </bean>
+
+    <!-- State: dealNewHandState. Player leaves the game -->
+    <bean id="playerLeavesAtDealNewHand" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isLeaveable"/>
+        <property name="action" ref="leaveAction"/>
+        <property name="fromState" ref="dealNewHandState"/>
+        <property name="toState" ref="dealNewHandState"/>
+    </bean>
+
+    <!-- State: smallBlindState. Player leaves the game -->
+    <bean id="playerLeavesAtSmallBlind" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isLeaveable"/>
+        <property name="action" ref="leaveAction"/>
+        <property name="fromState" ref="smallBlindState"/>
+        <property name="toState" ref="smallBlindState"/>
+    </bean>
+
+    <!-- State: bigBlindState. Player leaves the game -->
+    <bean id="playerLeavesAtBigBlind" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isLeaveable"/>
+        <property name="action" ref="leaveAction"/>
+        <property name="fromState" ref="bigBlindState"/>
+        <property name="toState" ref="bigBlindState"/>
+    </bean>
+
+    <!-- State: pocketCardsState. Player leaves the game -->
+    <bean id="playerLeavesAtPocketCards" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isLeaveable"/>
+        <property name="action" ref="leaveAction"/>
+        <property name="fromState" ref="pocketCardsState"/>
+        <property name="toState" ref="pocketCardsState"/>
+    </bean>
+
+    <!-- State: playerResponseRequiredPocketCardsState. Player leaves the game -->
+    <bean id="playerLeavesAtPlayerResponseRequiredPocketCards" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isLeaveable"/>
+        <property name="action" ref="leaveAction"/>
+        <property name="fromState" ref="playerResponseRequiredPocketCardsState"/>
+        <property name="toState" ref="betOnPocketCardsState"/>
+    </bean>
+
+    <!-- State: flopState. Player leaves the game -->
+    <bean id="playerLeavesAtFlop" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isLeaveable"/>
+        <property name="action" ref="leaveAction"/>
+        <property name="fromState" ref="flopState"/>
+        <property name="toState" ref="flopState"/>
+    </bean>
+
+    <!-- State: playerResponseRequiredFlopState. Player leaves the game -->
+    <bean id="playerLeavesAtPlayerResponseRequiredFlop" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isLeaveable"/>
+        <property name="action" ref="leaveAction"/>
+        <property name="fromState" ref="playerResponseRequiredFlopState"/>
+        <property name="toState" ref="betOnFlopState"/>
+    </bean>
+
+    <!-- State: playerResponseRequiredTurnState. Player leaves the game -->
+    <bean id="playerLeavesAtPlayerResponseRequiredTurn" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isLeaveable"/>
+        <property name="action" ref="leaveAction"/>
+        <property name="fromState" ref="playerResponseRequiredTurnState"/>
+        <property name="toState" ref="betOnTurnState"/>
+    </bean>
+
+    <!-- State: turnState. Player leaves the game -->
+    <bean id="playerLeavesAtTurn" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isLeaveable"/>
+        <property name="action" ref="leaveAction"/>
+        <property name="fromState" ref="turnState"/>
+        <property name="toState" ref="turnState"/>
+    </bean>
+
+    <!-- State: playerResponseRequiredRiverState. Player leaves the game -->
+    <bean id="playerLeavesAtPlayerResponseRequiredRiver" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isLeaveable"/>
+        <property name="action" ref="leaveAction"/>
+        <property name="fromState" ref="playerResponseRequiredRiverState"/>
+        <property name="toState" ref="betOnRiverState"/>
+    </bean>
+
+    <!-- State: riverState. Player leaves the game -->
+    <bean id="playerLeavesAtRiver" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isLeaveable"/>
+        <property name="action" ref="leaveAction"/>
+        <property name="fromState" ref="riverState"/>
+        <property name="toState" ref="riverState"/>
+    </bean>
+
+    <!-- State: betOnPocketCardsState. Player leaves the game -->
+    <bean id="playerLeavesAtBetOnPocketCards" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isLeaveable"/>
+        <property name="action" ref="leaveAction"/>
+        <property name="fromState" ref="playerResponseRequiredPocketCardsState"/>
+        <property name="toState" ref="betOnPocketCardsState"/>
+    </bean>
+
+    <!-- State: betOnFlopState. Player leaves the game -->
+    <bean id="playerLeavesAtBetOnFlop" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isLeaveable"/>
+        <property name="action" ref="leaveAction"/>
+        <property name="fromState" ref="playerResponseRequiredFlopState"/>
+        <property name="toState" ref="betOnFlopState"/>
+    </bean>
+
+    <!-- State: betOnTurnState. Player leaves the game -->
+    <bean id="playerLeavesAtBetOnTurn" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isLeaveable"/>
+        <property name="action" ref="leaveAction"/>
+        <property name="fromState" ref="playerResponseRequiredTurnState"/>
+        <property name="toState" ref="betOnTurnState"/>
+    </bean>
+
+    <!-- State: betOnRiverState. Player leaves the game -->
+    <bean id="playerLeavesAtBetOnRiver" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isLeaveable"/>
+        <property name="action" ref="leaveAction"/>
+        <property name="fromState" ref="playerResponseRequiredRiverState"/>
+        <property name="toState" ref="betOnRiverState"/>
+    </bean>
+
+    <!-- specific transitions that occur specified states -->
+
+    <!-- State: dealNewHandState. This is the transition from HandStatus.STARTED to HandStatus.POST_SMALL_BLIND -->
+    <bean id="dealNewHandToPostSmallBlind" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isProgressable"/>
+        <property name="action" ref="progressGameAction"/>
+        <property name="fromState" ref="dealNewHandState"/>
+        <property name="toState" ref="smallBlindState"/>
+    </bean>
+
+    <!-- State: smallBlindState. This is the transition from HandStatus.POST_SMALL_BLIND to HandStatus.POST_SMALL_BLIND_COMPLETE -->
+    <!-- In this case the small blind is posting small blind -->
+    <bean id="playerPostingSmallBlind" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPostSmallBlind"/>
+        <property name="action" ref="postSmallBlindAction"/>
+        <property name="fromState" ref="smallBlindState"/>
+        <property name="toState" ref="smallBlindState"/>
+    </bean>
+
+    <!-- State: smallBlindState. This is the transition from HandStatus.POST_SMALL_BLIND to HandStatus.COMPLETE -->
+    <!-- In this case there are no other players who can post big blind so the game ends -->
+    <bean id="smallBlindToEndGame" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isEndGame"/>
+        <property name="action" ref="endGameAction"/>
+        <property name="fromState" ref="smallBlindState"/>
+        <property name="toState" ref="startState"/>
+    </bean>
+
+    <!-- State: smallBlindState. This is the transition from HandStatus.POST_SMALL_BLIND_COMPLETE to HandStatus.POST_BIG_BLIND -->
+    <bean id="postSmallBlindToPostBigBlind" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isProgressable"/>
+        <property name="action" ref="progressGameAction"/>
+        <property name="fromState" ref="smallBlindState"/>
+        <property name="toState" ref="bigBlindState"/>
+    </bean>
+
+    <!-- State: bigBlindState. This is the transition from HandStatus.POST_BIG_BLIND to HandStatus.POST_BIG_BLIND_COMPLETE -->
+    <!-- In this case the big blind is posting big blind -->
+    <bean id="playerPostingBigBlind" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPostBigBlind"/>
+        <property name="action" ref="postBigBlindAction"/>
+        <property name="fromState" ref="bigBlindState"/>
+        <property name="toState" ref="bigBlindState"/>
+    </bean>
+
+    <!-- State: bigBlindState. This is the transition from HandStatus.POST_BIG_BLIND to HandStatus.COMPLETE -->
+    <!-- In this case there are no other players who can post big blind so the game ends -->
+    <bean id="bigBlindToEndGame" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isEndGame"/>
+        <property name="action" ref="endGameAction"/>
+        <property name="fromState" ref="bigBlindState"/>
+        <property name="toState" ref="startState"/>
+    </bean>
+
+    <!-- State: bigBlindState. This is the transition from HandStatus.POST_BIG_BLIND_COMPLETE to HandStatus.POCKET_CARDS -->
+    <bean id="postBigBlindToPocketCards" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isProgressable"/>
+        <property name="action" ref="progressGameAction"/>
+        <property name="fromState" ref="bigBlindState"/>
+        <property name="toState" ref="pocketCardsState"/>
+    </bean>
+
+    <!-- State: pocketCardsState. This transition happens when it's time for gamblers to bet on cards. It's almost like a nested state. -->
+    <bean id="pocketCardsToPlayerResponseRequired" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerResponseRequired"/>
+        <property name="action" ref="playerResponseRequiredAction"/>
+        <property name="fromState" ref="pocketCardsState"/>
+        <property name="toState" ref="playerResponseRequiredPocketCardsState"/>
+    </bean>
+
+    <bean id="playerResponseRequiredBetOnPocketCards" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerResponseRequired"/>
+        <property name="action" ref="playerResponseRequiredAction"/>
+        <property name="fromState" ref="betOnPocketCardsState"/>
+        <property name="toState" ref="playerResponseRequiredPocketCardsState"/>
+    </bean>
+
+    <bean id="playerResponseRequiredTimeoutOnPocketCards" class="com.online.casino.physhun.ConcreteTimeoutTransition">
+        <property name="condition" ref="isTimeout"/>
+        <property name="action" ref="timeOutAction"/>
+        <property name="fromState" ref="playerResponseRequiredPocketCardsState"/>
+        <property name="toState" ref="betOnPocketCardsState"/>
+        <property name="timeoutInSeconds" value="${player.response.timeout.in.seconds}"/>
+    </bean>
+
+    <!-- State: betOnPocketCardsState. This is where the players have a chance to bet on the pocket cards for the first time -->
+    <bean id="playerCallsBetOnPocketCards" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isCallable"/>
+        <property name="action" ref="callAction"/>
+        <property name="fromState" ref="playerResponseRequiredPocketCardsState"/>
+        <property name="toState" ref="betOnPocketCardsState"/>
+    </bean>
+
+    <!-- State: betOnPocketCardsState. This is where the players have a chance to bet on the pocket cards for the first time -->
+    <bean id="playerChecksBetOnPocketCards" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isCheckable"/>
+        <property name="action" ref="checkAction"/>
+        <property name="fromState" ref="playerResponseRequiredPocketCardsState"/>
+        <property name="toState" ref="betOnPocketCardsState"/>
+    </bean>
+
+    <!-- State: betOnPocketCardsState. This is where the players have a chance to bet on the pocket cards for the first time -->
+    <bean id="playerRaisesBetOnPocketCards" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isRaiseable"/>
+        <property name="action" ref="raiseAction"/>
+        <property name="fromState" ref="playerResponseRequiredPocketCardsState"/>
+        <property name="toState" ref="betOnPocketCardsState"/>
+    </bean>
+
+    <!-- State: betOnPocketCardsState. This is where the players have a chance to bet on the pocket cards for the first time -->
+    <bean id="playerFoldsBetOnPocketCards" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isFoldable"/>
+        <property name="action" ref="foldAction"/>
+        <property name="fromState" ref="playerResponseRequiredPocketCardsState"/>
+        <property name="toState" ref="betOnPocketCardsState"/>
+    </bean>
+
+    <!-- State: betOnPocketCardsState. When betting is over we need to move down to the pocket card state so we can progress the game -->
+    <bean id="betOnPocketCardsToPocketCards" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isBettingOver"/>
+        <property name="action" ref="defaultAction"/>
+        <property name="fromState" ref="betOnPocketCardsState"/>
+        <property name="toState" ref="pocketCardsState"/>
+    </bean>
+
+    <!-- State: pocketCardsState. This is the transition from HandStatus.POCKET_CARDS to HandStatus.COMPLETE -->
+    <!-- In this case there are no other players the game ends -->
+    <bean id="pocketCardsToEndGame" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isEndGame"/>
+        <property name="action" ref="endGameAction"/>
+        <property name="fromState" ref="pocketCardsState"/>
+        <property name="toState" ref="startState"/>
+    </bean>
+
+    <!-- State: pocketCardState. This is the transition from HandStatus.POCKET_CARDS to HandStatus.FLOP -->
+    <bean id="pocketCardsToFlop" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isProgressable"/>
+        <property name="action" ref="progressGameAction"/>
+        <property name="fromState" ref="pocketCardsState"/>
+        <property name="toState" ref="flopState"/>
+    </bean>
+
+    <!-- State: flopState. This transition happens when it's time for gamblers to bet on cards. It's almost like a nested state. -->
+    <bean id="flopToPlayerResponseRequired" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerResponseRequired"/>
+        <property name="action" ref="playerResponseRequiredAction"/>
+        <property name="fromState" ref="flopState"/>
+        <property name="toState" ref="playerResponseRequiredFlopState"/>
+    </bean>
+
+    <bean id="playerResponseRequiredBetOnFlop" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerResponseRequired"/>
+        <property name="action" ref="playerResponseRequiredAction"/>
+        <property name="fromState" ref="betOnFlopState"/>
+        <property name="toState" ref="playerResponseRequiredFlopState"/>
+    </bean>
+
+    <bean id="playerResponseRequiredTimeoutOnFlop" class="com.online.casino.physhun.ConcreteTimeoutTransition">
+        <property name="condition" ref="isTimeout"/>
+        <property name="action" ref="timeOutAction"/>
+        <property name="fromState" ref="playerResponseRequiredFlopState"/>
+        <property name="toState" ref="betOnFlopState"/>
+        <property name="timeoutInSeconds" value="${player.response.timeout.in.seconds}"/>
+    </bean>
+
+    <!-- State: betOnFlopState. This is where the players have a chance to bet on the flop for the first time -->
+    <bean id="playerCallsBetOnFlop" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isCallable"/>
+        <property name="action" ref="callAction"/>
+        <property name="fromState" ref="playerResponseRequiredFlopState"/>
+        <property name="toState" ref="betOnFlopState"/>
+    </bean>
+
+    <!-- State: betOnFlopState. This is where the players have a chance to bet on the flop for the first time -->
+    <bean id="playerChecksBetOnFlop" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isCheckable"/>
+        <property name="action" ref="checkAction"/>
+        <property name="fromState" ref="playerResponseRequiredFlopState"/>
+        <property name="toState" ref="betOnFlopState"/>
+    </bean>
+
+    <!-- State: betOnFlopState. This is where the players have a chance to bet on the flop for the first time -->
+    <bean id="playerRaisesBetOnFlop" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isRaiseable"/>
+        <property name="action" ref="raiseAction"/>
+        <property name="fromState" ref="playerResponseRequiredFlopState"/>
+        <property name="toState" ref="betOnFlopState"/>
+    </bean>
+
+    <!-- State: betOnFlopState. This is where the players have a chance to bet on the flop for the first time -->
+    <bean id="playerFoldsBetOnFlop" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isFoldable"/>
+        <property name="action" ref="foldAction"/>
+        <property name="fromState" ref="playerResponseRequiredFlopState"/>
+        <property name="toState" ref="betOnFlopState"/>
+    </bean>
+
+    <!-- State: betOnFlopState. This transition happens when it's time for gamblers to bet on cards. It's almost like a nested state. -->
+    <bean id="betOnFlopToFlop" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isBettingOver"/>
+        <property name="action" ref="defaultAction"/>
+        <property name="fromState" ref="betOnFlopState"/>
+        <property name="toState" ref="flopState"/>
+    </bean>
+
+    <!-- State: flopState. This is the transition from HandStatus.FLOP to HandStatus.COMPLETE -->
+    <!-- In this case there are no other players the game ends -->
+    <bean id="flopToEndGame" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isEndGame"/>
+        <property name="action" ref="endGameAction"/>
+        <property name="fromState" ref="flopState"/>
+        <property name="toState" ref="startState"/>
+    </bean>
+
+    <!-- State: flopState. This is the transition from HandStatus.FLOP to HandStatus.TURN -->
+    <bean id="flopToTurn" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isProgressable"/>
+        <property name="action" ref="progressGameAction"/>
+        <property name="fromState" ref="flopState"/>
+        <property name="toState" ref="turnState"/>
+    </bean>
+    
+    <!-- State: turnState. This transition happens when it's time for gamblers to bet on cards. It's almost like a nested state. -->
+    <bean id="turnToPlayerResponseRequired" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerResponseRequired"/>
+        <property name="action" ref="playerResponseRequiredAction"/>
+        <property name="fromState" ref="turnState"/>
+        <property name="toState" ref="playerResponseRequiredTurnState"/>
+    </bean>
+
+    <bean id="playerResponseRequiredBetOnTurn" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerResponseRequired"/>
+        <property name="action" ref="playerResponseRequiredAction"/>
+        <property name="fromState" ref="betOnTurnState"/>
+        <property name="toState" ref="playerResponseRequiredTurnState"/>
+    </bean>
+
+    <bean id="playerResponseRequiredTimeoutOnTurn" class="com.online.casino.physhun.ConcreteTimeoutTransition">
+        <property name="condition" ref="isTimeout"/>
+        <property name="action" ref="timeOutAction"/>
+        <property name="fromState" ref="playerResponseRequiredTurnState"/>
+        <property name="toState" ref="betOnTurnState"/>
+        <property name="timeoutInSeconds" value="${player.response.timeout.in.seconds}"/>
+    </bean>
+
+    <!-- State: betOnTurnState. This is where the players have a chance to bet on the turn for the first time -->
+    <bean id="playerCallsBetOnTurn" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isCallable"/>
+        <property name="action" ref="callAction"/>
+        <property name="fromState" ref="playerResponseRequiredTurnState"/>
+        <property name="toState" ref="betOnTurnState"/>
+    </bean>
+
+    <!-- State: betOnTurnState. This is where the players have a chance to bet on the turn for the first time -->
+    <bean id="playerChecksBetOnTurn" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isCheckable"/>
+        <property name="action" ref="checkAction"/>
+        <property name="fromState" ref="playerResponseRequiredTurnState"/>
+        <property name="toState" ref="betOnTurnState"/>
+    </bean>
+
+    <!-- State: betOnTurnState. This is where the players have a chance to bet on the turn for the first time -->
+    <bean id="playerRaisesBetOnTurn" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isRaiseable"/>
+        <property name="action" ref="raiseAction"/>
+        <property name="fromState" ref="playerResponseRequiredTurnState"/>
+        <property name="toState" ref="betOnTurnState"/>
+    </bean>
+
+    <!-- State: betOnTurnState. This is where the players have a chance to bet on the turn for the first time -->
+    <bean id="playerFoldsBetOnTurn" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isFoldable"/>
+        <property name="action" ref="foldAction"/>
+        <property name="fromState" ref="playerResponseRequiredTurnState"/>
+        <property name="toState" ref="betOnTurnState"/>
+    </bean>
+
+    <!-- State: betOnTurnState. This transition happens when it's time for gamblers to bet on cards. It's almost like a nested state. -->
+    <bean id="betOnTurnToTurn" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isBettingOver"/>
+        <property name="action" ref="defaultAction"/>
+        <property name="fromState" ref="betOnTurnState"/>
+        <property name="toState" ref="turnState"/>
+    </bean>
+
+    <!-- State: turnState. This is the transition from HandStatus.TURN to HandStatus.COMPLETE -->
+    <!-- In this case there are no other players the game ends -->
+    <bean id="turnToEndGame" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isEndGame"/>
+        <property name="action" ref="endGameAction"/>
+        <property name="fromState" ref="turnState"/>
+        <property name="toState" ref="startState"/>
+    </bean>
+
+    <!-- This is the transition from HandStatus.TURN to HandStatus.RIVER -->
+    <bean id="turnToRiver" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isProgressable"/>
+        <property name="action" ref="progressGameAction"/>
+        <property name="fromState" ref="turnState"/>
+        <property name="toState" ref="riverState"/>
+    </bean>
+
+    <!-- State: riverState. This transition happens when it's time for gamblers to bet on cards. It's almost like a nested state. -->
+    <bean id="riverToPlayerResponseRequired" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerResponseRequired"/>
+        <property name="action" ref="playerResponseRequiredAction"/>
+        <property name="fromState" ref="riverState"/>
+        <property name="toState" ref="playerResponseRequiredRiverState"/>
+    </bean>
+
+    <bean id="playerResponseRequiredBetOnRiver" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isPlayerResponseRequired"/>
+        <property name="action" ref="playerResponseRequiredAction"/>
+        <property name="fromState" ref="betOnRiverState"/>
+        <property name="toState" ref="playerResponseRequiredRiverState"/>
+    </bean>
+
+    <bean id="playerResponseRequiredTimeoutOnRiver" class="com.online.casino.physhun.ConcreteTimeoutTransition">
+        <property name="condition" ref="isTimeout"/>
+        <property name="action" ref="timeOutAction"/>
+        <property name="fromState" ref="playerResponseRequiredRiverState"/>
+        <property name="toState" ref="betOnRiverState"/>
+        <property name="timeoutInSeconds" value="${player.response.timeout.in.seconds}"/>
+    </bean>
+
+    <!-- State: betOnRiverState. This is where the players have a chance to bet on the river for the first time -->
+    <bean id="playerCallsBetOnRiver" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isCallable"/>
+        <property name="action" ref="callAction"/>
+        <property name="fromState" ref="playerResponseRequiredRiverState"/>
+        <property name="toState" ref="betOnRiverState"/>
+    </bean>
+
+    <!-- State: betOnRiverState. This is where the players have a chance to bet on the river for the first time -->
+    <bean id="playerChecksBetOnRiver" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isCheckable"/>
+        <property name="action" ref="checkAction"/>
+        <property name="fromState" ref="playerResponseRequiredRiverState"/>
+        <property name="toState" ref="betOnRiverState"/>
+    </bean>
+
+    <!-- State: betOnRiverState. This is where the players have a chance to bet on the river for the first time -->
+    <bean id="playerRaisesBetOnRiver" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isRaiseable"/>
+        <property name="action" ref="raiseAction"/>
+        <property name="fromState" ref="playerResponseRequiredRiverState"/>
+        <property name="toState" ref="betOnRiverState"/>
+    </bean>
+
+    <!-- State: betOnRiverState. This is where the players have a chance to bet on the river for the first time -->
+    <bean id="playerFoldsBetOnRiver" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isFoldable"/>
+        <property name="action" ref="foldAction"/>
+        <property name="fromState" ref="playerResponseRequiredRiverState"/>
+        <property name="toState" ref="betOnRiverState"/>
+    </bean>
+
+    <!-- State: betOnRiverState. This transition happens when it's time for gamblers to bet on cards. It's almost like a nested state. -->
+    <bean id="betOnRiverToRiver" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isBettingOver"/>
+        <property name="action" ref="defaultAction"/>
+        <property name="fromState" ref="betOnRiverState"/>
+        <property name="toState" ref="riverState"/>
+    </bean>
+    
+    <!-- State: riverState. This is the transition from HandStatus.RIVER to HandStatus.COMPLETE -->
+    <bean id="riverToComplete" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isProgressable"/>
+        <property name="action" ref="progressGameAction"/>
+        <property name="fromState" ref="riverState"/>
+        <property name="toState" ref="startState"/>
+    </bean>
+
+    <!-- State: betOnRiverState. This is the transition from HandStatus.RIVER to HandStatus.COMPLETE -->
+    <!-- In this case there are no other players the game ends -->
+    <bean id="riverToEndGame" class="com.wazeegroup.physhun.framework.ConcreteTransition">
+        <property name="condition" ref="isEndGame"/>
+        <property name="action" ref="endGameAction"/>
+        <property name="fromState" ref="riverState"/>
+        <property name="toState" ref="startState"/>
+    </bean>
+
+</beans>

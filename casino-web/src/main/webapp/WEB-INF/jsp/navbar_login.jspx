@@ -1,0 +1,38 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+
+<ul xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" xmlns:spring="http://www.springframework.org/tags" xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:security="http://www.springframework.org/security/tags" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+
+	<li>
+	<h2>Administrators</h2>
+	</li>
+<!--
+	<ul>
+		<li>bjorn / bjorn</li>
+		<li>celine / celine</li>
+		<li>david / david</li>
+	</ul>
+-->
+	<li>
+	<h2>Players:</h2>
+	</li>
+<!--
+	<ul>
+		<li>player1 / player1</li>
+		<li>player2 / player2</li>
+		<li>player3 / player3</li>
+		<li>player4 / player4</li>
+		<li>player5 / player5</li>
+		<li>player6 / player6</li>
+		<li>player7 / player7</li>
+		<li>player8 / player8</li>
+		<li>player9 / player9</li>
+		<li>player10 / player10</li>
+	</ul>
+-->
+</ul>
+	

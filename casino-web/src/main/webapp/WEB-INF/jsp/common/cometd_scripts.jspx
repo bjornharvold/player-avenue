@@ -1,0 +1,56 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:spring-form="http://www.springframework.org/tags/form"
+          xmlns:security="http://www.springframework.org/security/tags"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:x="http://java.sun.com/jsp/jstl/xml"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns:tiles="http://tiles.apache.org/tags-tiles"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+    <jsp:directive.page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"/>
+
+    <spring:url value="/js/com/jquery/jquery.cookie.js" var="jquerycookie"/>
+    <script language="javascript" type="text/javascript" src="${jquerycookie}"><!----></script>
+
+    <spring:url value="/js/org/cometd.js" var="cometd"/>
+    <script language="javascript" type="text/javascript" src="${cometd}"><!----></script>
+
+    <spring:url value="/js/org/cometd/AckExtension.js" var="ack"/>
+    <script language="javascript" type="text/javascript" src="${ack}"><!----></script>
+
+    <spring:url value="/js/org/cometd/TimeStampExtension.js" var="timestamp"/>
+    <script language="javascript" type="text/javascript" src="${timestamp}"><!----></script>
+
+    <spring:url value="/js/org/cometd/ReloadExtension.js" var="reload"/>
+    <script language="javascript" type="text/javascript" src="${reload}"><!----></script>
+
+    <spring:url value="/js/org/cometd/TimeSyncExtension.js" var="timesync"/>
+    <script language="javascript" type="text/javascript" src="${timesync}"><!----></script>
+
+    <spring:url value="/js/com/jquery/jquery.cometd.js" var="jquerycometd"/>
+    <script language="javascript" type="text/javascript" src="${jquerycometd}"><!----></script>
+
+    <spring:url value="/js/com/jquery/json2.js" var="json2"/>
+    <script language="javascript" type="text/javascript" src="${json2}"><!----></script>
+
+    <spring:url value="/js/com/jquery/jquery.cometd-ack.js" var="jqueryack"/>
+    <script language="javascript" type="text/javascript" src="${jqueryack}"><!----></script>
+
+    <spring:url value="/js/com/jquery/jquery.cometd-timestamp.js" var="jquerytimestamp"/>
+    <script language="javascript" type="text/javascript" src="${jquerytimestamp}"><!----></script>
+
+    <spring:url value="/js/com/jquery/jquery.cometd-reload.js" var="jqueryreload"/>
+    <script language="javascript" type="text/javascript" src="${jqueryreload}"><!----></script>
+
+    <spring:url value="/js/com/jquery/jquery.cometd-timesync.js" var="jquerytimesync"/>
+    <script language="javascript" type="text/javascript" src="${jquerytimesync}"><!----></script>
+
+    <spring:url value="/js/jquery.json-2.2-custom.js" var="jqueryjson"/>
+    <script language="javascript" type="text/javascript" src="${jqueryjson}"><!----></script>
+</jsp:root>

@@ -1,0 +1,47 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+
+
+
+<div id="loginModule" xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:spring-form="http://www.springframework.org/tags/form" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+
+	<b><spring:message code="page.login.title" text="Login to Player Avenue" /></b>
+
+	<c:if test="${not empty param.success}">
+      <span style="color:red;">
+		<br/><spring:message code="security.login.unsuccessful"/>
+		<c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.
+      </span>
+    </c:if>
+	    
+	<spring:url value='/j_spring_security_check' var="form_url"/>
+	<form name="f" action="${form_url}" method="POST"> 
+		<div>
+            <label for="j_username"><spring:message code="user.username" text="Username"/>:&#160;</label>
+            <input id="j_username" type='text' name='j_username' style="width:150px"/>
+	    </div>		
+	    <br/>
+	    <div>
+            <label for="j_password"><spring:message code="user.password" text="Password" />:&#160;</label>
+            <input id="j_password" type='password' name='j_password' style="width:150px" />
+	    </div>
+		<br/>
+		<div class="submit">
+            <spring:message var="save" code="button.save" text="Save" />
+            <input id="submit" type="submit" value="${save}"/>
+            <spring:message code="button.reset" var="reset_label"/>
+            <input id="reset" type="reset" value="${reset_label}"/>
+        </div>
+	</form>
+
+	<script type="text/javascript">
+        $(document).ready(function() {
+            $('#j_username').focus();
+        });
+    </script>
+</div>

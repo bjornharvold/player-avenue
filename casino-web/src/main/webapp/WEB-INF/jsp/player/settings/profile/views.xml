@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+	<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+	<!-- Definitions for Tiles documentation   -->
+
+<tiles-definitions>
+
+	<definition name="player.profile.show" extends="template.player.page.master">
+		<put-attribute type="string" name="title" value="page.profile.title" />
+		<put-list-attribute name="navbars" inherit="true">
+			<add-attribute type="template" value="/WEB-INF/jsp/player/settings/navbar.jspx" />
+		</put-list-attribute>
+		<put-list-attribute name="contents">
+			<add-attribute type="template" value="/WEB-INF/jsp/player/settings/profile/show.jspx" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="player.profile.update" extends="template.player.page.master">
+		<put-attribute type="string" name="title" value="page.profile.title" />
+		<put-list-attribute name="navbars" inherit="true">
+			<add-attribute type="template" value="/WEB-INF/jsp/player/settings/navbar.jspx" />
+		</put-list-attribute>
+		<put-list-attribute name="contents">
+			<add-attribute type="template" value="/WEB-INF/jsp/player/settings/profile/update.jspx" />
+		</put-list-attribute>
+	</definition>
+
+</tiles-definitions>

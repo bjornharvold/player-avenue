@@ -1,0 +1,25 @@
+p {
+  font-size: 12pt;
+}
+
+td {
+  font-size: 12pt;
+}
+
+#main {
+  font-size: 12pt;
+}
+
+#small-font-button {
+  cursor: pointer;
+  background: url(../images/font_decrease_active.gif);
+  height: 12px;
+  width: 18px;
+}
+
+#big-font-button {
+  cursor: default;
+  background: url(../images/font_increase_inactive.gif);
+  height: 12px;
+  width: 18px;
+}

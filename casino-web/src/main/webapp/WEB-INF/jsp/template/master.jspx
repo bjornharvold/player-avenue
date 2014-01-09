@@ -1,0 +1,84 @@
+<!--
+  ~ Copyright (c) 2011. This beautifully written piece of code has been created by Bjorn Harvold.
+  ~ Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:spring-form="http://www.springframework.org/tags/form"
+          xmlns:security="http://www.springframework.org/security/tags"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:x="http://java.sun.com/jsp/jstl/xml"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns:tiles="http://tiles.apache.org/tags-tiles"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:casino="urn:jsptagdir:/WEB-INF/tags"
+          version="2.0">
+    <jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat"/>
+    <jsp:directive.page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="true"/>
+
+    <html>
+    <head>
+        <tiles:importAttribute name="title"/>
+        <title><spring:message code="company.name" text="Player Avenue"/> : <spring:message code="${title}"
+                                                                                            text="Wanna Play"/></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=8"/>
+        <spring:url value="/images/favicon.ico" var="favicon"/>
+        <link rel="SHORTCUT ICON" href="${favicon}" type="image/x-icon"/>
+
+        <tiles:useAttribute id="styles" name="styles" classname="java.util.List"/>
+        <c:forEach var="item" items="${styles}">
+            <tiles:insertAttribute value="${item}" flush="true"/>
+        </c:forEach>
+
+        <tiles:useAttribute id="javascripts" name="javascripts" classname="java.util.List"/>
+        <c:forEach var="item" items="${javascripts}">
+            <tiles:insertAttribute value="${item}" flush="true"/>
+        </c:forEach>
+
+    </head>
+
+    <body>
+
+    <tiles:insertAttribute name="masthead"/>
+    
+    <div id="main">
+
+
+        <div id="maincontent">
+                <tiles:useAttribute id="contents" name="contents" classname="java.util.List"/>
+                <c:forEach var="item" items="${contents}" varStatus="status">
+                    <tiles:insertAttribute value="${item}" flush="true"/>
+                </c:forEach>
+
+            <!--
+            <div id="footer">
+                <spring:url var="home" value="/app/index"/>
+                <span><a href="${home}"><spring:message code="button.home" text="Home"/></a></span>
+                <c:if test="${pageContext.request.userPrincipal != null}">
+                    <c:out value=" | "/>
+			    	<span>			    
+					    <spring:url var="logout" value="/j_spring_security_logout"/>
+					    <a href="${logout}"><spring:message code="button.logout" text="Sign off"/></a>
+				    </span>
+                </c:if>
+
+                <casino:language/>
+                <casino:theme/>
+
+                <spring:url var="logo" value="/images/springsource-logo.png"/>
+                <spring:message code="global.powered.by" text="Powered by" var="sponsored"/>
+                <span><a href="/" title="${sponsored}"><img src="${logo}" alt="${sponsored}" align="right"/></a></span>
+            </div>
+            -->
+        </div>
+    </div>
+
+    <tiles:insertAttribute name="footer"/>
+
+    </body>
+    </html>
+</jsp:root>

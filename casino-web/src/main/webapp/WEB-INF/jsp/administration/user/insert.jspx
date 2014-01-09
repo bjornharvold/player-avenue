@@ -1,0 +1,59 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" xmlns:spring="http://www.springframework.org/tags" xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:casino="urn:jsptagdir:/WEB-INF/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+	<jsp:output omit-xml-declaration="yes"/>
+
+	<spring:message var="option1" code="form.select" text="-- Please Select --" />
+	<spring:message var="entity_label" code="page.user.title" text="User" />
+	<spring:message arguments="${entity_label}" var="title_msg" code="button.insert" text="Save" />
+
+	<b>${title_msg}</b>
+	
+	<spring:url value="/app/administration/user/form" var="form_url"/>
+	<spring-form:form id="form" commandName="applicationUser" action="${form_url}" method="POST">
+
+		<div id="user_username">
+			<spring-form:label path="username"><spring:message code="user.username" text="Username" /></spring-form:label>:&#160;
+			<spring-form:input path="username"/>
+			<spring-form:errors path="username" cssClass="errors" delimiter=". "/>
+		</div>
+		<br/>
+		<div id="user_email">
+			<spring-form:label path="email"><spring:message code="user.email" text="E-mail" /></spring-form:label>:&#160;
+			<spring-form:input path="email" />
+			<spring-form:errors path="email" cssClass="errors" delimiter=". "/>
+		</div>
+		<br/>
+		<div id="user_password">
+			<spring-form:label path="newPassword"><spring:message code="user.password" text="Password" /></spring-form:label>:&#160;
+			<spring-form:password path="newPassword" />
+			<spring-form:errors path="newPassword" cssClass="errors" delimiter=". " />
+		</div>
+		<br/>
+		<div id="user_password_confirm">
+			<spring-form:label path="passwordConfirm"><spring:message code="user.password.confirm" text="Confirm password" /></spring-form:label>:&#160;
+			<spring-form:password path="passwordConfirm" />
+			<spring-form:errors path="passwordConfirm" cssClass="errors" delimiter=". " />
+		</div>
+		<br/>
+		<div id="user_status">
+			<spring-form:label path="status"><spring:message code="user.status" text="Status" /></spring-form:label>:&#160;
+			<spring-form:select path="status">
+				<spring-form:option value="" label="${option1}" />
+				<spring-form:options items="${statuses}" itemLabel="label" itemValue="value" />
+			</spring-form:select>
+			<spring-form:errors path="status" cssClass="errors" delimiter=". " />
+		</div>
+		<br/>
+		<div class="submit">
+			<spring:message var="save" code="button.save" text="Save"/> 
+			<input id="submit" type="submit" name="submit" value="${save}" class="submit"/>
+		</div>
+
+
+	</spring-form:form>
+
+</div>

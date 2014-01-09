@@ -1,0 +1,91 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+
+	<spring:message var="option1" code="form.select" text="-- Please Select --" />
+	
+	<div id="game_template_max_players">
+		<spring-form:label path="maxPlayers"><spring:message code="pokergame.maxplayers" text="Max players" /></spring-form:label>:&#160;
+		<spring-form:select path="maxPlayers">
+			<spring-form:option value="" label="${option1}" />
+			<spring-form:option value="2" label="2" />
+			<spring-form:option value="3" label="3" />
+			<spring-form:option value="4" label="4" />
+			<spring-form:option value="5" label="5" />
+			<spring-form:option value="6" label="6" />
+			<spring-form:option value="7" label="7" />
+			<spring-form:option value="8" label="8" />
+			<spring-form:option value="9" label="9" />
+			<spring-form:option value="10" label="10" />
+		</spring-form:select>
+		<spring-form:errors path="maxPlayers" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="game_template_raise_limit">
+		<spring-form:label path="raiseLimit"><spring:message code="pokergame.raiselimit" text="Raise limit" /></spring-form:label>:&#160;
+		<spring-form:select path="raiseLimit">
+			<spring-form:option value="" label="${option1}" />
+			<spring-form:option value="1" label="1" />
+			<spring-form:option value="2" label="2" />
+			<spring-form:option value="3" label="3" />
+			<spring-form:option value="4" label="4" />
+		</spring-form:select>
+		<spring-form:errors path="raiseLimit" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="game_template_type">
+		<spring-form:label path="type"><spring:message code="pokergame.type" text="Type" /></spring-form:label>:&#160;
+		<spring-form:select path="type">
+			<spring-form:option value="" label="${option1}" />
+			<spring-form:options items="${types}" itemLabel="label" itemValue="value" />
+		</spring-form:select>
+		<spring-form:errors path="type" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="game_template_round_type">
+		<spring-form:label path="roundType"><spring:message code="pokergame.round.type" text="Round type" /></spring-form:label>:&#160;
+		<spring-form:select path="roundType">
+			<spring-form:option value="" label="${option1}" />
+			<spring-form:options items="${roundTypes}" itemLabel="label" itemValue="value" />
+		</spring-form:select>
+		<spring-form:errors path="roundType" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="game_template_limit_type">
+		<spring-form:label path="limitType"><spring:message code="pokergame.limit" text="Limit" /></spring-form:label>:&#160;
+		<spring-form:select path="limitType">
+			<spring-form:option value="" label="${option1}" />
+			<spring-form:options items="${limits}" itemLabel="label" itemValue="value" />
+		</spring-form:select>
+		<spring-form:errors path="limitType" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="game_template_stake">
+		<spring-form:label path="stake"><spring:message code="pokergame.stake" text="stake" /></spring-form:label>:&#160;
+		<spring-form:select path="stake">
+			<spring-form:option value="" label="${option1}" />
+			<spring-form:options items="${stakes}" itemLabel="label" itemValue="id" />
+		</spring-form:select>
+		<spring-form:errors path="stake" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="game_template_device_type">
+		<spring-form:label path="deviceType"><spring:message code="pokergame.deviceType" text="Device type" /></spring-form:label>:&#160;
+		<spring-form:select path="deviceType">
+			<spring-form:option value="" label="${option1}" />
+			<spring-form:options items="${devices}" itemLabel="label" itemValue="value" />
+		</spring-form:select>
+		<spring-form:errors path="deviceType" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div class="submit">
+		<spring:message var="save" code="button.save" text="Save"/> 
+		<input id="submit" type="submit" name="submit" value="${save}" class="submit"/>
+	</div>
+	<spring-form:hidden path="id" />
+	<spring-form:hidden path="version" />
+</div>

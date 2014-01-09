@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 3.0//EN" "http://tuckey.org/res/dtds/urlrewrite3.0.dtd">
+
+<urlrewrite default-match-type="wildcard">
+    <rule>
+        <from>/resources/**</from>
+        <to>/resources/$1</to>
+    </rule>
+    <rule>
+        <from>/**</from>
+        <to>/$1</to>
+    </rule>
+    <rule>
+        <from>/</from>
+        <to last="true">/app/index</to>
+    </rule>
+    <rule>
+        <from>/app/**</from>
+        <to last="true">/app/$1</to>
+    </rule>
+    <rule>
+        <from>/app/administration/**</from>
+        <to last="true">/app/administration/$1</to>
+    </rule>
+    <rule>
+        <from>/app/player/**</from>
+        <to last="true">/app/player/$1</to>
+    </rule>
+    <rule>
+        <from>/messagebroker</from>
+        <to last="true">/messagebroker</to>
+    </rule>
+    <rule>
+        <from>/messagebroker/**</from>
+        <to last="true">/messagebroker/$1</to>
+    </rule>
+    <rule>
+        <from>/cometd</from>
+        <to last="true">/cometd</to>
+    </rule>
+    <rule>
+        <from>/cometd/**</from>
+        <to last="true">/cometd/$1</to>
+    </rule>
+    <rule>
+        <from>/j_spring_security_check</from>
+        <to last="true">/j_spring_security_check</to>
+    </rule>
+    <rule>
+        <from>/j_spring_security_logout</from>
+        <to last="true">/j_spring_security_logout</to>
+    </rule>
+    <rule>
+        <from>/kaptcha.jpg</from>
+        <to last="true">/kaptcha.jpg</to>
+    </rule>
+    <rule>
+        <from>/favicon.ico</from>
+        <to last="true">/favicon.ico</to>
+    </rule>
+    <rule>
+        <from>/**</from>
+        <to>/app/$1</to>
+    </rule>
+    <outbound-rule>
+        <from>/app/**</from>
+        <to>/$1</to>
+    </outbound-rule>
+</urlrewrite>

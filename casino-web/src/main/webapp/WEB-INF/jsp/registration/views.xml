@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+	<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+	<!-- Definitions for Tiles documentation   -->
+
+<tiles-definitions>
+
+	<definition name="user.register.form" extends="template.page.master">
+		<put-attribute type="string" name="title" value="page.register.title" />
+		<put-list-attribute name="contents">
+			<add-attribute type="template" value="/WEB-INF/jsp/registration/register_form.jspx" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="user.activation" extends="template.page.master">
+		<put-attribute type="string" name="title" value="page.activation.title" />
+		<put-list-attribute name="contents">
+			<add-attribute type="template" value="/WEB-INF/jsp/registration/activation.jspx" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="user.forgotpassword" extends="template.page.master">
+		<put-attribute type="string" name="title" value="page.forgotpassword.title" />
+		<put-list-attribute name="contents">
+			<add-attribute type="template" value="/WEB-INF/jsp/registration/forgotpassword_form.jspx" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="user.forgotpassword.confirmation" extends="template.page.master">
+		<put-attribute type="string" name="title" value="page.forgotpassword.confirmation.title" />
+		<put-list-attribute name="contents">
+			<add-attribute type="template" value="/WEB-INF/jsp/registration/forgotpassword_confirmation.jspx" />
+		</put-list-attribute>
+	</definition>
+
+</tiles-definitions>

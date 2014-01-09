@@ -1,0 +1,153 @@
+.logoBtn {
+	background: url(../images/logo2.png) no-repeat 0 0;
+	width: 148px;
+	height: 160px;
+	display: block;
+	text-indent: -9999px;
+	float:left;
+}
+
+.logoBtn:hover { background-position: 0 -170px; }
+
+.logoBtn:active { background-position: 0 0; }
+
+
+.facebookBtn {
+	background: url(../images/facebook-icon.png) no-repeat 0 0;
+	width: 23px;
+	height: 23px;
+	display: block;
+	float:left;
+	margin-right:5px;
+}
+
+.facebookBtn:hover { background-position: 0 -33px; }
+
+.facebookBtn:active { background-position: 0 0; }
+
+
+.twitterBtn {
+	background: url(../images/twitter-icon.png) no-repeat 0 0;
+	width: 23px;
+	height: 23px;
+	display: block;
+	float:left;
+}
+
+.twitterBtn:hover { background-position: 0 -33px; }
+
+.twitterBtn:active { background-position: 0 0; }
+
+
+.dashboardBtn {
+	background: url(../images/dashboard-btn.png) no-repeat 0 0;
+	width: 38px;
+	height: 50px;
+	display: block;
+	text-indent: -9999px;
+	float:left;
+	margin-left:30px;
+}
+
+.dashboardBtn:hover { background-position: 0 -60px; }
+
+.dashboardBtn:active { background-position: 0 0; }
+
+.msgBtn {
+	background: url(../images/notif-msg.png) no-repeat 0 0;
+	width: 36px;
+	height: 50px;
+	display: block;
+	text-indent: -9999px;
+	float:left;
+	margin-left:2px;
+}
+
+.msgBtn:hover { background-position: 0 -60px; }
+
+.msgBtn:active { background-position: 0 0; }
+
+.msgnewBtn {
+	background: url(../images/notif-msg-new.png) no-repeat 0 0;
+	width: 36px;
+	height: 50px;
+	display: block;
+	text-indent: -9999px;
+	float:left;
+	margin-left:2px;
+}
+
+.msgnewBtn:hover { background-position: 0 -60px; }
+
+.msgnewBtn:active { background-position: 0 0; }
+
+.friendBtn {
+	background: url(../images/notif-friend.png) no-repeat 0 0;
+	width: 36px;
+	height: 50px;
+	display: block;
+	text-indent: -9999px;
+	float:left;
+	margin-left:2px;
+}
+
+.friendBtn:hover { background-position: 0 -60px; }
+
+.friendBtn:active { background-position: 0 0; }
+
+.friendnewBtn {
+	background: url(../images/notif-friend-new.png) no-repeat 0 0;
+	width: 36px;
+	height: 50px;
+	display: block;
+	text-indent: -9999px;
+	float:left;
+	margin-left:2px;
+}
+
+.friendnewBtn:hover { background-position: 0 -60px; }
+
+.friendnewBtn:active { background-position: 0 0; }
+
+.inviteBtn {
+	background: url(../images/notif-invite.png) no-repeat 0 0;
+	width: 36px;
+	height: 50px;
+	display: block;
+	text-indent: -9999px;
+	float:left;
+	margin-left:2px;
+}
+
+.inviteBtn:hover { background-position: 0 -60px; }
+
+.inviteBtn:active { background-position: 0 0; }
+
+.invitenewBtn {
+	background: url(../images/notif-invite.png) no-repeat 0 0;
+	width: 36px;
+	height: 50px;
+	display: block;
+	text-indent: -9999px;
+	float:left;
+	margin-left:2px;
+}
+
+.invitenewBtn:hover { background-position: 0 -60px; }
+
+.invitenewBtn:active { background-position: 0 0; }
+
+
+.addfundsBtn {
+	background: url(../images/add-btn.png) no-repeat 0 0;
+	width: 45px;
+	height: 14px;
+	display: block;
+	text-indent: -9999px;
+	margin-left:2px;
+	float:right;
+}
+
+.addfundsBtn:hover { background-position: 0 -24px; }
+
+.addfundsBtn:active { background-position: 0 0; }

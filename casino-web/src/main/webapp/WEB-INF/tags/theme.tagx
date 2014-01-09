@@ -1,0 +1,52 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:spring="http://www.springframework.org/tags" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+	<span>
+		<c:out value=" | "/>
+
+        <!-- standard theme -->
+        <spring:message code="global.theme" text="Theme"/>
+	    <c:out value=": "/>
+    	<spring:url var="url_theme1" value="">
+            <spring:param name="theme" value="standard_theme"/>
+            <c:if test="${not empty param.page}">
+                <spring:param name="page" value="${param.page}"/>
+            </c:if>
+            <c:if test="${not empty param.size}">
+                <spring:param name="size" value="${param.size}"/>
+            </c:if>
+        </spring:url>
+    	<spring:message code="global.theme.standard" var="theme_standard" text="Standard"/>
+        <a href="${url_theme1}" title="${theme_standard}">${theme_standard}</a>
+
+
+		<c:out value=" | "/>
+
+        <!-- PA old -->
+        <spring:url var="url_theme2" value="">
+            <spring:param name="theme" value="old_playeravenue_theme"/>
+            <c:if test="${not empty param.page}">
+                <spring:param name="page" value="${param.page}"/>
+            </c:if>
+            <c:if test="${not empty param.size}">
+                <spring:param name="size" value="${param.size}"/>
+            </c:if>
+        </spring:url>
+    	<spring:message code="global.theme.playerave.old" var="pa" text="PA old"/>
+    	<a href="${url_theme2}" title="${pa}">${pa}</a>
+
+		<c:out value=" | "/>
+
+        <!-- PA new -->
+        <spring:url var="url_theme3" value="">
+            <spring:param name="theme" value="playeravenue_theme"/>
+            <c:if test="${not empty param.page}">
+                <spring:param name="page" value="${param.page}"/>
+            </c:if>
+            <c:if test="${not empty param.size}">
+                <spring:param name="size" value="${param.size}"/>
+            </c:if>
+        </spring:url>
+    	<spring:message code="global.theme.playerave" var="pa" text="PA"/>
+    	<a href="${url_theme3}" title="${pa}">${pa}</a>
+    </span>
+</jsp:root>

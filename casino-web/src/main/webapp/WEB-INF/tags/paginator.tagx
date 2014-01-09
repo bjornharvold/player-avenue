@@ -1,0 +1,84 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+
+
+
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:spring-form="http://www.springframework.org/tags/form"
+          xmlns:tiles="http://tiles.apache.org/tags-tiles"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:x="http://java.sun.com/jsp/jstl/xml"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+
+    <jsp:directive.tag body-content="empty"/>
+    <jsp:directive.attribute name="currentPage" fragment="false" required="true" type="java.lang.Integer"/>
+    <jsp:directive.attribute name="rowsPerPage" fragment="false" required="true" type="java.lang.Integer"/>
+    <jsp:directive.attribute name="count" fragment="false" required="true" type="java.lang.Integer"/>
+    <jsp:directive.attribute name="url" fragment="false" required="true" type="java.lang.String"/>
+    <jsp:directive.attribute name="id" fragment="false" required="true" type="java.lang.String"/>
+    <jsp:directive.attribute name="extraParameters" fragment="false" required="false" type="java.lang.String"/>
+
+    <c:set var="a">
+        <fmt:formatNumber value="${count/rowsPerPage}" maxFractionDigits="0"/>
+    </c:set>
+
+    <c:set var="b" value="${count/rowsPerPage}"/>
+
+    <c:choose>
+        <c:when test="${a==0}">
+            <c:set var="numberOfPages" value="1" scope="session"/>
+        </c:when>
+
+        <c:when test="${b>a}">
+            <c:set var="xxx" value="${b%a}"/>
+            <c:if test="${xxx>0}">
+                <c:set var="numberOfPages" value="${b-xxx+1}" scope="session"/>
+            </c:if>
+        </c:when>
+
+        <c:when test="${a>=b}">
+            <c:set var="numberOfPages" value="${a}" scope="session"/>
+        </c:when>
+    </c:choose>
+
+    <c:set var="totalPages">
+        <fmt:formatNumber value="${numberOfPages}" maxFractionDigits="0"/>
+    </c:set>
+
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+            <td align="right" width="40%">
+                <c:choose>
+                    <c:when test="${currentPage gt 0}">
+                        <a href="javascript:replaceHtmlContent({id: '${id}', url: '${url}?index=0&amp;maxResults=${rowsPerPage}&amp;name=${name}${extraParameters}'})"><img
+                                src="/images/icons/first.gif" alt="" border="0"/></a>
+                        &#160;<a
+                            href="javascript:replaceHtmlContent({id: '${id}', url: '${url}?index=${currentPage-1}&amp;maxResults=${rowsPerPage}&amp;name=${name}${extraParameters}'})"><img
+                            src="/images/icons/previous.gif" alt="" border="0"/></a>
+                    </c:when>
+                    <c:otherwise>&#160;</c:otherwise>
+                </c:choose>
+
+            </td>
+            <td align="center" width="20%">${currentPage+1} of ${totalPages}</td>
+            <td align="left" width="40%">
+                <c:choose>
+                    <c:when test="${currentPage lt totalPages-1}">
+                        <a href="javascript:replaceHtmlContent({id: '${id}', url: '${url}?index=${currentPage+1}&amp;maxResults=${rowsPerPage}&amp;name=${name}${extraParameters}'})"><img
+                                src="/images/icons/next.gif" alt="" border="0"/></a>
+                        &#160;<a
+                            href="javascript:replaceHtmlContent({id: '${id}', url: '${url}?index=${totalPages-1}&amp;maxResults=${rowsPerPage}&amp;name=${name}${extraParameters}'})"><img
+                            src="/images/icons/last.gif" alt="" border="0"/></a>
+                    </c:when>
+                    <c:otherwise>&#160;</c:otherwise>
+                </c:choose>
+            </td>
+        </tr>
+    </table>
+
+</jsp:root>

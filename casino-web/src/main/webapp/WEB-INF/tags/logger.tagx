@@ -1,0 +1,38 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:spring-form="http://www.springframework.org/tags/form"
+          xmlns:tiles="http://tiles.apache.org/tags-tiles"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:x="http://java.sun.com/jsp/jstl/xml"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+    <jsp:directive.tag import="org.slf4j.Logger"/>
+    <jsp:directive.tag import="org.slf4j.LoggerFactory"/>
+
+    <jsp:directive.tag body-content="empty"/>
+    <jsp:directive.attribute name="level" rtexprvalue="false" fragment="false" required="true" type="java.lang.String"/>
+    <jsp:directive.attribute name="message" rtexprvalue="true" fragment="false" required="true"
+                             type="java.lang.String"/>
+
+    <jsp:scriptlet>
+        final Logger log = LoggerFactory.getLogger("jsp");
+
+        if (level.equals("error")) {
+            log.error(message);
+        } else if (level.equals("warn")) {
+            log.warn(message);
+        } else if (level.equals("info")) {
+            log.info(message);
+        } else if (level.equals("debug")) {
+            log.debug(message);
+        } else if (level.equals("trace")) {
+            log.trace(message);
+        }
+    </jsp:scriptlet>
+</jsp:root>

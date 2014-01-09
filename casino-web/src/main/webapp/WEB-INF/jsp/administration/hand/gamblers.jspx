@@ -1,0 +1,71 @@
+<!--
+  ~ Copyright (c) 2010. This beautifully written piece of code has been created by Bjorn Harvold. 
+  ~ Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:spring-form="http://www.springframework.org/tags/form"
+     xmlns:security="http://www.springframework.org/security/tags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:x="http://java.sun.com/jsp/jstl/xml"
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     xmlns:tiles="http://tiles.apache.org/tags-tiles"
+     xmlns:casino="urn:jsptagdir:/WEB-INF/tags"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <spring:message code="title.gamblers" text="Gamblers" var="entity_label_plural"/>
+    <spring:message code="title.gambler" text="Gambler" var="entity_label"/>
+
+    <b>${entity_label_plural}</b>
+
+    <div id="pokergame_gamblers">
+        <c:if test="${not empty gamblers}">
+            <table>
+                <thead>
+                <tr>
+                    <th width="15%"><spring:message code="player.nickname" text="Nickname"/></th>
+                    <th width="5%"><spring:message code="pokergame.seat" text="Seat"/></th>
+                    <th width="10%"><spring:message code="player.status" text="Status"/></th>
+                    <th width="10%"><spring:message code="account.balance" text="Balance"/></th>
+                    <th width="10%"><spring:message code="title.bet" text="Bet"/></th>
+                    <th width="20%"><spring:message code="title.hand" text="Hand"/></th>
+                    <th width="20%"><spring:message code="player.joined.date" text="Joined"/></th>
+                    <th width="10%">&#160;</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${gamblers}" var="gambler" varStatus="status">
+                    <c:set var="gambler" scope="request" value="${gambler}"/>
+                    <tr>
+                        <td>${gambler.player.nickname}</td>
+                        <td>${gambler.seatNumber}</td>
+                        <td>${gambler.status}</td>
+                        <td>${balance[gambler.id]}</td>
+                        <td>${bet[gambler.id]}</td>
+                        <td>
+                            <c:if test="${hand.status == 'COMPLETE'}">
+                                ${gambler.cards} <br/> ${gambler.handName} 
+                            </c:if>
+                        </td>
+                        <td><fmt:formatDate value="${gambler.createdDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                        <td align="center">
+                            <c:if test="${gambler.id == currentGamblerId}">
+                                <jsp:include page="game_controls.jspx" flush="true"/>
+                            </c:if>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
+
+        <c:if test="${empty gamblers}">
+            <p><spring:message code="hand.gamblers.empty"
+                               text="There are currently no gamblers playing this hand"/></p>
+        </c:if>
+    </div>
+
+</div>

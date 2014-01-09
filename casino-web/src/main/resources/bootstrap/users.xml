@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<users>
+    <user username="bjorn" id="1">
+        <locale>en_US</locale>
+        <password>bjorn</password>
+        <firstName>Bjorn</firstName>
+        <lastName>Harvold</lastName>
+        <email>bjorn@harvold.com</email>
+        <roles>
+            <role>Super Administrator</role>
+            <role>Developer</role>
+        </roles>
+        <players>
+            <player id="1">
+                <nickname>Bjorn</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+        </players>
+        <accounts>
+            <account amount="1000" currency="DOLLAR"/>
+            <account amount="1000" currency="EURO"/>
+            <account amount="1000" currency="PLAY"/>
+        </accounts>
+    </user>
+    <user username="david" id="2">
+        <locale>en_US</locale>
+        <password>david</password>
+        <firstName>David</firstName>
+        <lastName>Chang</lastName>
+        <email>dchang@nochump.com</email>
+        <roles>
+            <role>Super Administrator</role>
+            <role>Developer</role>
+        </roles>
+        <players>
+            <player id="2">
+                <nickname>David</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+        </players>
+        <accounts>
+            <account amount="1000" currency="DOLLAR"/>
+            <account amount="1000" currency="EURO"/>
+            <account amount="1000" currency="PLAY"/>
+        </accounts>
+    </user>
+    <user username="celine" id="3">
+        <locale>en_US</locale>
+        <password>celine</password>
+        <firstName>Celine</firstName>
+        <lastName>Oberle</lastName>
+        <email>celine.oberle@gmail.com</email>
+        <roles>
+            <role>Super Administrator</role>
+        </roles>
+        <players>
+            <player id="3">
+                <nickname>Celine</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+        </players>
+        <accounts>
+            <account amount="1000" currency="DOLLAR"/>
+            <account amount="1000" currency="EURO"/>
+            <account amount="1000" currency="PLAY"/>
+        </accounts>
+    </user>
+    <user username="player1" id="4">
+        <locale>en_US</locale>
+        <password>player1</password>
+        <firstName>Player</firstName>
+        <lastName>1</lastName>
+        <email>player1@harvold.com</email>
+        <roles>
+            <role>Application user</role>
+        </roles>
+        <players>
+            <player id="4">
+                <nickname>player1a</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="5">
+                <nickname>player1b</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="6">
+                <nickname>player1c</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+        </players>
+        <accounts>
+            <account amount="1000" currency="DOLLAR"/>
+            <account amount="1000" currency="EURO"/>
+            <account amount="1000" currency="PLAY"/>
+        </accounts>
+    </user>
+    <user username="player2" id="5">
+        <locale>en_US</locale>
+        <password>player2</password>
+        <firstName>Player</firstName>
+        <lastName>2</lastName>
+        <email>player2@harvold.com</email>
+        <roles>
+            <role>Application user</role>
+        </roles>
+        <players>
+            <player id="7">
+                <nickname>player2a</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="8">
+                <nickname>player2b</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="9">
+                <nickname>player2c</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+        </players>
+        <accounts>
+            <account amount="1000" currency="DOLLAR"/>
+            <account amount="1000" currency="EURO"/>
+            <account amount="1000" currency="PLAY"/>
+        </accounts>
+    </user>
+    <user username="player3" id="6">
+        <locale>en_US</locale>
+        <password>player3</password>
+        <firstName>Player</firstName>
+        <lastName>3</lastName>
+        <email>player3@harvold.com</email>
+        <roles>
+            <role>Application user</role>
+        </roles>
+        <players>
+            <player id="10">
+                <nickname>player3a</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="11">
+                <nickname>player3b</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="12">
+                <nickname>player3c</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+        </players>
+        <accounts>
+            <account amount="1000" currency="DOLLAR"/>
+            <account amount="1000" currency="EURO"/>
+            <account amount="1000" currency="PLAY"/>
+        </accounts>
+    </user>
+    <user username="player4" id="7">
+        <locale>en_US</locale>
+        <password>player4</password>
+        <firstName>Player</firstName>
+        <lastName>4</lastName>
+        <email>player4@harvold.com</email>
+        <roles>
+            <role>Application user</role>
+        </roles>
+        <players>
+            <player id="13">
+                <nickname>player4a</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="14">
+                <nickname>player4b</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="15">
+                <nickname>player4c</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+        </players>
+        <accounts>
+            <account amount="1000" currency="DOLLAR"/>
+            <account amount="1000" currency="EURO"/>
+            <account amount="1000" currency="PLAY"/>
+        </accounts>
+    </user>
+    <user username="player5" id="8">
+        <locale>en_US</locale>
+        <password>player5</password>
+        <firstName>Player</firstName>
+        <lastName>5</lastName>
+        <email>player5@harvold.com</email>
+        <roles>
+            <role>Application user</role>
+        </roles>
+        <players>
+            <player id="16">
+                <nickname>player5a</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="17">
+                <nickname>player5b</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="18">
+                <nickname>player5c</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+        </players>
+        <accounts>
+            <account amount="1000" currency="DOLLAR"/>
+            <account amount="1000" currency="EURO"/>
+            <account amount="1000" currency="PLAY"/>
+        </accounts>
+    </user>
+    <user username="player6" id="9">
+        <locale>en_US</locale>
+        <password>player6</password>
+        <firstName>Player</firstName>
+        <lastName>6</lastName>
+        <email>player6@harvold.com</email>
+        <roles>
+            <role>Application user</role>
+        </roles>
+        <players>
+            <player id="19">
+                <nickname>player6a</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="20">
+                <nickname>player6b</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="21">
+                <nickname>player6c</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+        </players>
+        <accounts>
+            <account amount="1000" currency="DOLLAR"/>
+            <account amount="1000" currency="EURO"/>
+            <account amount="1000" currency="PLAY"/>
+        </accounts>
+    </user>
+    <user username="player7" id="10">
+        <locale>en_US</locale>
+        <password>player7</password>
+        <firstName>Player</firstName>
+        <lastName>7</lastName>
+        <email>player7@harvold.com</email>
+        <roles>
+            <role>Application user</role>
+        </roles>
+        <players>
+            <player id="22">
+                <nickname>player7a</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="23">
+                <nickname>player7b</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="24">
+                <nickname>player7c</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+        </players>
+        <accounts>
+            <account amount="1000" currency="DOLLAR"/>
+            <account amount="1000" currency="EURO"/>
+            <account amount="1000" currency="PLAY"/>
+        </accounts>
+    </user>
+    <user username="player8" id="11">
+        <locale>en_US</locale>
+        <password>player8</password>
+        <firstName>Player</firstName>
+        <lastName>8</lastName>
+        <email>player8@harvold.com</email>
+        <roles>
+            <role>Application user</role>
+        </roles>
+        <players>
+            <player id="25">
+                <nickname>player8a</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="26">
+                <nickname>player8b</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="27">
+                <nickname>player8c</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+        </players>
+        <accounts>
+            <account amount="1000" currency="DOLLAR"/>
+            <account amount="1000" currency="EURO"/>
+            <account amount="1000" currency="PLAY"/>
+        </accounts>
+    </user>
+    <user username="player9" id="12">
+        <locale>en_US</locale>
+        <password>player9</password>
+        <firstName>Player</firstName>
+        <lastName>9</lastName>
+        <email>player9@harvold.com</email>
+        <roles>
+            <role>Application user</role>
+        </roles>
+        <players>
+            <player id="28">
+                <nickname>player9a</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="29">
+                <nickname>player9b</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="30">
+                <nickname>player9c</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+        </players>
+        <accounts>
+            <account amount="1000" currency="DOLLAR"/>
+            <account amount="1000" currency="EURO"/>
+            <account amount="1000" currency="PLAY"/>
+        </accounts>
+    </user>
+    <user username="player10" id="13">
+        <locale>en_US</locale>
+        <password>player10</password>
+        <firstName>Player</firstName>
+        <lastName>10</lastName>
+        <email>player10@harvold.com</email>
+        <roles>
+            <role>Application user</role>
+        </roles>
+        <players>
+            <player id="31">
+                <nickname>player10a</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="32">
+                <nickname>player10b</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+            <player id="33">
+                <nickname>player10c</nickname>
+                <avatar>/avatar/default.gif</avatar>
+            </player>
+        </players>
+        <accounts>
+            <account amount="1000" currency="DOLLAR"/>
+            <account amount="1000" currency="EURO"/>
+            <account amount="1000" currency="PLAY"/>
+        </accounts>
+    </user>
+</users>

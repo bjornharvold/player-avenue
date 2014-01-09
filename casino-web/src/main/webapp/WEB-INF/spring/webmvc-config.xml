@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:device="http://www.springframework.org/schema/mobile/device"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.1.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+	http://www.springframework.org/schema/mobile/device
+	http://www.springframework.org/schema/mobile/device/spring-mobile-device-1.0.xsd">
+
+    <!--
+         The controllers are autodetected POJOs labeled with Spring annotations
+     -->
+    <context:component-scan base-package="com.online.casino.web"/>
+
+    <!--
+         Turns on support for mapping requests to Spring MVC @Controller
+         methods Also registers default Formatters and Validators for use
+         across all @Controllers
+     -->
+    <mvc:annotation-driven conversion-service="conversionService">
+        <mvc:argument-resolvers>
+            <bean class="org.springframework.mobile.device.DeviceWebArgumentResolver"/>
+            <bean class="org.springframework.mobile.device.site.SitePreferenceWebArgumentResolver"/>
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
+
+    <!-- this is for when we want to incorporate static assets -->
+    <!--<mvc:resources mapping="/static/**" location="/static"/>-->
+
+    <!-- Allows for mapping the DispatcherServlet to "/" by forwarding static resource requests to the container's default Servlet -->
+	<!--<mvc:default-servlet-handler/>-->
+
+    <!--
+         register "global" interceptor beans to apply to all registered
+         HandlerMappings
+     -->
+    <mvc:interceptors>
+        <!-- On pre-handle, resolve the device that originated the web request -->
+        <bean class="org.springframework.mobile.device.DeviceResolverHandlerInterceptor">
+            <constructor-arg>
+                <!-- Inject a WurflDeviceResolver that populates its device repository from the specified file locations -->
+                <device:wurfl-device-resolver root-location="/WEB-INF/wurfl/wurfl-20110306.zip" patch-locations="/WEB-INF/wurfl/web_browsers_patch.xml"/>
+            </constructor-arg>
+        </bean>
+        <!-- On pre-handle, manage the user's site preference (declare after DeviceResolverHandlerInterceptor) -->
+        <bean class="org.springframework.mobile.device.site.SitePreferenceHandlerInterceptor"/>
+        <bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor"/>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="lang"/>
+    </mvc:interceptors>
+
+    <!--
+         selects a static view for rendering without the need for an explicit
+         controller
+     -->
+    <mvc:view-controller path="/" view-name="index"/>
+    <mvc:view-controller path="/index"/>
+    <mvc:view-controller path="/echo"/>
+    <mvc:view-controller path="/uncaughtException"/>
+    <mvc:view-controller path="/resourceNotFound"/>
+    <mvc:view-controller path="/dataAccessFailure"/>
+
+    <!--
+         Resolves logical view names returned by Controllers to Tiles; a view
+         name to resolve is treated as the name of a tiles definition
+     -->
+    <bean class="org.springframework.js.ajax.AjaxUrlBasedViewResolver" id="tilesViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>
+        <property name="requestContextAttribute" value="rc"/>
+    </bean>
+
+    <!-- Configures the Tiles layout system -->
+    <bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer" id="tilesConfigurer">
+        <property name="checkRefresh" value="true"/>
+        <property name="completeAutoload" value="false"/>
+        <property name="definitions">
+            <list>
+                <!-- Scan views directory for Tiles configurations -->
+                <value>/WEB-INF/jsp/**/views.xml</value>
+            </list>
+        </property>
+        <!-- resolving preparer names as Spring bean definition names -->
+        <property name="preparerFactoryClass"
+                  value="org.springframework.web.servlet.view.tiles2.SpringBeanPreparerFactory"/>
+    </bean>
+
+    <context:property-placeholder location="WEB-INF/i18n/domain.properties"/>
+
+    <bean id="parentMessageSource" class="org.springframework.context.support.ResourceBundleMessageSource"
+          p:basenames="application,org/springframework/security/messages"/>
+
+    <!--
+         Resolves localized messages*.properties and application.properties files in the application to allow for internationalization. The messages*.properties files translate Roo generated messages which are part of the admin interface, the application.properties resource bundle localizes all application
+         specific messages such as entity names and menu items.
+     -->
+    <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource" id="messageSource"
+          p:parentMessageSource-ref="parentMessageSource"
+          p:basenames="WEB-INF/i18n/domain,WEB-INF/i18n/referencedata"
+          p:fallbackToSystemLocale="false"
+          p:cacheSeconds="10"
+          p:useCodeAsDefaultMessage="true"/>
+
+    <!-- store preferred language configuration in a cookie -->
+    <bean class="com.online.casino.web.utils.CustomLocaleResolver" id="localeResolver" p:cookieName="locale" p:defaultLocale="en_US">
+        <constructor-arg ref="administrationService"/>
+    </bean>
+
+    <!--
+         resolves localized <theme_name>.properties files in the classpath to
+         allow for theme support
+     -->
+    <bean class="org.springframework.ui.context.support.ResourceBundleThemeSource" id="themeSource"/>
+
+    <!-- store preferred theme configuration in a cookie -->
+    <bean class="org.springframework.web.servlet.theme.CookieThemeResolver" id="themeResolver" p:cookieName="theme" p:defaultThemeName="playeravenue_theme"/>
+
+    <!--
+         This bean resolves specific types of exceptions to corresponding
+         logical - view names for error views. The default behaviour of
+         DispatcherServlet - is to propagate all exceptions to the servlet
+         container: this will happen - here with all other types of exceptions.
+     -->
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" p:defaultErrorView="exception.generic">
+        <!--
+              <property name="exceptionMappings"> <props> <prop key=".DataAccessException">dataAccessFailure</prop> <prop key=".NoSuchRequestHandlingMethodException">resourceNotFound</prop> <prop key=".TypeMismatchException">resourceNotFound</prop> <prop
+              key=".MissingServletRequestParameterException">resourceNotFound</prop> </props> </property>
+          -->
+    </bean>
+
+    <!-- allows for integration of file upload functionality -->
+    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+        <property name="maxUploadSize" value="${image.max.size}"/>
+    </bean>
+
+    <import resource="webmvc-utils.xml"/>
+    <import resource="quartz.xml"/>
+</beans>

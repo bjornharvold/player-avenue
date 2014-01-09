@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+	<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+	<!-- Definitions for Tiles documentation   -->
+
+<tiles-definitions>
+
+	<definition name="user.list" extends="template.admin.page.master">
+		<put-attribute type="string" name="title" value="page.users.title" />
+		<put-list-attribute name="contents">
+			<add-attribute type="template" value="/WEB-INF/jsp/administration/user/list.jspx" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="user.list.data" extends="template.content.master">
+		<put-list-attribute name="contents">
+			<add-attribute type="template" value="/WEB-INF/jsp/administration/user/list_data.jspx" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="user.show" extends="template.admin.page.master">
+		<put-attribute type="string" name="title" value="page.user.title" />
+		<put-list-attribute name="navbars" inherit="true">
+			<add-attribute type="template" value="/WEB-INF/jsp/administration/user/navbar.jspx" />
+		</put-list-attribute>
+		<put-list-attribute name="contents">
+			<add-attribute type="template" value="/WEB-INF/jsp/administration/user/show.jspx" />
+			<add-attribute type="template" value="/WEB-INF/jsp/administration/player/list.jspx" />
+			<add-attribute type="template" value="/WEB-INF/jsp/administration/account/list.jspx" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="user.insert" extends="template.admin.page.master">
+		<put-attribute type="string" name="title" value="page.user.title" />
+		<put-list-attribute name="navbars" inherit="true">
+			<add-attribute type="template" value="/WEB-INF/jsp/administration/user/navbar.jspx" />
+		</put-list-attribute>
+		<put-list-attribute name="contents">
+			<add-attribute type="template" value="/WEB-INF/jsp/administration/user/insert.jspx" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="user.update" extends="template.admin.page.master">
+		<put-attribute type="string" name="title" value="page.user.title" />
+		<put-list-attribute name="navbars" inherit="true">
+			<add-attribute type="template" value="/WEB-INF/jsp/administration/user/navbar.jspx" />
+		</put-list-attribute>
+		<put-list-attribute name="contents">
+			<add-attribute type="template" value="/WEB-INF/jsp/administration/user/update.jspx" />
+		</put-list-attribute>
+	</definition>
+
+</tiles-definitions>

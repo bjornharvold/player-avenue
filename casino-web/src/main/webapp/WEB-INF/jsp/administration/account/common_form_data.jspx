@@ -1,0 +1,35 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+
+	<spring:message var="option1" code="form.select" text="-- Please Select --" />
+
+	<div id="account_currency">
+		<spring-form:label path="currency"><spring:message code="account.currency" text="Currency" /></spring-form:label>:&#160;
+		<spring-form:select path="currency">
+			<spring-form:option value="" label="${option1}" />
+			<spring-form:options items="${currencies}" itemLabel="label" itemValue="value" />
+		</spring-form:select>
+		<spring-form:errors path="currency" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="account_status">
+		<spring-form:label path="status"><spring:message code="account.status" text="Status" /></spring-form:label>:&#160;
+		<spring-form:select path="status">
+			<spring-form:option value="" label="${option1}" />
+			<spring-form:options items="${statuses}" itemLabel="label" itemValue="value" />
+		</spring-form:select>
+		<spring-form:errors path="status" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div class="submit">
+		<spring:message var="save" code="button.save" text="Save"/> 
+		<input id="submit" type="submit" name="submit" value="${save}" class="submit"/>
+	</div>
+	<spring-form:hidden path="id" />
+	<spring-form:hidden path="version" />
+</div>

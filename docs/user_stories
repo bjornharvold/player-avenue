@@ -1,0 +1,59 @@
+Casino
+
+	As an Administrator I can…
+		Create a casino
+		Deactivate a casino
+		Create user
+			Set as casino manager
+			Set as administrator
+		Deactivate user
+		Un-ban user
+		View reports and statistics
+		Set the matching amount when user signs up and deposits money
+
+	As a Casino manager I can…
+		Create a table
+			Type of game
+			Select type of game
+			Select limits
+			Select buy-ins
+			Select number of players
+		Delete a table
+		View status of all tables
+		View table statistics
+		View player statistics
+		Ban user
+		View active table as a ghost
+		Send news blasts/deals to players who have opted-in
+
+	As a registered Player I can…
+		Create personas
+		Delete personas
+		Deposit money to account
+		Withdraw money from account
+		Visit a casino
+		View games being played at the casino tables
+		View player statistics and reports including my own
+		Join a table
+		Join X number of tables at once
+		Leave a table
+		Play a game
+		Create notes about my opponents
+		Chat at a table
+	
+	As a non-registered Player I can…
+		Create an account
+		Visit a casino
+		View games being played at the casino tables
+		Quickly join a play money table
+	
+	As a Player at a Texas Hold-em table I can...
+		Place a bet
+		Raise
+		Call
+		Fold
+		All in
+		Check
+		Buy in
+		Post blinds
+		Preset various actions

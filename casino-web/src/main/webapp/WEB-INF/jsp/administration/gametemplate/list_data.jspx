@@ -1,0 +1,86 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div id="gameTemplatesTable" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" xmlns:spring="http://www.springframework.org/tags" xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:casino="urn:jsptagdir:/WEB-INF/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+	<jsp:output omit-xml-declaration="yes"/>
+
+	<spring:message code="page.gametemplate.title" var="entity_label"/>
+    <spring:message code="page.gametemplates.title" var="entity_label_plural"/>
+
+	<c:if test="${not empty gametemplates}">
+	<table>
+		<thead>
+			<tr>
+				<th width="5%"><spring:message code="table.date.created" text="Created" /></th>
+				<th width="10%"><spring:message code="pokergame.maxplayers" text="Max players" /></th>
+				<th width="18%"><spring:message code="pokergame.type" text="Type" /></th>
+				<th width="18%"><spring:message code="pokergame.round.type" text="Round type" /></th>
+				<th width="18%"><spring:message code="pokergame.limit" text="Limit" /></th>
+				<th width="10%"><spring:message code="pokergame.stake" text="Stake" /></th>
+				<th width="10%"><spring:message code="pokergame.deviceType" text="Device type" /></th>
+				<th width="2%">&#160;</th>
+				<th width="2%">&#160;</th>
+				<th width="2%">&#160;</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${gametemplates}" varStatus="status" var="template">						
+				<tr class="${color}" valign="top">
+					<td><fmt:formatDate value="${template.createdDate}" dateStyle="short" /></td>
+					<td>${template.maxPlayers}</td>
+					<td><spring:message code="dropdown.GameTypeCd.${template.type}" text="Unknown type" /></td>
+					<td><spring:message code="dropdown.RoundTypeCd.${template.roundType}" text="Unknown round type" /></td>
+					<td><spring:message code="dropdown.LimitTypeCd.${template.limitType}" text="Unknown limit" /></td>
+					<td>${template.stake.label}</td>
+					<td><spring:message code="dropdown.DeviceTypeCd.${template.deviceType}" text="Unknow device" /></td>
+					<td>
+						<security:authorize ifAllGranted="RIGHT_READ_GAME_TEMPLATE_AS_ADMIN">
+						<spring:url value="/app/administration/casino/${template.casino.id}/gametemplate/${template.id}" var="show_form_url"/>
+						<spring:url value="/images/show.png" var="show_image_url"/>
+						<spring-form:form action="${show_form_url}" method="GET">
+							<spring:message arguments="${entity_label}" var="altView" code="button.view" text="View" />
+							<input class="image" type="image" src="${show_image_url}" alt="${altView}" title="${altView}" value="${altView}" />
+						</spring-form:form>
+						</security:authorize>
+					</td>
+					<td>
+						<security:authorize ifAllGranted="RIGHT_UPDATE_GAME_TEMPLATE_AS_ADMIN">
+						<spring:url value="/app/administration/casino/${template.casino.id}/gametemplate/${template.id}/form" var="edit_form_url"/>
+						<spring:url value="/images/update.png" var="edit_image_url"/>
+						<spring-form:form action="${edit_form_url}" method="GET">
+							<spring:message arguments="${entity_label}" var="altUpdate" code="button.edit" text="Edit" />
+							<input class="image" type="image" src="${edit_image_url}" alt="${altUpdate}" title="${altUpdate}" value="${altUpdate}" />
+						</spring-form:form>
+						</security:authorize>
+					</td>
+					<td>
+						<security:authorize ifAllGranted="RIGHT_DELETE_GAME_TEMPLATE_AS_ADMIN">
+						<spring:url value="/app/administration/casino/${template.casino.id}/gametemplate/${template.id}" var="delete_form_url"/>
+						<spring:url value="/images/delete.png" var="delete_image_url"/>
+						<spring-form:form action="${delete_form_url}" method="DELETE">
+							<spring:message arguments="${entity_label}" var="altDelete" code="button.delete" text="Delete" />
+							<input class="image" type="image" src="${delete_image_url}" alt="${altDelete}" title="${altDelete}" value="${altDelete}" />
+						</spring-form:form>
+						</security:authorize>
+					</td>
+				</tr>
+			</c:forEach>
+			<tr class="footer">
+                <td colspan="10">
+                    <jsp:include page="new_link.jspx" flush="true"/>
+                    <c:if test="${not empty maxResults}">
+                        &#160;<casino:pagination id="gameTemplatesTable" view="gametemplate.list.data" maxPages="${maxPages}" page="${page}" size="${maxResults}"/>
+                    </c:if>
+                </td>
+            </tr>
+		</tbody>
+	</table>
+	</c:if>
+	<c:if test="${empty gametemplates}">
+		<p><spring:message code="pokergame.templates.empty" text="No templates are currently in the system" /></p>
+		<jsp:include page="new_link.jspx" flush="true"/>
+	</c:if>
+	
+	</div>

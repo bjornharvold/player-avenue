@@ -1,0 +1,64 @@
+<!--
+  ~ Copyright (c) 2010. This beautifully written piece of code has been created by Bjorn Harvold. 
+  ~ Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:spring-form="http://www.springframework.org/tags/form"
+     xmlns:security="http://www.springframework.org/security/tags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:x="http://java.sun.com/jsp/jstl/xml"
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     xmlns:tiles="http://tiles.apache.org/tags-tiles"
+     xmlns:casino="urn:jsptagdir:/WEB-INF/tags"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <spring:message code="title.bets" text="Bets" var="entity_label_plural"/>
+    <spring:message code="title.bet" text="Bet" var="entity_label"/>
+
+    <b>${entity_label_plural}</b>
+
+    <div id="pokergame_bets">
+        <table>
+            <thead>
+            <tr>
+                <th><spring:message code="player.nickname" text="Nickname"/></th>
+                <th><spring:message code="bet.type" text="Type"/></th>
+                <th><spring:message code="bet.amount" text="Amount"/></th>
+                <th><spring:message code="bet.status" text="Status"/></th>
+                <th><spring:message code="bet.hand.status" text="Hand status"/></th>
+                <th><spring:message code="bet.round.number" text="Round number"/></th>
+                <th><spring:message code="entity.created.date" text="Created date"/></th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:if test="${not empty bets}">
+                <c:forEach items="${bets}" var="bet">
+                    <tr>
+                        <td>${bet.nickname}</td>
+                        <td><spring:message code="dropdown.BetTypeCd.${bet.type}" text="Unknown type"/></td>
+                        <td>${bet.amount}</td>
+                        <td><spring:message code="dropdown.BetStatusCd.${bet.betStatus}" text="Unknown bet status"/>
+                        </td>
+                        <td><spring:message code="dropdown.HandStatusCd.${bet.status}" text="Unknown hand status"/></td>
+                        <td>${bet.roundNumber}</td>
+                        <td><fmt:formatDate value="${bet.createdDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </c:if>
+            <c:if test="${empty bets}">
+                <tr>
+                    <td colspan="7" align="center"><spring:message code="bets.empty"
+                                                                   text="Gambler has not made any bets yet"/></td>
+                </tr>
+            </c:if>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>

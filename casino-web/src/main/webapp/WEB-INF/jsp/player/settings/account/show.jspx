@@ -1,0 +1,52 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" xmlns:spring="http://www.springframework.org/tags" xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:casino="urn:jsptagdir:/WEB-INF/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0"><jsp:output
+	omit-xml-declaration="yes" />
+	
+	<spring:message code="page.account.title" text="Account" var="entity_label"/>
+
+	<b>${entity_label}</b>
+
+	<c:if test="${not empty account}">
+		<div id="account_number">
+            <label for="_number_id"><spring:message code="account.accountNumber" text="Account number" />:</label>
+            <div class="box" id="_number_id">${account.accountNumber}</div>
+        </div>
+        <br/>
+		<div id="account_balance">
+            <label for="_balance_id"><spring:message code="account.balance" text="Balance" />:</label>
+            <div class="box" id="_balance_id"><c:choose>
+					<c:when test="${account.currency == 'DOLLAR'}">
+						<fmt:formatNumber var="currency" type="currency" value="${account.balance}" currencyCode="USD" />
+					</c:when>
+					<c:when test="${account.currency == 'EURO'}">
+						<fmt:formatNumber var="currency" type="currency" value="${account.balance}" currencySymbol="&#8364;" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="currency" value="${account.balance}" />
+					</c:otherwise>
+				</c:choose> ${currency}</div>
+        </div>
+        <br/>
+		<div id="account_currency">
+            <label for="_currency_id"><spring:message code="account.currency" text="Currency" />:</label>
+            <div class="box" id="_currency_id"><spring:message code="dropdown.CurrencyCd.${account.currency}" text="Unknown currency" /></div>
+        </div>
+        <br/>
+        <div id="account_created_date">
+            <label for="_created_date_id"><spring:message code="table.date.created" text="Created" />:</label>
+            <div class="box" id="_created_date_id"><fmt:formatDate value="${account.createdDate}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
+        </div>
+        <br/>
+        <div id="account_last_update">
+            <label for="_last_update_id"><spring:message code="table.date.updated" text="Updated" />:</label>
+            <div class="box" id="_last_update_id"><fmt:formatDate value="${account.lastUpdate}" pattern="yyyy-MM-dd HH:mm:ss" /></div>
+        </div>
+	</c:if>
+	<c:if test="${empty account}">
+		<spring:message arguments="${entity_label}" code="entity.not.found.single"/>
+	</c:if>
+</div>

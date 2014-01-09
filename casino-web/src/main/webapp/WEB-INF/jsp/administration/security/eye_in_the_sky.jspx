@@ -1,0 +1,33 @@
+<!--
+  ~ Copyright (c) 2011. This beautifully written piece of code has been created by Bjorn Harvold.
+  ~ Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:spring-form="http://www.springframework.org/tags/form"
+     xmlns:security="http://www.springframework.org/security/tags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:x="http://java.sun.com/jsp/jstl/xml"
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     xmlns:tiles="http://tiles.apache.org/tags-tiles"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <div id="selectGameChannel">
+        <p>
+            <spring:message code="select.active.game" text="Select an active game to listen to"/>: 
+            <select>
+                <option><spring:message code="form.select"/></option>
+
+                <c:if test="${activeGames != null}">
+                    <c:forEach items="${activeGames}" var="ag" varStatus="status">
+                        <option value="${ag.id}">${ag.template}</option>
+                    </c:forEach>
+                </c:if>
+            </select>
+        </p>
+    </div>
+
+</div>

@@ -1,0 +1,35 @@
+<!--
+  ~ Copyright (c) 2011. This beautifully written piece of code has been created by Bjorn Harvold.
+  ~ Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div id="queuePlayer" xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:spring-form="http://www.springframework.org/tags/form"
+     xmlns:security="http://www.springframework.org/security/tags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:x="http://java.sun.com/jsp/jstl/xml"
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     xmlns:tiles="http://tiles.apache.org/tags-tiles"
+     xmlns:casino="urn:jsptagdir:/WEB-INF/tags"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <p><b><spring:message code="button.game.controls" text="Game controls"/></b></p>
+
+    <div id="countdown" style="display:none;width:40px;height:35px"><!----></div>
+    
+    <p>
+        <a id="leaveAction"><spring:message code="button.leave" text="Leave"/></a>&#160;
+        <a id="requeueAction"><spring:message code="button.requeue" text="I am back!"/></a>&#160;
+        <a id="foldAction"><spring:message code="button.fold" text="Fold"/></a>&#160;
+        <a id="checkAction"><spring:message code="button.check" text="Check"/></a>&#160;
+        <a id="callAction"><spring:message code="button.call" text="Call"/></a>&#160;
+        <a id="raiseAction"><spring:message code="button.raise" text="Raise"/></a>
+        &#160;<input type="text" id="amount" style="border:0; color:#f6931f; font-weight:bold;" />
+
+    </p>
+    <div id="slider" style="width:75%;"><!----></div>
+
+</div>

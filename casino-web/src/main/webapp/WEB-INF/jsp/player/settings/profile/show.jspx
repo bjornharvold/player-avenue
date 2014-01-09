@@ -1,0 +1,48 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" xmlns:spring="http://www.springframework.org/tags" xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+	<jsp:output omit-xml-declaration="yes"/>
+
+	<spring:message code="page.profile.title" text="Profile" var="entity_label"/>
+
+	<b>${entity_label}</b>
+
+	<div style="float:right;">
+	<security:authorize ifAllGranted="RIGHT_UPDATE_SYSTEM_USER">
+		<spring:url value="/app/player/profile/form" var="edit_form_url"/>
+		<spring:url value="/images/update.png" var="edit_image_url"/>
+		<spring-form:form action="${edit_form_url}" method="GET">
+			<spring:message arguments="${entity_label}" var="altUpdate" code="button.edit" text="Edit" />
+			<input class="image" type="image" src="${edit_image_url}" alt="${altUpdate}" title="${altUpdate}" value="${altUpdate}" />
+		</spring-form:form>
+	</security:authorize>
+	</div>
+	
+	<c:if test="${not empty applicationUser}">
+	<div id="profile_username">
+        <label for="_username_id"><spring:message code="user.username" text="Username" />:</label>
+        <div class="box" id="_username_id">${applicationUser.username}</div>
+    </div>
+    <br/>
+    <div id="profile_email">
+        <label for="_email_id"><spring:message code="user.email" text="E-mail" />:</label>
+        <div class="box" id="_email_id">${applicationUser.email}</div>
+    </div>
+    <br/>
+    <div id="profile_created_date">
+        <label for="_created_date_id"><spring:message code="table.date.created" text="Created" />:</label>
+        <div class="box" id="_created_date_id"><fmt:formatDate value="${applicationUser.createdDate}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
+    </div>
+    <br/>
+    <div id="profile_last_update">
+        <label for="_last_update_id"><spring:message code="table.date.updated" text="Updated" />:</label>
+        <div class="box" id="_last_update_id"><fmt:formatDate value="${applicationUser.lastUpdate}" pattern="yyyy-MM-dd HH:mm:ss" /></div>
+    </div>
+	</c:if>
+	<c:if test="${empty applicationUser}">
+		<spring:message arguments="${entity_label}" code="entity.not.found.single"/>
+	</c:if>
+</div>

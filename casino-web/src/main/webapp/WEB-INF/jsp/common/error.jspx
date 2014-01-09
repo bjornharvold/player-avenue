@@ -1,0 +1,74 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" xmlns:spring="http://www.springframework.org/tags" xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+	<jsp:output doctype-root-element="html" doctype-public="-//W3C//DTD XHTML 1.1//EN" doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd" />
+	<jsp:directive.page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" />
+
+	<c:if test="${exception != null}">
+		<c:set var="problem" value="${exception}" />
+	</c:if>
+	<c:if test="${error != null}">
+		<c:set var="problem" value="${error}" />
+	</c:if>
+	<html>
+	<head>
+	<title>There was a problem fullfilling your request:</title>
+	</head>
+	<body>
+
+	<table width="100%">
+		<thead>
+			<tr>
+				<td>Name</td>
+				<td>Value</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td colspan="2">You submitted these parameters:</td>
+			</tr>
+			<c:forEach items="${param}" var="conf" varStatus="status">
+				<tr>
+					<td>${conf.key}</td>
+					<td>${conf.value}</td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+
+	<table width="100%">
+		<thead>
+			<tr>
+				<td>Name</td>
+				<td>Value</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td colspan="2">Cookies:</td>
+			</tr>
+			<c:forEach items="${requestScope.cookie}" var="cookie" varStatus="status">
+				<tr>
+					<td>${cookie.name}</td>
+					<td>${cookie.value}</td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+	<p>Error: ${problem}</p>
+
+	<p>Cause: ${problem.cause}</p>
+
+	<p>Message: ${problem.localizedMessage}</p>
+
+	<p>Stacktrace:<br />
+	<c:forEach items="${problem.stackTrace}" var="line" varStatus="status">
+            ${line}<br />
+	</c:forEach></p>
+	</body>
+	</html>
+
+</jsp:root>

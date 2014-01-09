@@ -1,0 +1,38 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<ul xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" xmlns:spring="http://www.springframework.org/tags" xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+	<jsp:output omit-xml-declaration="yes"/>
+
+	<li>
+		<h2>
+            <spring:message code="page.settings.title" text="Settings"/>
+        </h2>
+	</li>
+	
+	<ul>
+		<security:authorize ifAllGranted="RIGHT_READ_SYSTEM_USER">
+			<spring:message var="profile" code="page.profile.title" text="Profile" />
+			<spring:url value="/app/player/profile" var="profile_url"/>
+			<li><a href="${profile_url}" title="${profile}"><span>${profile}</span></a></li>
+		</security:authorize>
+		<security:authorize ifAllGranted="RIGHT_UPDATE_PASSWORD">
+			<spring:message var="password" code="page.change.password.title" text="Password" />
+			<spring:url value="/app/player/password/form" var="password_url"/>
+			<li><a href="${password_url}" title="${password}"><span>${password}</span></a></li>
+		</security:authorize>
+		<security:authorize ifAllGranted="RIGHT_READ_ACCOUNT">
+			<spring:message var="accounts" code="page.accounts.title" text="Accounts" />
+			<spring:url value="/app/player/account/list" var="account_url"/>
+			<li><a href="${account_url}" title="${accounts}"><span>${accounts}</span></a></li>
+		</security:authorize>
+		<security:authorize ifAllGranted="RIGHT_READ_PLAYER">
+			<spring:message var="personas" code="page.personas.title" text="Personas" />
+			<spring:url value="/app/player/persona/list" var="persona_url"/>
+			<li><a href="${persona_url}" title="${personas}"><span>${personas}</span></a></li>
+		</security:authorize>
+	</ul>
+
+</ul>

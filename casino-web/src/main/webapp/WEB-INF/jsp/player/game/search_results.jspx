@@ -1,0 +1,66 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+
+<div id="searchResults" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" xmlns:spring="http://www.springframework.org/tags" xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:casino="urn:jsptagdir:/WEB-INF/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+	<jsp:directive.page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" />
+
+	<c:if test="${!empty games}">
+		<table cellpadding="2" cellspacing="0" border="0" width="100%" class="list_table">
+			<thead>
+				<tr>
+					<th><spring:message code="pokergame.type" text="Type" /></th>
+					<th><spring:message code="pokergame.stake" text="Stake" /></th>
+					<th><spring:message code="casino.name" text="Name" /></th>
+					<th><spring:message code="pokergame.current.players" text="Currently playing" /></th>
+					<th width="2%" align="right">&#160;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${games}" varStatus="status" var="game">
+					<tr valign="top">
+						<td><spring:message code="dropdown.GameTypeCd.${game.key.template.type}" text="Unknow type" /></td>
+						<td>${game.key.template.stake.label}</td>
+						<td>${game.key.template.casino.name}</td>
+						<td><c:choose>
+							<c:when test="${!empty game.value}">
+								<ul>
+									<c:forEach items="${game.value}" var="gambler">
+                                        <spring:message code="dropdown.GamblerStatusCd.${gambler.status}" text="Unknown" var="gamblerStatus"/>
+										<li>${gambler.player.nickname}, seat (${gambler.seatNumber}), status (${gamblerStatus})</li>
+									</c:forEach>
+								</ul>
+							</c:when>
+							<c:otherwise>
+								<spring:message code="pokergame.empty" text="This game is empty" />
+							</c:otherwise>
+						</c:choose></td>
+						<td align="left"><c:choose>
+							<c:when test="${empty players}">
+								<security:authorize ifAllGranted="RIGHT_WRITE_PLAYER">
+									<a href="/app/player/persona/list"><spring:message code="player.create.persona" text="Create persona" /></a>
+								</security:authorize>
+							</c:when>
+							<c:otherwise>
+								<spring:message code="player.join.game.as" text="Join as" />:
+                                    <ul>
+									<c:forEach items="${players}" var="player">
+										<security:authorize ifAllGranted="RIGHT_PLAY_GAME">
+											<li><a href="/app/player/${player.id}/game/${game.key.id}/watch">${player.nickname}</a></li>
+										</security:authorize>
+									</c:forEach>
+								</ul>
+							</c:otherwise>
+						</c:choose>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</c:if>
+    <c:if test="${empty games}">
+        <p><spring:message code="pokergame.games.not.available" text="No games are available that match your criteria"/></p>
+    </c:if>
+</div>

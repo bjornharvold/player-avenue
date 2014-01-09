@@ -1,0 +1,138 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:spring-form="http://www.springframework.org/tags/form"
+     xmlns:security="http://www.springframework.org/security/tags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:x="http://java.sun.com/jsp/jstl/xml"
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     xmlns:tiles="http://tiles.apache.org/tags-tiles"
+     xmlns:casino="urn:jsptagdir:/WEB-INF/tags"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:output omit-xml-declaration="yes"/>
+
+	<spring:message var="option1" code="form.select" text="-- Please Select --" />
+
+	<div id="casino_name">
+		<spring-form:label path="name"><spring:message code="casino.name" text="Name" /></spring-form:label>:&#160;
+		<spring-form:input path="name" />
+		<spring-form:errors path="name" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="casino_status">
+		<spring-form:label path="status"><spring:message code="casino.status" text="Status" /></spring-form:label>:&#160;
+		<spring-form:select path="status">
+			<spring-form:option value="" label="${option1}" />
+			<spring-form:options items="${statuses}" itemLabel="label" itemValue="value" />
+		</spring-form:select>
+		<spring-form:errors path="status" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="casino_currency">
+		<spring-form:label path="currency"><spring:message code="casino.currency" text="Currency" /></spring-form:label>:&#160;
+		<spring-form:select path="currency">
+			<spring-form:option value="" label="${option1}" />
+			<spring-form:options items="${currencies}" itemLabel="label" itemValue="value" />
+		</spring-form:select>
+		<spring-form:errors path="currency" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="casino_buffer">
+		<spring-form:label path="gameBuffer"><spring:message code="configuration.game.buffer" text="Game buffer" /></spring-form:label>:&#160;
+		<spring-form:select path="gameBuffer">
+			<spring-form:option value="1" label="1" />
+			<spring-form:option value="2" label="2" />
+			<spring-form:option value="3" label="3" />
+			<spring-form:option value="4" label="4" />
+			<spring-form:option value="5" label="5" />
+			<spring-form:option value="6" label="6" />
+			<spring-form:option value="7" label="7" />
+			<spring-form:option value="8" label="8" />
+			<spring-form:option value="9" label="9" />
+			<spring-form:option value="10" label="10" />
+			<spring-form:option value="11" label="11" />
+			<spring-form:option value="12" label="12" />
+			<spring-form:option value="13" label="13" />
+			<spring-form:option value="14" label="14" />
+			<spring-form:option value="15" label="15" />
+		</spring-form:select>
+		<spring-form:errors path="gameBuffer" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="casino_min_limit">
+		<spring-form:label path="emptyGameMinimumLimit"><spring:message code="configuration.empty.game.min.limit" text="Empty game minimum limit" /></spring-form:label>:&#160;
+		<spring-form:select path="emptyGameMinimumLimit">
+			<spring-form:option value="1" label="1" />
+			<spring-form:option value="2" label="2" />
+			<spring-form:option value="3" label="3" />
+			<spring-form:option value="4" label="4" />
+			<spring-form:option value="5" label="5" />
+			<spring-form:option value="6" label="6" />
+			<spring-form:option value="7" label="7" />
+			<spring-form:option value="8" label="8" />
+			<spring-form:option value="9" label="9" />
+			<spring-form:option value="10" label="10" />
+			<spring-form:option value="11" label="11" />
+			<spring-form:option value="12" label="12" />
+			<spring-form:option value="13" label="13" />
+			<spring-form:option value="14" label="14" />
+			<spring-form:option value="15" label="15" />
+		</spring-form:select>
+		<spring-form:errors path="emptyGameMinimumLimit" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="casino_max_limit">
+		<spring-form:label path="emptyGameMaximumLimit"><spring:message code="configuration.empty.game.max.limit" text="Empty game maximum limit" /></spring-form:label>:&#160;
+		<spring-form:select path="emptyGameMaximumLimit">
+			<spring-form:option value="1" label="1" />
+			<spring-form:option value="2" label="2" />
+			<spring-form:option value="3" label="3" />
+			<spring-form:option value="4" label="4" />
+			<spring-form:option value="5" label="5" />
+			<spring-form:option value="6" label="6" />
+			<spring-form:option value="7" label="7" />
+			<spring-form:option value="8" label="8" />
+			<spring-form:option value="9" label="9" />
+			<spring-form:option value="10" label="10" />
+			<spring-form:option value="11" label="11" />
+			<spring-form:option value="12" label="12" />
+			<spring-form:option value="13" label="13" />
+			<spring-form:option value="14" label="14" />
+			<spring-form:option value="15" label="15" />
+		</spring-form:select>
+		<spring-form:errors path="emptyGameMaximumLimit" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="casino_delete_games_check">
+		<spring-form:label path="deleteGamesOnCheck"><spring:message code="configuration.delete.games.on.check" text="Delete games on check" /></spring-form:label>:&#160;
+		<spring-form:select path="deleteGamesOnCheck">
+			<spring-form:option value="1" label="1" />
+			<spring-form:option value="2" label="2" />
+			<spring-form:option value="3" label="3" />
+			<spring-form:option value="4" label="4" />
+			<spring-form:option value="5" label="5" />
+			<spring-form:option value="6" label="6" />
+			<spring-form:option value="7" label="7" />
+			<spring-form:option value="8" label="8" />
+			<spring-form:option value="9" label="9" />
+			<spring-form:option value="10" label="10" />
+			<spring-form:option value="11" label="11" />
+			<spring-form:option value="12" label="12" />
+			<spring-form:option value="13" label="13" />
+			<spring-form:option value="14" label="14" />
+			<spring-form:option value="15" label="15" />
+		</spring-form:select>
+		<spring-form:errors path="deleteGamesOnCheck" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div class="submit">
+		<spring:message var="save" code="button.save" text="Save"/> 
+		<input id="submit" type="submit" name="submit" value="${save}" class="submit"/>
+	</div>
+	<spring-form:hidden path="id" />
+	<spring-form:hidden path="version" />
+</div>

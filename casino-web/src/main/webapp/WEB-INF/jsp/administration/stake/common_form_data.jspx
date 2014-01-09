@@ -1,0 +1,27 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+
+	<div id="stake_high">
+		<spring-form:label path="high"><spring:message code="stake.high" text="High" /></spring-form:label>:&#160;
+		<spring-form:input path="high" />
+		<spring-form:errors path="high" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div id="stake_low">
+		<spring-form:label path="low"><spring:message code="stake.low" text="Low" /></spring-form:label>:&#160;
+		<spring-form:input path="low" />
+		<spring-form:errors path="low" cssClass="errors" delimiter=". "/>
+	</div>
+	<br/>
+	<div class="submit">
+		<spring:message var="save" code="button.save" text="Save"/> 
+		<input id="submit" type="submit" name="submit" value="${save}" class="submit"/>
+	</div>
+	<spring-form:hidden path="id" />
+	<spring-form:hidden path="version" />
+</div>

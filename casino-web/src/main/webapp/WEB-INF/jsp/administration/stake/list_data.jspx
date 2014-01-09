@@ -1,0 +1,66 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div id="stakesTable" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" xmlns:spring="http://www.springframework.org/tags" xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:casino="urn:jsptagdir:/WEB-INF/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0">
+	<jsp:output omit-xml-declaration="yes"/>
+
+	<spring:message code="page.stake.title" var="entity_label"/>
+    <spring:message code="page.stakes.title" var="entity_label_plural"/>
+
+	<c:if test="${not empty stakes}">
+	<table>
+		<thead>
+			<tr>
+				<th width="5%"><spring:message code="table.date.created" text="Created" /></th>
+				<th width="20%"><spring:message code="stake.high" text="High" /></th>
+				<th width="16%"><spring:message code="stake.low" text="Low" /></th>
+				<th width="2%">&#160;</th>
+				<th width="2%">&#160;</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${stakes}" varStatus="status" var="stake">
+				<tr valign="top">
+					<td><fmt:formatDate value="${stake.createdDate}" dateStyle="short" /></td>
+					<td>${stake.high}</td>
+					<td>${stake.low}</td>
+					<td>
+						<security:authorize ifAllGranted="RIGHT_UPDATE_STAKE_AS_ADMIN">
+						<spring:url value="/app/administration/casino/${stake.casino.id}/stake/${stake.id}/form" var="edit_form_url"/>
+						<spring:url value="/images/update.png" var="edit_image_url"/>
+						<spring-form:form action="${edit_form_url}" method="GET">
+							<spring:message arguments="${entity_label}" var="altUpdate" code="button.edit" text="Edit" />
+							<input class="image" type="image" src="${edit_image_url}" alt="${altUpdate}" title="${altUpdate}" value="${altUpdate}" />
+						</spring-form:form>
+						</security:authorize>
+					</td>
+					<td>
+						<security:authorize ifAllGranted="RIGHT_DELETE_STAKE_AS_ADMIN">
+						<spring:url value="/app/administration/casino/${stake.casino.id}/stake/${stake.id}" var="delete_form_url"/>
+						<spring:url value="/images/delete.png" var="delete_image_url"/>
+						<spring-form:form action="${delete_form_url}" method="DELETE">
+							<spring:message arguments="${entity_label}" var="altDelete" code="button.delete" text="Delete" />
+							<input class="image" type="image" src="${delete_image_url}" alt="${altDelete}" title="${altDelete}" value="${altDelete}" />
+						</spring-form:form>
+						</security:authorize>
+					</td>
+				</tr>
+			</c:forEach>
+			<tr class="footer">
+                <td colspan="5">
+                    <jsp:include page="new_link.jspx" flush="true"/>
+                    <c:if test="${not empty maxResults}">
+                        &#160;<casino:pagination id="stakesTable" view="stake.list.data" maxPages="${maxPages}" page="${page}" size="${maxResults}"/>
+                    </c:if>
+                </td>
+            </tr>
+		</tbody>
+	</table>
+	</c:if>
+	<c:if test="${empty stakes}">
+	<p><spring:message code="stakes.empty" text="No stakes are currently in the system" /></p>
+	<jsp:include page="new_link.jspx" flush="true"/>
+	</c:if>
+</div>

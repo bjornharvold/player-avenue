@@ -1,0 +1,65 @@
+<!--
+  ~ Copyright (c) 2011. This beautifully written piece of code has been created by Bjorn Harvold.
+  ~ Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div id="queuePlayer" xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:spring-form="http://www.springframework.org/tags/form"
+     xmlns:security="http://www.springframework.org/security/tags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:x="http://java.sun.com/jsp/jstl/xml"
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     xmlns:tiles="http://tiles.apache.org/tags-tiles"
+     xmlns:casino="urn:jsptagdir:/WEB-INF/tags"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:output omit-xml-declaration="yes"/>
+    <p><b><spring:message code="button.player.queue" text="Queue Player"/></b>&#160;<a href="#" id="queuePlayerFormToggle"><spring:message code="player.controls" text="show"/></a></p>
+
+    <spring-form:form id="queuePlayerForm" cssStyle="display:none;background-color:#dcdcdc;">
+        <input type="hidden" name="playerId" value="${playerId}"/>
+        <input type="hidden" name="pokergameId" value="${pokergameId}"/>
+
+        <p>
+            <label for="buyin">Buyin</label>
+            <select id="buyin" name="buyin">
+                <option value="100" selected="selected">100</option>
+                <option value="80">80</option>
+                <option value="60">60</option>
+                <option value="40">40</option>
+                <option value="20">20</option>
+                <option value="10">10</option>
+            </select>
+        </p>
+
+        <p>
+            <label for="seatNumber">Seat number</label>
+            <select id="seatNumber" name="seatNumber">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </p>
+
+        <p>
+            <label>Requires seat</label><br/>
+            <label for="mustHaveSeatTrue">Yes</label>
+            <input id="mustHaveSeatTrue" type="radio" name="mustHaveSeat" value="true"/><br/>
+
+            <label for="mustHaveSeatFalse">No</label>
+            <input id="mustHaveSeatFalse" type="radio" name="mustHaveSeat" value="false" checked="checked"/>
+        </p>
+
+        <p>
+            <a href="#" id="queuePlayerAction">Queue Player</a>
+        </p>
+    </spring-form:form>
+</div>

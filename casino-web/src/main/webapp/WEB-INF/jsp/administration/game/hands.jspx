@@ -1,0 +1,81 @@
+<!--
+  ~ Copyright (c) 2010. This beautifully written piece of code has been created by Bjorn Harvold. 
+  ~ Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:spring-form="http://www.springframework.org/tags/form"
+     xmlns:security="http://www.springframework.org/security/tags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:x="http://java.sun.com/jsp/jstl/xml"
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     xmlns:tiles="http://tiles.apache.org/tags-tiles"
+     xmlns:casino="urn:jsptagdir:/WEB-INF/tags"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <spring:message code="title.hands" text="Hands" var="entity_label_plural"/>
+    <spring:message code="title.hand" text="Hand" var="entity_label"/>
+
+    <b>${entity_label_plural}</b>
+
+    <!--
+    <div style="float:right;">
+        <security:authorize ifAllGranted="ROLE_SUPER_ADMINISTRATOR">
+            <spring:url value="/app/administration/casino/${pokerGame.casino.id}/game/${pokerGame.id}/hand/create" var="edit_form_url"/>
+            <spring:url value="/images/add.png" var="edit_image_url"/>
+            <spring-form:form action="${edit_form_url}" method="GET">
+                <spring:message arguments="${entity_label}" var="altUpdate" code="button.new" text="New"/>
+                <input class="image" type="image" src="${edit_image_url}" alt="${altUpdate}" title="${altUpdate}" value="${altUpdate}"/>
+            </spring-form:form>
+        </security:authorize>
+    </div>
+    -->
+    
+    <div id="pokergame_hands">
+        <c:if test="${not empty hands}">
+
+            <table>
+                <thead>
+                <tr>
+                    <th width="20%"><spring:message code="hand.status" text="Status"/></th>
+                    <th width="10%"><spring:message code="pokergame.seat.sb" text="SB seat"/></th>
+                    <th width="10%"><spring:message code="pokergame.seat.bb" text="BB seat"/></th>
+                    <th width="10%"><spring:message code="pokergame.seat.dealer" text="Dealer seat"/></th>
+                    <th width="25%"><spring:message code="entity.created.date" text="Created date"/></th>
+                    <th width="5%">&#160;</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${hands}" var="hand" varStatus="status">
+                    <tr>
+                        <td><spring:message code="dropdown.HandStatusCd.${hand.status}" text="Unknow status"/></td>
+                        <td>${hand.smallBlindSeat}</td>
+                        <td>${hand.bigBlindSeat}</td>
+                        <td>${hand.dealerSeat}</td>
+                        <td><fmt:formatDate value="${hand.createdDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                        <td>
+                            <security:authorize ifAllGranted="RIGHT_READ_HAND_AS_ADMIN">
+                                <spring:url value="/app/administration/casino/${casinoId}/game/${pokergameId}/hand/${hand.id}" var="show_form_url"/>
+                                <spring:url value="/images/show.png" var="show_image_url"/>
+                                <spring-form:form action="${show_form_url}" method="GET">
+                                    <spring:message var="altView" code="button.view" text="View" arguments="${entity_label}"/>
+                                    <input class="image" type="image" src="${show_image_url}" alt="${altView}" title="${altView}" value="${altView}"/>
+                                </spring-form:form>
+                            </security:authorize>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+
+        </c:if>
+
+        <c:if test="${empty hands}">
+            <p><spring:message code="entities.empty" arguments="${entity_label_plural}"/></p>
+        </c:if>
+    </div>
+
+</div>

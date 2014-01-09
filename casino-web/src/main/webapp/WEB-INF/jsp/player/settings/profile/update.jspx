@@ -1,0 +1,41 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+
+	<spring:message var="option1" code="form.select" text="-- Please Select --" />
+	<spring:message var="entity_label" code="page.user.title" text="User" />
+	<spring:message arguments="${entity_label}" var="title_msg" code="button.edit" text="Edit" />
+
+	<b>${title_msg}</b>
+	
+	<spring:url value="/app/player/profile/form" var="form_url"/>
+	<spring-form:form id="form" commandName="applicationUser" action="${form_url}" method="PUT">
+	
+			<div id="user_username">
+				<spring-form:label path="username"><spring:message code="user.username" text="Username" /></spring-form:label>:&#160;
+				<spring-form:input path="username" />
+				<spring-form:errors path="username" cssClass="errors" delimiter=". "/>
+			</div>
+			<br/>
+			<div id="user_email">
+				<spring-form:label path="email"><spring:message code="user.email" text="E-mail" /></spring-form:label>:&#160;
+				<spring-form:input path="email" />
+				<spring-form:errors path="email" cssClass="errors" delimiter=". "/>
+			</div>
+			<br/>
+			<div class="submit">
+				<spring:message var="save" code="button.save" text="Save"/> 
+				<input id="submit" type="submit" name="submit" value="${save}" class="submit"/>
+			</div>
+			<spring-form:hidden path="id" />
+			<spring-form:hidden path="version" />
+			<input type="hidden" name="newPassword" value="1234567890"/>
+			<input type="hidden" name="passwordConfirm" value="1234567890"/>
+
+	</spring-form:form>
+
+</div>

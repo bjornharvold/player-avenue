@@ -1,0 +1,37 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:spring-form="http://www.springframework.org/tags/form"
+	xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:x="http://java.sun.com/jsp/jstl/xml"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:casino="urn:jsptagdir:/WEB-INF/tags"
+	version="2.0">
+	<jsp:output doctype-root-element="HTML"
+              doctype-system="about:legacy-compat" />
+	<jsp:directive.page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" />
+
+	<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Echo service</title>
+
+        <jsp:include page="common/required_scripts.jspx"/>
+        <jsp:include page="common/cometd_scripts.jspx"/>
+
+        <spring:url value="/js/application.js" var="application"/>
+        <script language="javascript" type="text/javascript" src="${application}"><!----></script>
+        <script type="text/javascript">
+            var config = {
+                contextPath: '${pageContext.request.contextPath}',
+                logLevel: 'info'
+            };
+        </script>
+
+    </head>
+    <body id="body">
+    <h1>Echo service</h1>
+    </body>
+    </html>
+</jsp:root>

@@ -1,0 +1,18 @@
+/*
+ * Copyright (c) 2011. This beautifully written piece of code has been created by Bjorn Harvold. 
+ * Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+ */
+
+.playnowBtn {
+	background: url(../../images/en_US/playnow-btn.png) no-repeat 0 0;
+	width: 143px;
+	height: 79px;
+	display: block;
+	float:left;
+	margin-left:2px;
+	margin-top:29px;
+}
+
+.playnowBtn:hover { background-position: 0 -94px; }
+
+.playnowBtn:active { background-position: 0 0; }

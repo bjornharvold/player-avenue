@@ -1,0 +1,29 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div id="footer" xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:spring-form="http://www.springframework.org/tags/form"
+     xmlns:security="http://www.springframework.org/security/tags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:x="http://java.sun.com/jsp/jstl/xml"
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     xmlns:tiles="http://tiles.apache.org/tags-tiles"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+     xmlns:casino="urn:jsptagdir:/WEB-INF/tags">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <div id="footercontent">
+        <a href="#"><img src="/images/logo-footer.jpg" width="233" height="30" border="0" alt="logo-gohome"/> </a>
+        <div id="links">
+            <a href="#" title=""><spring:message code="page.terms.title"/></a> |
+            <a href="#" title=""><spring:message code="page.privacy.policy.title"/></a> |
+            <a href="#" title=""><spring:message code="page.about.title"/></a> |
+            <a href="#" title=""><spring:message code="page.contact.title"/></a> |
+            &#169; <spring:message code="company.name"/> 2011
+        </div>
+    </div>
+
+</div>

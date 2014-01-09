@@ -1,0 +1,57 @@
+<!--
+  ~ Copyright (c) 2010. This beautifully written piece of code has been created by Bjorn Harvold. 
+  ~ Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div id="pokergame_observers" xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:spring-form="http://www.springframework.org/tags/form"
+     xmlns:security="http://www.springframework.org/security/tags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:x="http://java.sun.com/jsp/jstl/xml"
+     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+     xmlns:tiles="http://tiles.apache.org/tags-tiles"
+     xmlns:casino="urn:jsptagdir:/WEB-INF/tags"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <c:if test="${not empty observers}">
+
+        <table>
+            <thead>
+            <tr>
+                <th width="35%"><spring:message code="game.observer.id" text="Game Observer ID"/></th>
+                <th width="35%"><spring:message code="player.id" text="Player ID"/></th>
+                <th width="20%"><spring:message code="entity.created.date" text="Created date"/></th>
+                <th width="5%">&#160;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${observers}" var="observer" varStatus="status">
+
+                <tr>
+                    <td>${observer.id}</td>
+                    <td>${observer.playerId}</td>
+                    <td><fmt:formatDate value="${observer.createdDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                    <td>
+                        <security:authorize ifAllGranted="RIGHT_DELETE_GAME_OBSERVER_AS_ADMIN">
+                            <spring:url value="/app/administration/casino/${casinoId}/game/${pokergameId}/observer/${observer.id}" var="show_form_url"/>
+                            <spring:url value="/images/delete.png" var="delete_image_url"/>
+                            <spring-form:form action="${show_form_url}" method="DELETE">
+                                <spring:message var="altDelete" code="player.stop.observing" text="Stop observing"/>
+                                <input class="image" type="image" src="${delete_image_url}" alt="${altDelete}" title="${altDelete}" value="${altView}"/>
+                            </spring-form:form>
+                        </security:authorize>
+                    </td>
+                </tr>
+
+            </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
+
+    <c:if test="${empty observers}">
+        <p><spring:message code="pokergame.observers.empty" text="There are currently no observers watching this game"/></p>
+    </c:if>
+</div>

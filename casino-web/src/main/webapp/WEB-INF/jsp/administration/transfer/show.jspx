@@ -1,0 +1,118 @@
+<!--
+  ~ Copyright (c) 2009. This beautifully written piece of code has been created by Bjorn Harvold. Please do not use my code without explicit permission or I just might have to come by your office and ruin your day.
+  -->
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" xmlns:spring="http://www.springframework.org/tags" xmlns:spring-form="http://www.springframework.org/tags/form" xmlns:security="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:x="http://java.sun.com/jsp/jstl/xml" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:casino="urn:jsptagdir:/WEB-INF/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" version="2.0"><jsp:output
+	omit-xml-declaration="yes" />
+	
+	<spring:message code="page.account.transfer.title" text="AccountTransfer" var="entity_label"/>
+
+	<b>${entity_label}</b>
+
+	<c:if test="${accountTransfer.status != 'COMPLETE'}">
+	<div style="float:right;">
+	<security:authorize ifAllGranted="RIGHT_UPDATE_ACCOUNT_TRANSFER_AS_ADMIN">
+		<spring:url value="/app/administration/user/${userId}/account/${accountTransfer.accountId}/transfer/${accountTransfer.id}/form" var="edit_form_url"/>
+		<spring:url value="/images/update.png" var="edit_image_url"/>
+		<spring-form:form action="${edit_form_url}" method="GET">
+			<spring:message arguments="${entity_label}" var="altUpdate" code="button.edit" text="Edit" />
+			<input class="image" type="image" src="${edit_image_url}" alt="${altUpdate}" title="${altUpdate}" value="${altUpdate}" />
+		</spring-form:form>
+	</security:authorize>
+	</div>
+	</c:if>
+	
+	<c:if test="${not empty accountTransfer}">
+		<div id="transfer_amount">
+            <label for="_amount_id"><spring:message code="account.transfer.amount" text="Amount" />:</label>
+            <div class="box" id="_amount_id">
+                <fmt:formatNumber var="currency" type="currency" value="${accountTransfer.amount}" />
+            </div>
+        </div>
+        <br/>
+        <div id="transfer_status">
+            <label for="_status_id"><spring:message code="account.transfer.status" text="Status" />:</label>
+            <div class="box" id="_status_id"><spring:message code="dropdown.AccountTransferStatusCd.${accountTransfer.status}" text="Unknown status" /></div>
+        </div>
+        <br/>
+        <div id="transfer_action">
+            <label for="_action_id"><spring:message code="account.transfer.action" text="Action" />:</label>
+            <div class="box" id="_action_id"><spring:message code="dropdown.AccountTransferActionCd.${accountTransfer.action}" text="Unknown action" /></div>
+        </div>
+        <br/>
+        <div id="transfer_type">
+            <label for="_type_id"><spring:message code="account.transfer.type" text="Type" />:</label>
+            <div class="box" id="_type_id"><spring:message code="dropdown.AccountTransferTypeCd.${accountTransfer.type}" text="Unknown type" /></div>
+        </div>
+        <br/>
+        <div id="transfer_bic">
+            <label for="_bic_id"><spring:message code="account.bicswift" text="Bic / Swift" />:</label>
+            <div class="box" id="_bic_id">${accountTransfer.bicswift}</div>
+        </div>
+        <br/>
+        <div id="transfer_iban">
+            <label for="_iban_id"><spring:message code="account.iban" text="IBAN" />:</label>
+            <div class="box" id="_iban_id">${accountTransfer.iban}</div>
+        </div>
+        <br/>
+        <div id="transfer_first_name">
+            <label for="_first_name_id"><spring:message code="account.name.first" text="First name" />:</label>
+            <div class="box" id="_first_name_id">${accountTransfer.firstName}</div>
+        </div>
+        <br/>
+        <div id="transfer_last_name">
+            <label for="_last_name_id"><spring:message code="account.name.last" text="Last name" />:</label>
+            <div class="box" id="_last_name_id">${accountTransfer.lastName}</div>
+        </div>
+        <br/>
+        <div id="transfer_address1">
+            <label for="_address1_id"><spring:message code="account.address.1" text="Address 1" />:</label>
+            <div class="box" id="_address1_id">${accountTransfer.address1}</div>
+        </div>
+        <br/>
+        <div id="transfer_address2">
+            <label for="_address2_id"><spring:message code="account.address.2" text="Address 2" />:</label>
+            <div class="box" id="_address2_id">${accountTransfer.address2}</div>
+        </div>
+        <br/>
+        <div id="transfer_address3">
+            <label for="_address3_id"><spring:message code="account.address.3" text="Address 3" />:</label>
+            <div class="box" id="_address3_id">${accountTransfer.address3}</div>
+        </div>
+        <br/>
+        <div id="transfer_city">
+            <label for="_city_id"><spring:message code="account.city" text="City" />:</label>
+            <div class="box" id="_city_id">${accountTransfer.city}</div>
+        </div>
+        <br/>
+        <div id="transfer_state">
+            <label for="_state_id"><spring:message code="account.state" text="State" />:</label>
+            <div class="box" id="_state_id">${accountTransfer.state}</div>
+        </div>
+        <br/>
+        <div id="transfer_zip">
+            <label for="_zip_id"><spring:message code="account.zip" text="Zip" />:</label>
+            <div class="box" id="_zip_id">${accountTransfer.state}</div>
+        </div>
+        <br/>
+        <div id="transfer_country">
+            <label for="_country_id"><spring:message code="account.country" text="Country" />:</label>
+            <div class="box" id="_country_id"><spring:message code="dropdown.CountryCd.${accountTransfer.country}" text="Unknown country" /></div>
+        </div>
+        <br/>
+        <div id="transfer_created_date">
+            <label for="_created_date_id"><spring:message code="table.date.created" text="Created" />:</label>
+            <div class="box" id="_created_date_id"><fmt:formatDate value="${accountTransfer.createdDate}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
+        </div>
+        <br/>
+        <div id="transfer_last_update">
+            <label for="_last_update_id"><spring:message code="table.date.updated" text="Updated" />:</label>
+            <div class="box" id="_last_update_id"><fmt:formatDate value="${accountTransfer.lastUpdate}" pattern="yyyy-MM-dd HH:mm:ss" /></div>
+        </div>
+	</c:if>
+	<c:if test="${empty accountTransfer}">
+		<spring:message arguments="${entity_label}" code="entity.not.found.single"/>
+	</c:if>
+
+</div>

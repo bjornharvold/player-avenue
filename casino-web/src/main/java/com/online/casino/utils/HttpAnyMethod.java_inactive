@@ -1,0 +1,32 @@
+package com.online.casino.utils;
+
+/**
+ * User: bjorn
+ * Date: Oct 1, 2008
+ * Time: 3:43:43 PM
+ */
+
+import org.apache.http.client.methods.HttpRequestBase;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+
+/** Allows any HTTP method for HttpClient */
+public class HttpAnyMethod extends HttpRequestBase {
+    private final String methodName;
+
+    public HttpAnyMethod(String methodName, String uri) {
+        this.methodName = methodName;
+
+        try {
+            super.setURI(new URI(uri));
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException(e.getMessage(), e);
+        }
+    }
+
+    @Override public String getMethod() {
+        return methodName;
+    }
+}
+

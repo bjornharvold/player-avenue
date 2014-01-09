@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+    <display-name>Player Avenue</display-name>
+    <description>Wanna Play</description>
+
+    <!--  Request that Jetty create an MBean to manage the Bayeux instance -->
+    <context-param>
+        <param-name>org.eclipse.jetty.server.context.ManagedAttributes</param-name>
+        <param-value>org.cometd.bayeux</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>webAppRootKey</param-name>
+        <param-value>casino.root</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath*:META-INF/spring/applicationContext*.xml</param-value>
+    </context-param>
+
+    <filter>
+        <filter-name>QoSFilter</filter-name>
+        <filter-class>org.eclipse.jetty.servlets.QoSFilter</filter-class>
+
+        <init-param>
+            <param-name>maxRequests</param-name>
+            <param-value>20</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>QoSFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>Spring OpenEntityManagerInViewFilter</filter-name>
+        <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>Spring OpenEntityManagerInViewFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>httpMethodFilter</filter-name>
+        <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>httpMethodFilter</filter-name>
+        <url-pattern>/app/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>cross-origin</filter-name>
+        <filter-class>org.eclipse.jetty.servlets.CrossOriginFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>cross-origin</filter-name>
+        <url-pattern>/cometd/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>GzipFilter</filter-name>
+        <filter-class>org.eclipse.jetty.servlets.IncludableGzipFilter</filter-class>
+
+        <init-param>
+            <param-name>bufferSize</param-name>
+            <param-value>8192</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>minGzipSize</param-name>
+            <param-value>2048</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>userAgent</param-name>
+
+            <param-value>
+                (?:Mozilla[^\(]*\(compatible;\s*+([^;]*);.*)|(?:.*?([^\s]+/[^\s]+).*)
+            </param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>cacheSize</param-name>
+            <param-value>1024</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>excludedAgents</param-name>
+            <param-value>MSIE 6.0</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>uncheckedPrintWriter</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>GzipFilter</filter-name>
+        <url-pattern>/app/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>etagFilter</filter-name>
+        <filter-class>org.springframework.web.filter.ShallowEtagHeaderFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>etagFilter</filter-name>
+        <url-pattern>/app/*</url-pattern>
+    </filter-mapping>
+
+    <!-- this is for page caching. eleave disabled in dev
+    <filter>
+        <filter-name>CacheFilter</filter-name>
+        <filter-class>com.opensymphony.oscache.web.filter.CacheFilter</filter-class>
+        <init-param>
+            <param-name>scope</param-name>
+            <param-value>session</param-value>
+        </init-param>
+        <init-param>
+            <param-name>expires</param-name>
+            <param-value>time</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CacheFilter</filter-name>
+        <url-pattern>*.js</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CacheFilter</filter-name>
+        <url-pattern>*.png</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CacheFilter</filter-name>
+        <url-pattern>*.gif</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CacheFilter</filter-name>
+        <url-pattern>*.jpg</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CacheFilter</filter-name>
+        <url-pattern>*.css</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CacheFilter</filter-name>
+        <url-pattern>*.swf</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CacheFilter</filter-name>
+        <url-pattern>*.swc</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CacheFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CacheFilter</filter-name>
+        <url-pattern>*.jspx</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CacheFilter</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    -->
+
+    <!-- for spring security concurrent user verification to work -->
+    <listener>
+        <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+    </listener>
+
+    <!--
+    <listener>
+        <listener-class>flex.messaging.HttpFlexSession</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.springframework.flex.security3.FlexSessionInvalidatingAuthenticationListener
+        </listener-class>
+    </listener>
+    -->
+
+    <servlet>
+        <servlet-name>casino</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/spring/webmvc-config.xml</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>casino</servlet-name>
+        <url-pattern>/app/*</url-pattern>
+    </servlet-mapping>
+
+    <!--
+    <servlet>
+        <servlet-name>flex</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/spring/flex-config.xml</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>flex</servlet-name>
+        <url-pattern>/messagebroker/*</url-pattern>
+    </servlet-mapping>
+    -->
+
+    <!--
+         Serves static resource content from .jar files such as spring-js.jar
+     -->
+    <servlet>
+        <servlet-name>Resource Servlet</servlet-name>
+        <servlet-class>org.springframework.js.resource.ResourceServlet</servlet-class>
+    </servlet>
+
+    <!--
+         Map all /resources requests to the Resource Servlet for handling
+     -->
+    <servlet-mapping>
+        <servlet-name>Resource Servlet</servlet-name>
+        <url-pattern>/resources/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- Bayeux -->
+    <servlet>
+        <servlet-name>cometd</servlet-name>
+        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+        <!--async-supported>true</async-supported-->
+        <init-param>
+            <param-name>timeout</param-name>
+            <param-value>20000</param-value>
+        </init-param>
+        <init-param>
+            <param-name>interval</param-name>
+            <param-value>0</param-value>
+        </init-param>
+        <init-param>
+            <param-name>maxInterval</param-name>
+            <param-value>10000</param-value>
+        </init-param>
+        <init-param>
+            <param-name>maxLazyTimeout</param-name>
+            <param-value>5000</param-value>
+        </init-param>
+        <init-param>
+            <param-name>long-polling.multiSessionInterval</param-name>
+            <param-value>2000</param-value>
+        </init-param>
+        <init-param>
+            <param-name>logLevel</param-name>
+            <param-value>0</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cometd</servlet-name>
+        <url-pattern>/cometd/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Kaptcha</servlet-name>
+        <servlet-class>com.google.code.kaptcha.servlet.KaptchaServlet</servlet-class>
+    </servlet>
+
+    <!-- Kaptcha configuration -->
+    <!--
+
+    Constant 	 Description 	 Default
+kaptcha.border 	Border around kaptcha. Legal values are yes or no. 	yes
+kaptcha.border.color 	Color of the border. Legal values are r,g,b (and optional alpha) or white,black,blue. 	black
+kaptcha.border.thickness 	Thickness of the border around kaptcha. Legal values are > 0. 	1
+kaptcha.image.width 	Width in pixels of the kaptcha image. 	200
+kaptcha.image.height 	Height in pixels of the kaptcha image. 	50
+kaptcha.producer.impl 	The image producer. 	com.google.code.kaptcha.impl.DefaultKaptcha
+kaptcha.textproducer.impl 	The text producer. 	com.google.code.kaptcha.text.impl.DefaultTextCreator
+kaptcha.textproducer.char.string 	The characters that will insert the kaptcha. 	abcde2345678gfynmnpwx
+kaptcha.textproducer.char.length 	The number of characters to display. 	5
+kaptcha.textproducer.font.names 	A list of comma separated font names. 	Arial, Courier
+kaptcha.textproducer.font.size 	The size of the font to use. 	40px.
+kaptcha.textproducer.font.color 	The color to use for the font. Legal values are r,g,b. 	black
+kaptcha.noise.impl 	The noise producer. 	com.google.code.kaptcha.impl.DefaultNoise
+kaptcha.noise.color 	The noise color. Legal values are r,g,b. 	black
+kaptcha.obscurificator.impl 	The obscurificator implementation. 	com.google.code.kaptcha.impl.WaterRipple
+kaptcha.background.impl 	The background implementation. 	com.google.code.kaptcha.impl.DefaultBackground
+kaptcha.background.clear.from 	Starting background color. Legal values are r,g,b. 	light grey
+kaptcha.background.clear.to 	Ending background color. Legal values are r,g,b. 	white
+kaptcha.word.impl 	The word renderer implementation. 	com.google.code.kaptcha.text.impl.DefaultWordRenderer
+kaptcha.session.key 	The value for the kaptcha is generated and is put into the HttpSession. This is the key value for that item in the session. 	KAPTCHA_SESSION_KEY
+kaptcha.session.date 	The date the kaptcha is generated is put into the HttpSession. This is the key value for that item in the session. 	KAPTCHA_SESSION_DATE
+
+    -->
+
+    <servlet-mapping>
+        <servlet-name>Kaptcha</servlet-name>
+        <url-pattern>/kaptcha.jpg</url-pattern>
+    </servlet-mapping>
+
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <welcome-file-list>
+        <welcome-file>index.jspx</welcome-file>
+    </welcome-file-list>
+
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/app/uncaughtException</location>
+    </error-page>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/app/uncaughtException</location>
+    </error-page>
+
+    <!-- jetty specific
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>A Protected Page</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ROLE_USER</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>CasinoRealm</realm-name>
+    </login-config>
+    -->
+
+    <!--
+    <resource-ref>
+        <description>Casino DataSource Reference</description>
+        <res-ref-name>jdbc/casino</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+    -->
+
+</web-app>
